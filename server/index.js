@@ -40,7 +40,14 @@ app.post("/api/test", async (req, res) => {
     res.status(500).json({ error: "OpenAI failed" });
   }
 });
+// Stripe redirect routes
+app.get("/success", (req, res) => {
+  res.redirect("/");
+});
 
+app.get("/cancel", (req, res) => {
+  res.redirect("/");
+});
 // ===================== START SERVER ===================
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
