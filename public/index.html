@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Shorts Generator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #020617;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #generateBtn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    #generateBtn:hover {
+      background: #2563eb;
+    }
+
+    .subscribe-btn {
+      display: block;
+      margin-top: 12px;
+      padding: 12px;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .subscribe-btn:hover {
+      background: #16a34a;
+    }
+
+    #output {
+      margin-top: 15px;
+      text-align: left;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Auto Shorts Generator</h2>
+
+    <input
+      id="topicInput"
+      type="text"
+      placeholder="Enter a topic (e.g. killer facts)"
+    />
+
+    <button id="generateBtn">Generate Captions</button>
+
+    <!-- ✅ STRIPE PAYMENT LINK (THIS IS CORRECT) -->
+    <a
+  href="https://buy.stripe.com/7sY3cwbdA7dcbac9oP5kk00"
+  target="_blank"
+  class="subscribe-btn"
+>
+  Subscribe (€19.99 / month)
+
+  </a>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const topicInput = document.getElementById("topicInput");
+    const output = document.getElementById("output");
+let freeUses = localStorage.getItem("freeUses");
+
+if (!freeUses) {
+  localStorage.setItem("freeUses", "1");
+  freeUses = "1";
+}
+    generateBtn.addEventListener("click", async () => {
+    let remaining = parseInt(localStorage.getItem("freeUses"));
+
+if (remaining <= 0) {
+  window.location.href = "https://buy.stripe.com/7sY3cwbdA7dcba9oP5kk00";
+  return;
+}
+
+
+localStorage.setItem("freeUses", remaining - 1);
+      const topic = topicInput.value.trim();
+      if (!topic) {
+        alert("Please enter a topic");
+        return;
+      }
+
+      output.textContent = "Generating captions...";
+
+      try {
+        const res = await fetch("/generate-captions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic })
+        });
+
+        const data = await res.json();
+
+        if (data.captions) {
+          output.textContent = data.captions.join("\n\n");
+        } else {
+          output.textContent = "Error generating captions.";
+        }
+      } catch (err) {
+        output.textContent = "Server error.";
+      }
+    });
+  </script>
+</body>
+</html>
