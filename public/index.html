@@ -113,10 +113,15 @@ if (!freeUses) {
     generateBtn.addEventListener("click", async () => {
     let remaining = parseInt(localStorage.getItem("freeUses"));
 
-if (remaining <= 0) {
-  window.location.href = "https://buy.stripe.com/7sY3cwbdA7dcba9oP5kk00";
-  return;
-}
+// Stripe redirect handlers
+app.get('/success', (req, res) => {
+  res.redirect('/');
+});
+
+app.get('/cancel', (req, res) => {
+  res.redirect('/');
+});
+
 
 
 localStorage.setItem("freeUses", remaining - 1);
