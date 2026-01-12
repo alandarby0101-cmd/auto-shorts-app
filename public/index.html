@@ -113,14 +113,7 @@ if (!freeUses) {
     generateBtn.addEventListener("click", async () => {
     let remaining = parseInt(localStorage.getItem("freeUses"));
 
-// Stripe redirect handlers
-app.get('/success', (req, res) => {
-  res.redirect('/');
-});
 
-app.get('/cancel', (req, res) => {
-  res.redirect('/');
-});
 
 
 
