@@ -67,9 +67,9 @@ app.post("/generate-captions", async (req, res) => {
       captions: response.choices[0].message.content,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
+  console.error("OPENAI ERROR 👉", err?.response?.data || err);
+  res.status(500).json({ error: "Server error" });
+}
 });
 
 // ================== START SERVER ==================
