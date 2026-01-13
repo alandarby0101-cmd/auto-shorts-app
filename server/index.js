@@ -1,50 +1,80 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const Stripe = require("stripe");
 
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+/* =========================
+   MIDDLEWARE
+========================= */
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 /* =========================
-   BASIC TEST ROUTE
+   ROOT (FRONTEND)
 ========================= */
-app.post("/api/test", (req, res) => {
-  res.json({ success: true, message: "Hello! How can I assist you today?" });
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 /* =========================
-   GENERATE CAPTIONS
+   HEALTH CHECK
+========================= */
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+/* =========================
+   USAGE LIMIT (DEMO)
+========================= */
+let usageCount = 0;
+const DAILY_LIMIT = 2;
+
+/* =========================
+   GENERATE CONTENT
 ========================= */
 app.post("/generate-captions", async (req, res) => {
   try {
+    if (usageCount >= DAILY_LIMIT) {
+      return res.status(403).json({
+        error: "Free limit reached. Upgrade to Pro."
+      });
+    }
+
     const { topic } = req.body;
 
     if (!topic) {
-      return res.status(400).json({ error: "No topic provided" });
+      return res.status(400).json({ error: "Topic required" });
     }
 
-    // TEMP AI RESPONSE (works without OpenAI)
-    const captions = `
-1. "Did you know? One fact can change everything! 😲 #${topic.replace(" ", "")}"
-2. "Think you know it all? Think again 🔥 #MindBlown"
-3. "This shocking fact will leave you speechless 🤯"
-4. "Prepare to be amazed 💥 This changes everything"
-5. "You won’t believe this fact… but it’s real 😳"
-`;
+    usageCount++;
+
+    const captions = [
+      `😱 Did you know this about ${topic}?`,
+      `🤯 This ${topic} fact will blow your mind`,
+      `🔥 Everyone is talking about ${topic}`,
+      `🚨 You won’t believe this ${topic} fact`,
+      `👀 Watch before they delete this about ${topic}`
+    ];
+
+    const hook = `Wait until you hear this about ${topic}…`;
+    const script = `Most people don’t know this, but ${topic} has a secret that changes everything. Stay till the end.`;
 
     res.json({
-      captions,
-      hook: "This fact will blow your mind in 3 seconds…",
-      script: `Here’s something wild about ${topic} that nobody talks about…`,
+      captions: captions.join("\n\n"),
+      hook,
+      script,
+      usageLeft: DAILY_LIMIT - usageCount
     });
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Generation failed" });
   }
 });
 
@@ -59,14 +89,15 @@ app.post("/create-checkout-session", async (req, res) => {
       line_items: [
         {
           price: process.env.STRIPE_PRICE_ID,
-          quantity: 1,
-        },
+          quantity: 1
+        }
       ],
       success_url: `${process.env.BASE_URL}?success=true`,
-      cancel_url: `${process.env.BASE_URL}?canceled=true`,
+      cancel_url: `${process.env.BASE_URL}?canceled=true`
     });
 
     res.json({ url: session.url });
+
   } catch (err) {
     console.error("Stripe error:", err);
     res.status(500).json({ error: "Stripe checkout failed" });
