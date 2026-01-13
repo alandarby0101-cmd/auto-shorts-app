@@ -7,85 +7,83 @@
 
   <style>
     body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       font-family: Arial, sans-serif;
-      color: #fff;
+      background: linear-gradient(135deg, #0f172a, #020617);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .card {
-      background: rgba(0, 0, 0, 0.4);
+    .app {
+      background: #020617;
       padding: 24px;
-      border-radius: 12px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
     h1 {
+      text-align: center;
       margin-bottom: 16px;
-      font-size: 22px;
     }
 
     input {
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 12px;
+      border-radius: 10px;
       border: none;
       margin-bottom: 12px;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     button {
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
+      padding: 14px;
+      border-radius: 10px;
       border: none;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 14px;
       margin-bottom: 10px;
     }
 
     .generate {
-      background: #3b82f6;
-      color: #fff;
+      background: #2563eb;
+      color: white;
     }
 
     .subscribe {
       background: #22c55e;
-      color: #fff;
+      color: black;
     }
 
-    #status {
-      margin-top: 12px;
-      font-size: 13px;
-      min-height: 18px;
-    }
-
-    #result {
-      margin-top: 12px;
-      font-size: 13px;
-      text-align: left;
+    .result {
+      margin-top: 16px;
+      background: #020617;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
       white-space: pre-wrap;
+    }
+
+    .error {
+      color: #f87171;
+      margin-top: 10px;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
+  <div class="app">
     <h1>Auto Shorts Generator</h1>
 
-    <input
-      id="topicInput"
-      type="text"
-      placeholder="Enter a topic (e.g. killer facts)"
-    />
+    <input id="topic" placeholder="Enter a topic (e.g. killer facts)" />
 
-    <button class="generate" id="generateBtn">
+    <button class="generate" onclick="generateCaptions()">
       Generate Captions
     </button>
 
@@ -93,29 +91,26 @@
       Subscribe (€19.99 / month)
     </button>
 
-    <div id="status"></div>
-    <div id="result"></div>
+    <div id="output" class="result"></div>
+    <div id="error" class="error"></div>
   </div>
 
   <script>
-    const generateBtn = document.getElementById("generateBtn");
-    const topicInput = document.getElementById("topicInput");
-    const statusDiv = document.getElementById("status");
-    const resultDiv = document.getElementById("result");
+    async function generateCaptions() {
+      const topic = document.getElementById("topic").value.trim();
+      const output = document.getElementById("output");
+      const error = document.getElementById("error");
 
-    generateBtn.addEventListener("click", async () => {
-      const topic = topicInput.value.trim();
+      output.textContent = "";
+      error.textContent = "";
 
       if (!topic) {
-        statusDiv.textContent = "Please enter a topic.";
+        error.textContent = "Please enter a topic.";
         return;
       }
 
-      statusDiv.textContent = "Generating captions...";
-      resultDiv.textContent = "";
-
       try {
-        const response = await fetch("/generate-captions", {
+        const res = await fetch("/generate-captions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -123,21 +118,18 @@
           body: JSON.stringify({ topic })
         });
 
-        const data = await response.json();
+        const data = await res.json();
 
-        if (!response.ok) {
-          statusDiv.textContent = "Server error.";
-          console.error(data);
+        if (!res.ok) {
+          error.textContent = data.error || "Something went wrong.";
           return;
         }
 
-        statusDiv.textContent = "Done ✅";
-        resultDiv.textContent = data.captions;
+        output.textContent = data.captions.join("\n\n");
       } catch (err) {
-        statusDiv.textContent = "Network error.";
-        console.error(err);
+        error.textContent = "Server error. Check connection.";
       }
-    });
+    }
   </script>
 </body>
 </html>
