@@ -1,36 +1,32 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const Stripe = require("stripe");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// --- SAFETY CHECKS ---
-if (!process.env.STRIPE_SECRET_KEY) {
-  console.error("❌ STRIPE_SECRET_KEY missing");
-}
-if (!process.env.STRIPE_PRICE_ID) {
-  console.error("❌ STRIPE_PRICE_ID missing");
-}
-if (!process.env.BASE_URL) {
-  console.error("❌ BASE_URL missing");
-}
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// --- MIDDLEWARE ---
+// ---------- MIDDLEWARE ----------
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
 
-// --- HEALTH CHECK ---
+// IMPORTANT: serve public folder
+app.use(express.static(path.join(__dirname, "../public")));
+
+// ---------- ROOT (THIS FIXES YOUR ISSUE) ----------
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
+// ---------- HEALTH CHECK ----------
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// --- GENERATE CONTENT (already working) ---
-app.post("/generate-captions", async (req, res) => {
+// ---------- GENERATE CONTENT ----------
+app.post("/generate-captions", (req, res) => {
   const { topic } = req.body;
 
   res.json({
@@ -46,7 +42,7 @@ app.post("/generate-captions", async (req, res) => {
   });
 });
 
-// --- STRIPE CHECKOUT (PRO SUBSCRIPTION) ---
+// ---------- STRIPE CHECKOUT ----------
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -55,26 +51,26 @@ app.post("/create-checkout-session", async (req, res) => {
       line_items: [
         {
           price: process.env.STRIPE_PRICE_ID,
-          quantity: 1,
-        },
+          quantity: 1
+        }
       ],
       success_url: `${process.env.BASE_URL}?success=true`,
-      cancel_url: `${process.env.BASE_URL}?canceled=true`,
+      cancel_url: `${process.env.BASE_URL}?canceled=true`
     });
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("❌ Stripe error:", err.message);
+    console.error("Stripe error:", err.message);
     res.status(500).json({ error: "Stripe checkout failed" });
   }
 });
 
-// --- FALLBACK ---
+// ---------- FALLBACK (KEEP LAST) ----------
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
 
-// --- START SERVER ---
+// ---------- START ----------
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
