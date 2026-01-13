@@ -1,114 +1,89 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import OpenAI from "openai";
-
-dotenv.config();
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const Stripe = require("stripe");
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+/* =========================
+   BASIC TEST ROUTE
+========================= */
+app.post("/api/test", (req, res) => {
+  res.json({ success: true, message: "Hello! How can I assist you today?" });
 });
 
-/* ===============================
-   HEALTH CHECK
-================================ */
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-/* ===============================
-   GENERATE CAPTIONS / HOOK / SCRIPT
-================================ */
+/* =========================
+   GENERATE CAPTIONS
+========================= */
 app.post("/generate-captions", async (req, res) => {
   try {
     const { topic } = req.body;
 
     if (!topic) {
-      return res.status(400).json({ error: "Topic is required" });
+      return res.status(400).json({ error: "No topic provided" });
     }
 
-    const prompt = `
-You are a viral YouTube Shorts content engine.
-
-Topic: "${topic}"
-
-Create the following:
-
-HOOK:
-- Max 12 words
-- Extremely attention grabbing
-- Spoken language
-
-SCRIPT:
-- 20 to 40 seconds
-- Fast paced
-- Built for retention
-- No emojis
-
-CAPTIONS:
-- 5 short viral captions
-
-SCENES:
-- Scene 1: visual idea
-- Scene 2: visual idea
-- Scene 3: visual idea
-
-Format EXACTLY like this:
-
-HOOK:
-<text>
-
-SCRIPT:
-<text>
-
-CAPTIONS:
-1. ...
-2. ...
-3. ...
-4. ...
-5. ...
-
-SCENES:
-- Scene 1: ...
-- Scene 2: ...
-- Scene 3: ...
+    // TEMP AI RESPONSE (works without OpenAI)
+    const captions = `
+1. "Did you know? One fact can change everything! 😲 #${topic.replace(" ", "")}"
+2. "Think you know it all? Think again 🔥 #MindBlown"
+3. "This shocking fact will leave you speechless 🤯"
+4. "Prepare to be amazed 💥 This changes everything"
+5. "You won’t believe this fact… but it’s real 😳"
 `;
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.8,
-    });
-
-    const output = completion.choices[0].message.content;
-
-    const hook = output.match(/HOOK:\s*([\s\S]*?)SCRIPT:/)?.[1]?.trim();
-    const script = output.match(/SCRIPT:\s*([\s\S]*?)CAPTIONS:/)?.[1]?.trim();
-    const captions = output.match(/CAPTIONS:\s*([\s\S]*?)SCENES:/)?.[1]?.trim();
-    const scenes = output.match(/SCENES:\s*([\s\S]*)/)?.[1]?.trim();
-
     res.json({
-      hook,
-      script,
       captions,
-      scenes,
+      hook: "This fact will blow your mind in 3 seconds…",
+      script: `Here’s something wild about ${topic} that nobody talks about…`,
     });
-  } catch (error) {
-    console.error("AI ERROR:", error);
-    res.status(500).json({ error: "Failed to generate content" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-/* ===============================
+/* =========================
+   STRIPE CHECKOUT (PRO)
+========================= */
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: process.env.STRIPE_PRICE_ID,
+          quantity: 1,
+        },
+      ],
+      success_url: `${process.env.BASE_URL}?success=true`,
+      cancel_url: `${process.env.BASE_URL}?canceled=true`,
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error("Stripe error:", err);
+    res.status(500).json({ error: "Stripe checkout failed" });
+  }
+});
+
+/* =========================
+   FALLBACK
+========================= */
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+/* =========================
    START SERVER
-================================ */
+========================= */
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
