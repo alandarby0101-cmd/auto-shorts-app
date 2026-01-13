@@ -45,6 +45,7 @@ app.post("/api/test", async (req, res) => {
 
 // ---------- GENERATE CAPTIONS ----------
 app.post("/generate-captions", async (req, res) => {
+  console.log("➡️ /generate-captions HIT", req.body);
   try {
     const { topic } = req.body;
 
