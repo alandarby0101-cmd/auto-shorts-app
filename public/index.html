@@ -3,81 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <title>Auto Shorts Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: Arial, sans-serif;
+      color: #fff;
     }
 
-    .container {
-      background: #020617;
-      padding: 30px;
-      border-radius: 10px;
-      width: 350px;
+    .card {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 24px;
+      border-radius: 12px;
+      width: 320px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-bottom: 16px;
+      font-size: 22px;
     }
 
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 12px;
-      border-radius: 5px;
+      border-radius: 6px;
       border: none;
+      margin-bottom: 12px;
+      font-size: 14px;
     }
 
     button {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
       cursor: pointer;
-    }
-
-    #generateBtn {
-      background: #3b82f6;
-      color: white;
-    }
-
-    #generateBtn:hover {
-      background: #2563eb;
-    }
-
-    .subscribe-btn {
-      display: block;
-      margin-top: 12px;
-      padding: 12px;
-      background: #22c55e;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-
-    .subscribe-btn:hover {
-      background: #16a34a;
-    }
-
-    #output {
-      margin-top: 15px;
-      text-align: left;
       font-size: 14px;
-      white-space: pre-line;
+      margin-bottom: 10px;
+    }
+
+    .generate {
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .subscribe {
+      background: #22c55e;
+      color: #fff;
+    }
+
+    #status {
+      margin-top: 12px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    #result {
+      margin-top: 12px;
+      font-size: 13px;
+      text-align: left;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h2>Auto Shorts Generator</h2>
+  <div class="card">
+    <h1>Auto Shorts Generator</h1>
 
     <input
       id="topicInput"
@@ -85,63 +85,57 @@
       placeholder="Enter a topic (e.g. killer facts)"
     />
 
-    <button id="generateBtn">Generate Captions</button>
+    <button class="generate" id="generateBtn">
+      Generate Captions
+    </button>
 
-    <!-- ✅ STRIPE PAYMENT LINK (THIS IS CORRECT) -->
-    <a
-  href="https://buy.stripe.com/7sY3cwbdA7dcbac9oP5kk00"
-  target="_blank"
-  class="subscribe-btn"
->
-  Subscribe (€19.99 / month)
+    <button class="subscribe">
+      Subscribe (€19.99 / month)
+    </button>
 
-  </a>
-
-    <div id="output"></div>
+    <div id="status"></div>
+    <div id="result"></div>
   </div>
 
   <script>
     const generateBtn = document.getElementById("generateBtn");
     const topicInput = document.getElementById("topicInput");
-    const output = document.getElementById("output");
-let freeUses = localStorage.getItem("freeUses");
+    const statusDiv = document.getElementById("status");
+    const resultDiv = document.getElementById("result");
 
-if (!freeUses) {
-  localStorage.setItem("freeUses", "1");
-  freeUses = "1";
-}
     generateBtn.addEventListener("click", async () => {
-    let remaining = parseInt(localStorage.getItem("freeUses"));
-
-
-
-
-
-localStorage.setItem("freeUses", remaining - 1);
       const topic = topicInput.value.trim();
+
       if (!topic) {
-        alert("Please enter a topic");
+        statusDiv.textContent = "Please enter a topic.";
         return;
       }
 
-      output.textContent = "Generating captions...";
+      statusDiv.textContent = "Generating captions...";
+      resultDiv.textContent = "";
 
       try {
-        const res = await fetch("/generate-captions", {
+        const response = await fetch("/generate-captions", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({ topic })
         });
 
-        const data = await res.json();
+        const data = await response.json();
 
-        if (data.captions) {
-          output.textContent = data.captions.join("\n\n");
-        } else {
-          output.textContent = "Error generating captions.";
+        if (!response.ok) {
+          statusDiv.textContent = "Server error.";
+          console.error(data);
+          return;
         }
+
+        statusDiv.textContent = "Done ✅";
+        resultDiv.textContent = data.captions;
       } catch (err) {
-        output.textContent = "Server error.";
+        statusDiv.textContent = "Network error.";
+        console.error(err);
       }
     });
   </script>
