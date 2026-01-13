@@ -6,131 +6,220 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    :root {
+      --bg: #0b1020;
+      --card: #11162a;
+      --primary: #3b82f6;
+      --secondary: #22c55e;
+      --danger: #ef4444;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 30px;
-      border-radius: 14px;
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(circle at top, #1a2150, #0b1020);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
       width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      max-width: 900px;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6);
     }
 
     h1 {
+      margin: 0 0 20px;
       text-align: center;
-      margin-bottom: 20px;
+      font-size: 28px;
     }
 
-    input {
+    .input {
       width: 100%;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 10px;
       border: none;
-      margin-bottom: 12px;
       font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px;
+      border-radius: 10px;
       border: none;
-      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    .primary {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .subscribe {
-      background: #22c55e;
-      color: black;
-    }
-
-    .output {
-      margin-top: 20px;
-      white-space: pre-wrap;
       font-size: 15px;
-      line-height: 1.5;
+    }
+
+    .primary { background: var(--primary); color: white; }
+    .secondary { background: var(--secondary); color: #052e16; }
+    .locked { background: #374151; color: var(--muted); cursor: not-allowed; }
+
+    .usage {
+      text-align: center;
+      margin: 16px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-size: 14px;
     }
 
     .error {
-      color: #f87171;
-      margin-top: 10px;
+      color: var(--danger);
       text-align: center;
+      margin-top: 12px;
+    }
+
+    .pro {
+      margin-top: 20px;
+      text-align: center;
+      padding: 16px;
+      background: linear-gradient(135deg, #1e293b, #020617);
+      border-radius: 12px;
+      border: 1px solid #334155;
+    }
+
+    .pro strong {
+      color: #a5b4fc;
     }
   </style>
 </head>
-<body>
 
-  <div class="card">
+<body>
+  <div class="app">
     <h1>Auto Shorts Generator</h1>
 
-    <input
-      id="topicInput"
-      type="text"
-      placeholder="e.g. killer facts"
-    />
+    <input id="topic" class="input" placeholder="Enter a topic (e.g. killer facts)" />
 
-    <button class="primary" onclick="generateCaptions()">
-      Generate Captions
-    </button>
+    <div class="buttons">
+      <button class="primary" onclick="generate()">Generate Content</button>
+      <button class="secondary" onclick="subscribe()">Upgrade to Pro</button>
+    </div>
 
-    <button class="subscribe">
-      Subscribe (€19.99 / month)
-    </button>
+    <div class="usage" id="usage"></div>
 
-    <div id="output" class="output"></div>
     <div id="error" class="error"></div>
+
+    <div id="result" class="card" style="display:none;">
+      <h3>Captions</h3>
+      <pre id="captions"></pre>
+
+      <h3>Hook</h3>
+      <pre id="hook"></pre>
+
+      <h3>Script</h3>
+      <pre id="script"></pre>
+    </div>
+
+    <div class="pro">
+      <strong>Pro Features</strong><br />
+      🎬 Auto video generation<br />
+      ✂ Crop to 9:16<br />
+      🔊 Voiceover<br />
+      ♾ Unlimited usage
+    </div>
   </div>
 
-  <script>
-    async function generateCaptions() {
-      const topic = document.getElementById("topicInput").value;
-      const output = document.getElementById("output");
-      const error = document.getElementById("error");
+<script>
+  const LIMIT = 2;
+  const today = new Date().toDateString();
 
-      output.innerText = "";
-      error.innerText = "";
-
-      if (!topic) {
-        error.innerText = "Please enter a topic.";
-        return;
-      }
-
-      try {
-        const res = await fetch("/generate-captions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ topic })
-        });
-
-        const data = await res.json();
-
-        // ✅ THIS WAS THE BUG — NOW FIXED
-        output.innerText = data.captions;
-
-      } catch (err) {
-        error.innerText = "Server error. Check connection.";
-        console.error(err);
-      }
+  function getUsage() {
+    const data = JSON.parse(localStorage.getItem("usage") || "{}");
+    if (data.date !== today) {
+      return { date: today, count: 0 };
     }
-  </script>
+    return data;
+  }
+
+  function setUsage(data) {
+    localStorage.setItem("usage", JSON.stringify(data));
+  }
+
+  function updateUsageUI() {
+    const u = getUsage();
+    document.getElementById("usage").innerText =
+      `Free usage: ${u.count}/${LIMIT} today`;
+  }
+
+  async function generate() {
+    const topic = document.getElementById("topic").value.trim();
+    const error = document.getElementById("error");
+    error.innerText = "";
+
+    if (!topic) {
+      error.innerText = "Enter a topic first.";
+      return;
+    }
+
+    const usage = getUsage();
+    if (usage.count >= LIMIT) {
+      error.innerText = "Free limit reached. Upgrade to Pro.";
+      return;
+    }
+
+    try {
+      const res = await fetch("/generate-captions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic })
+      });
+
+      const data = await res.json();
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("captions").innerText = data.captions || "—";
+      document.getElementById("hook").innerText = data.hook || "Auto hook here";
+      document.getElementById("script").innerText = data.script || "Auto script here";
+
+      usage.count++;
+      setUsage(usage);
+      updateUsageUI();
+
+    } catch (e) {
+      error.innerText = "Server error. Try again.";
+    }
+  }
+
+  function subscribe() {
+    alert("Stripe checkout goes here.");
+  }
+
+  updateUsageUI();
+</script>
 
 </body>
 </html>
