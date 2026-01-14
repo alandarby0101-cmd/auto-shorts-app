@@ -7,57 +7,47 @@
 
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at top, #1f2b4a, #0b1220);
+      --bg-main: linear-gradient(135deg, #0f172a, #1e293b);
       --card-bg: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.08);
-      --text-main: #ffffff;
-      --text-muted: #b9c2d3;
-      --accent-blue: #4da3ff;
-      --accent-green: #4ade80;
+      --border: rgba(255, 255, 255, 0.12);
+      --accent: #6366f1;
+      --accent-soft: #818cf8;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5f5;
+      --danger: #f87171;
     }
 
     * {
       box-sizing: border-box;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
       margin: 0;
-      min-height: 100vh;
-      background: var(--bg-gradient);
+      background: var(--bg-main);
       color: var(--text-main);
-      display: flex;
-      justify-content: center;
+      min-height: 100vh;
       padding: 40px 20px;
     }
 
-    .app-container {
-      width: 100%;
-      max-width: 900px;
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
     }
 
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 40px;
     }
 
     header h1 {
-      font-size: 2.4rem;
-      margin-bottom: 8px;
+      font-size: 2.6rem;
+      font-weight: 800;
+      margin-bottom: 10px;
     }
 
     header p {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-
-    .usage-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      padding: 14px;
-      border-radius: 12px;
-      text-align: center;
-      margin-bottom: 24px;
+      font-size: 1.1rem;
       color: var(--text-muted);
     }
 
@@ -65,197 +55,231 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 24px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
+      padding: 28px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(12px);
     }
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 14px;
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
-    textarea {
+    input {
       width: 100%;
-      min-height: 70px;
-      border-radius: 12px;
-      border: none;
       padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.3);
+      color: var(--text-main);
       font-size: 1rem;
-      resize: none;
-      outline: none;
     }
 
-    .buttons {
+    input::placeholder {
+      color: #94a3b8;
+    }
+
+    .actions {
       display: flex;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 14px;
+      margin-top: 18px;
+      flex-wrap: wrap;
     }
 
     button {
-      flex: 1;
-      padding: 14px;
+      padding: 14px 20px;
       border-radius: 14px;
       border: none;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    .generate-btn {
-      background: var(--accent-blue);
-      color: #fff;
+    .primary {
+      background: var(--accent);
+      color: white;
     }
 
-    .upgrade-btn {
-      background: var(--accent-green);
-      color: #000;
+    .primary:hover {
+      background: var(--accent-soft);
     }
 
-    .output h3 {
-      margin-bottom: 6px;
-    }
-
-    .output pre {
-      white-space: pre-wrap;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .pro-box {
-      background: linear-gradient(135deg, #2a3f6f, #1c294b);
-      border-radius: 20px;
-      padding: 28px;
+    .secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
       border: 1px solid var(--border);
     }
 
-    .pro-box h2 {
+    .locked {
+      background: rgba(248,113,113,0.15);
+      border: 1px solid var(--danger);
+      color: #fecaca;
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+
+    .output h3 {
+      margin-top: 0;
+      margin-bottom: 6px;
+    }
+
+    .output p {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .pro {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border: 1px solid #6366f1;
+    }
+
+    .pro h2 {
       margin-top: 0;
     }
 
-    .pro-list {
-      list-style: none;
-      padding: 0;
-      margin: 16px 0 0 0;
+    .pro ul {
+      margin: 16px 0 22px;
+      padding-left: 20px;
     }
 
-    .pro-list li {
+    .pro li {
       margin-bottom: 10px;
-      color: var(--text-muted);
+      color: #e0e7ff;
     }
 
     footer {
       text-align: center;
-      color: var(--text-muted);
       font-size: 0.85rem;
-      margin-top: 30px;
+      color: #94a3b8;
+      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
-  <div class="app-container">
+  <div class="container">
 
-    <!-- HEADER -->
     <header>
       <h1>Auto Shorts Generator</h1>
-      <p>Create viral hooks, captions, and scripts — instantly.</p>
+      <p>Create viral hooks, scripts & captions in seconds.</p>
     </header>
 
-    <!-- USAGE NOTICE -->
-    <div class="usage-box">
-      ⚠️ Free users get <strong>2 total generations</strong>. Upgrade to Pro for unlimited use.
-    </div>
-
-    <!-- GENERATOR -->
+    <!-- APP INPUT -->
     <div class="card">
-      <h2>Create Your Short</h2>
-      <textarea id="topicInput" placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"></textarea>
+      <label for="topicInput">Video topic</label>
+      <input
+        id="topicInput"
+        placeholder="e.g. Dark psychology facts, motivation, true crime, business tips..."
+      />
 
-      <div class="buttons">
-        <button class="generate-btn" onclick="generateContent()">Generate Content</button>
-        <button class="upgrade-btn" onclick="goPro()">Upgrade to Pro</button>
+      <div class="actions">
+        <button class="primary" onclick="generateContent()">Generate</button>
+        <button class="secondary" onclick="upgrade()">Upgrade to Pro</button>
+      </div>
+
+      <div id="lockNotice" class="locked" style="display:none;">
+        Free limit reached. Upgrade to Pro for unlimited access.
       </div>
     </div>
 
     <!-- OUTPUT -->
     <div class="card output">
-      <h3>Captions</h3>
-      <pre id="captions">—</pre>
-    </div>
-
-    <div class="card output">
       <h3>Hook</h3>
-      <pre id="hook">—</pre>
-    </div>
+      <p id="hook">—</p>
 
-    <div class="card output">
       <h3>Script</h3>
-      <pre id="script">—</pre>
+      <p id="script">—</p>
+
+      <h3>Captions</h3>
+      <p id="captions">—</p>
     </div>
 
-    <!-- PRO INFO -->
-    <div class="pro-box">
-      <h2>Pro Includes</h2>
-      <ul class="pro-list">
-        <li>✔ Unlimited generations</li>
-        <li>✔ Longer, higher-quality scripts</li>
-        <li>✔ Priority AI quality</li>
-        <li>✔ Future full video generation (no CapCut needed)</li>
+    <!-- PRO SECTION -->
+    <div class="card pro">
+      <h2>Pro Features</h2>
+      <ul>
+        <li>Unlimited generations</li>
+        <li>Long-form high-retention scripts</li>
+        <li>Advanced viral hooks</li>
+        <li>Future AI video generation (realistic & art styles)</li>
+        <li>Priority updates & features</li>
       </ul>
+
+      <button class="primary" onclick="upgrade()">Unlock Pro</button>
     </div>
 
     <footer>
-      Built for creators who want speed, quality, and results.
+      © Auto Shorts Generator
     </footer>
-
   </div>
 
-  <!-- SCRIPT -->
   <script>
-    async function generateContent() {
-      const topic = document.getElementById("topicInput").value.trim();
-      if (!topic) return alert("Please enter a topic");
+    const MAX_FREE_USES = 2;
+    let usageCount = Number(localStorage.getItem("usageCount") || 0);
 
-      document.getElementById("captions").textContent = "Generating...";
-      document.getElementById("hook").textContent = "Generating...";
-      document.getElementById("script").textContent = "Generating...";
+    function isLocked() {
+      return usageCount >= MAX_FREE_USES;
+    }
+
+    function updateLockUI() {
+      if (isLocked()) {
+        document.getElementById("lockNotice").style.display = "block";
+      }
+    }
+
+    updateLockUI();
+
+    async function generateContent() {
+      if (isLocked()) {
+        updateLockUI();
+        return;
+      }
+
+      const topic = document.getElementById("topicInput").value.trim();
+      if (!topic) return;
+
+      document.getElementById("hook").textContent = "Generating…";
+      document.getElementById("script").textContent = "Generating…";
+      document.getElementById("captions").textContent = "Generating…";
 
       try {
-        const res = await fetch("/generate-captions", {
+        const res = await fetch("/generate", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            topic,
-            isPro: false   // ✅ STEP 5 — FREE USER FLAG
-          })
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic })
         });
 
         const data = await res.json();
 
-        if (data.error) {
-          alert(data.error);
-          return;
-        }
-
-        document.getElementById("captions").textContent = data.captions || "—";
         document.getElementById("hook").textContent = data.hook || "—";
         document.getElementById("script").textContent = data.script || "—";
+        document.getElementById("captions").textContent = data.captions || "—";
+
+        usageCount++;
+        localStorage.setItem("usageCount", usageCount);
+        updateLockUI();
 
       } catch (err) {
-        alert("Something went wrong");
+        document.getElementById("hook").textContent = "Error generating content.";
+        document.getElementById("script").textContent = "—";
+        document.getElementById("captions").textContent = "—";
       }
     }
 
-    function goPro() {
-      fetch("/create-checkout-session", { method: "POST" })
-        .then(res => res.json())
-        .then(data => {
-          if (data.url) window.location.href = data.url;
-        });
+    async function upgrade() {
+      try {
+        const res = await fetch("/create-checkout-session", { method: "POST" });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        }
+      } catch (e) {
+        alert("Checkout unavailable. Please try again.");
+      }
     }
   </script>
 </body>
