@@ -8,7 +8,7 @@ const OpenAI = require("openai");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
+const usageMap = new Map();
 /* ---------- BASIC SETUP ---------- */
 app.use(cors());
 app.use(express.json());
@@ -66,7 +66,17 @@ app.post("/create-checkout-session", async (req, res) => {
 app.post("/generate-captions", async (req, res) => {
   try {
     const { topic } = req.body;
+const userId = req.ip;
 
+const used = usageMap.get(userId) || 0;
+
+if (used >= 2) {
+  return res.status(403).json({
+    error: "Free limit reached. Please upgrade to Pro."
+  });
+}
+
+usageMap.set(userId, used + 1);
     if (!topic) {
       return res.status(400).json({ error: "Missing topic" });
     }
