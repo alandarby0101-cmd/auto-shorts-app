@@ -70,7 +70,7 @@ const userId = req.ip;
 
 const used = usageMap.get(userId) || 0;
 
-if (used >= 2) {
+if (!req.body.isPro && used >= 2) {
   return res.status(403).json({
     error: "Free limit reached. Please upgrade to Pro."
   });
