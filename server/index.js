@@ -8,38 +8,32 @@ const Stripe = require("stripe");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* =========================
-   BASIC MIDDLEWARE
-========================= */
+/* ---------- BASIC SETUP ---------- */
 app.use(cors());
 app.use(express.json());
 
-/* =========================
-   STRIPE SETUP (TEST MODE)
-========================= */
+/* ---------- STRIPE INIT ---------- */
 if (!process.env.STRIPE_SECRET_KEY) {
   console.error("❌ STRIPE_SECRET_KEY missing");
 }
-if (!process.env.STRIPE_PRICE_ID) {
-  console.error("❌ STRIPE_PRICE_ID missing");
-}
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-/* =========================
-   SERVE FRONTEND
-========================= */
-app.use(express.static(path.join(__dirname, "../public")));
+/* ---------- SERVE FRONTEND ---------- */
+const publicPath = path.join(__dirname, "../public");
+app.use(express.static(publicPath));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(publicPath, "index.html"));
 });
 
-/* =========================
-   STRIPE CHECKOUT (FIXED)
-========================= */
+/* ---------- STRIPE CHECKOUT ---------- */
 app.post("/create-checkout-session", async (req, res) => {
   try {
+    if (!process.env.STRIPE_PRICE_ID) {
+      throw new Error("Missing STRIPE_PRICE_ID");
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
@@ -56,20 +50,16 @@ app.post("/create-checkout-session", async (req, res) => {
     res.json({ url: session.url });
   } catch (err) {
     console.error("❌ Stripe error:", err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Stripe checkout failed" });
   }
 });
 
-/* =========================
-   HEALTH CHECK
-========================= */
+/* ---------- HEALTH CHECK ---------- */
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-/* =========================
-   START SERVER
-========================= */
+/* ---------- START SERVER ---------- */
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
