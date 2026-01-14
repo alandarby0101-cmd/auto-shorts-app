@@ -16,9 +16,7 @@
       --green: #22c55e;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -37,7 +35,6 @@
       padding: 0 24px;
     }
 
-    /* HEADER */
     header {
       text-align: center;
       margin-bottom: 36px;
@@ -55,7 +52,6 @@
       color: var(--text-muted);
     }
 
-    /* NOTICE */
     .notice {
       background: rgba(30, 41, 59, 0.7);
       border: 1px solid var(--border-soft);
@@ -67,7 +63,6 @@
       margin-bottom: 28px;
     }
 
-    /* CARD */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-soft);
@@ -75,12 +70,6 @@
       padding: 28px;
       box-shadow: 0 30px 60px rgba(0,0,0,0.55);
       backdrop-filter: blur(12px);
-    }
-
-    .card h2 {
-      margin-top: 0;
-      margin-bottom: 14px;
-      font-size: 1.25rem;
     }
 
     textarea {
@@ -95,7 +84,6 @@
       margin-bottom: 18px;
     }
 
-    /* BUTTONS */
     .actions {
       display: flex;
       gap: 14px;
@@ -118,22 +106,11 @@
       color: #020617;
     }
 
-    .generate:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 25px rgba(56,189,248,0.35);
-    }
-
     .upgrade {
       background: linear-gradient(135deg, #22c55e, #16a34a);
       color: #022c22;
     }
 
-    .upgrade:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 25px rgba(34,197,94,0.35);
-    }
-
-    /* OUTPUT */
     .output {
       background: rgba(30, 41, 59, 0.75);
       border: 1px solid var(--border-soft);
@@ -144,7 +121,7 @@
 
     .output h3 {
       margin: 0 0 6px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #93c5fd;
@@ -156,11 +133,36 @@
       white-space: pre-line;
     }
 
-    .pro-info {
-      margin-top: 24px;
+    /* NEW PRO BLOCK */
+    .pro-block {
+      margin-top: 28px;
+      padding: 26px;
+      background: linear-gradient(
+        135deg,
+        rgba(34,197,94,0.15),
+        rgba(56,189,248,0.12)
+      );
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
       text-align: center;
-      font-size: 0.85rem;
+    }
+
+    .pro-block h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .pro-list {
+      margin: 16px auto;
+      max-width: 520px;
+      text-align: left;
       color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .pro-list span {
+      color: var(--text-main);
     }
   </style>
 </head>
@@ -178,8 +180,6 @@
     </div>
 
     <div class="card">
-      <h2>Create Your Short</h2>
-
       <textarea id="topicInput" placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"></textarea>
 
       <div class="actions">
@@ -202,11 +202,19 @@
         <div class="content" id="scriptOutput">—</div>
       </div>
 
-      <div class="pro-info">
-        Pro includes unlimited generations, longer scripts, priority quality, and future full video creation.
+      <!-- NEW PRO INFO BLOCK -->
+      <div class="pro-block">
+        <h3>What You Get With Pro</h3>
+        <div class="pro-list">
+          <div>✅ <span>Unlimited generations</span> (no daily caps)</div>
+          <div>✅ <span>Longer, more detailed scripts</span></div>
+          <div>✅ <span>Stronger viral hooks & captions</span></div>
+          <div>✅ <span>Priority AI quality</span></div>
+          <div>✅ <span>Early access to full video creation (4K)</span></div>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 
   <script>
@@ -218,22 +226,18 @@
       hookOutput.textContent = "Generating...";
       scriptOutput.textContent = "Generating...";
 
-      try {
-        const res = await fetch("/generate-captions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic })
-        });
+      const res = await fetch("/generate-captions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic })
+      });
 
-        const data = await res.json();
-        if (data.error) return alert(data.error);
+      const data = await res.json();
+      if (data.error) return alert(data.error);
 
-        captionsOutput.textContent = data.captions;
-        hookOutput.textContent = data.hook;
-        scriptOutput.textContent = data.script;
-      } catch {
-        alert("Something went wrong.");
-      }
+      captionsOutput.textContent = data.captions;
+      hookOutput.textContent = data.hook;
+      scriptOutput.textContent = data.script;
     });
 
     document.getElementById("upgradeBtn").addEventListener("click", async () => {
