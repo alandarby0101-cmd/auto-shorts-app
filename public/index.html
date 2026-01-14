@@ -1,219 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Auto Shorts Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-
-    .generate {
-      background: #2563eb;
-      color: #fff;
-    }
-
-    .upgrade {
-      background: #22c55e;
-      color: #0f172a;
-    }
-
-    .usage {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .error {
-      color: #f87171;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .section {
-      margin-top: 20px;
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 8px;
-    }
-
-    .section h3 {
-      margin-top: 0;
-    }
-
-    .output {
-      white-space: pre-wrap;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-  </style>
-</head>
-
 <body>
-  <div class="container">
-    <h1>Auto Shorts Generator</h1>
+  <div class="app-container">
 
-    <input
-      id="topicInput"
-      type="text"
-      placeholder="Enter a topic (e.g. killer facts, bees dying)"
-    />
+    <!-- HEADER -->
+    <header class="header">
+      <h1>Auto Shorts Generator</h1>
+      <p class="subtitle">
+        Generate viral hooks, scripts, captions — fast.
+      </p>
+    </header>
 
-    <button class="generate" id="generateBtn">
-      Generate Content
-    </button>
+    <!-- USAGE NOTICE -->
+    <section class="usage-box">
+      <p>
+        ⚠️ Free users get <strong>2 generations total</strong>.  
+        Upgrade to Pro for unlimited use.
+      </p>
+    </section>
 
-    <button class="upgrade" id="upgradeBtn">
-      Upgrade to Pro
-    </button>
+    <!-- INPUT -->
+    <section class="generator-box">
+      <h2>Create Your Short</h2>
 
-    <div class="usage" id="usageText">
-      Free usage loading...
-    </div>
+      <textarea
+        id="promptInput"
+        placeholder="Describe your video idea (any niche, any topic)..."
+      ></textarea>
 
-    <div class="error" id="errorText"></div>
+      <button id="generateBtn">Generate</button>
+    </section>
 
-    <div class="section">
-      <h3>Captions</h3>
-      <div class="output" id="captionsOutput">—</div>
-    </div>
+    <!-- OUTPUT -->
+    <section class="output-box">
+      <div class="output-section">
+        <h3>🔥 Hook</h3>
+        <div id="hookOutput" class="output"></div>
+      </div>
 
-    <div class="section">
-      <h3>Hook</h3>
-      <div class="output" id="hookOutput">—</div>
-    </div>
+      <div class="output-section">
+        <h3>📜 Script</h3>
+        <div id="scriptOutput" class="output"></div>
+      </div>
 
-    <div class="section">
-      <h3>Script</h3>
-      <div class="output" id="scriptOutput">—</div>
-    </div>
+      <div class="output-section">
+        <h3>🏷️ Captions</h3>
+        <div id="captionsOutput" class="output"></div>
+      </div>
+    </section>
+
+    <!-- PRO SECTION -->
+    <section class="pro-box">
+      <h2>Go Pro 🚀</h2>
+      <ul>
+        <li>✅ Unlimited generations</li>
+        <li>✅ Longer hooks & scripts</li>
+        <li>✅ Priority AI speed</li>
+        <li>🔜 AI video generation</li>
+        <li>🔜 Auto-cropping for Shorts</li>
+      </ul>
+
+      <button id="upgradeBtn">Upgrade to Pro</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>© Auto Shorts Generator</p>
+    </footer>
+
   </div>
-
-  <script>
-    const topicInput = document.getElementById("topicInput");
-    const generateBtn = document.getElementById("generateBtn");
-    const upgradeBtn = document.getElementById("upgradeBtn");
-    const captionsOutput = document.getElementById("captionsOutput");
-    const hookOutput = document.getElementById("hookOutput");
-    const scriptOutput = document.getElementById("scriptOutput");
-    const errorText = document.getElementById("errorText");
-    const usageText = document.getElementById("usageText");
-
-    async function loadUsage() {
-      try {
-        const res = await fetch("/usage");
-        const data = await res.json();
-        usageText.textContent = `Free usage: ${data.used}/${data.limit} today`;
-      } catch {
-        usageText.textContent = "";
-      }
-    }
-
-    generateBtn.addEventListener("click", async () => {
-      errorText.textContent = "";
-      captionsOutput.textContent = "Generating...";
-      hookOutput.textContent = "Generating...";
-      scriptOutput.textContent = "Generating...";
-
-      const topic = topicInput.value.trim();
-      if (!topic) {
-        errorText.textContent = "Please enter a topic.";
-        return;
-      }
-
-      try {
-        const res = await fetch("/generate-captions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic })
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          errorText.textContent = data.error || "Server error";
-          captionsOutput.textContent = "—";
-          hookOutput.textContent = "—";
-          scriptOutput.textContent = "—";
-          return;
-        }
-
-        captionsOutput.textContent = data.captions || "—";
-        hookOutput.textContent = data.hook || "—";
-        scriptOutput.textContent = data.script || "—";
-
-        loadUsage();
-      } catch (err) {
-        errorText.textContent = "Connection error.";
-        captionsOutput.textContent = "—";
-        hookOutput.textContent = "—";
-        scriptOutput.textContent = "—";
-      }
-    });
-
-    upgradeBtn.addEventListener("click", async () => {
-      try {
-        const res = await fetch("/create-checkout-session", {
-          method: "POST"
-        });
-
-        const data = await res.json();
-
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          alert("Stripe checkout unavailable.");
-        }
-      } catch {
-        alert("Could not connect to payment service.");
-      }
-    });
-
-    loadUsage();
-  </script>
 </body>
-</html>
