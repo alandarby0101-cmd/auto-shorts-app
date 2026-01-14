@@ -6,53 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #020617;
+      --card: #111827;
+      --border: #1e293b;
+      --accent: #6366f1;
+      --accent-soft: #818cf8;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(1200px at top, #2f3b6e, #0f172a);
-      color: #e5e7eb;
     }
 
-    .app-container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px 80px;
-    }
-
-    header {
+    .container {
+      background: #020617;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
       text-align: center;
-      margin-bottom: 30px;
     }
 
-    header h1 {
-      font-size: 2.6rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      opacity: 0.85;
-    }
-
-    .usage-box {
-      background: rgba(255,255,255,0.06);
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 0.95rem;
-    }
-
-    .generator-box {
-      background: rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 25px;
-      margin-bottom: 30px;
-    }
-
-    textarea {
+    input {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 5px;
       border: none;
       resize: none;
       font-size: 1rem;
@@ -66,159 +56,119 @@
     }
 
     button {
-      flex: 1;
-      padding: 14px;
-      font-size: 1rem;
-      border-radius: 14px;
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
       border: none;
+      border-radius: 6px;
+      font-size: 16px;
       cursor: pointer;
     }
 
-    .primary {
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    #generateBtn {
+      background: #3b82f6;
       color: white;
     }
 
-    .pro {
-      background: linear-gradient(135deg, #22c55e, #4ade80);
-      color: #062e1a;
+    #generateBtn:hover {
+      background: #2563eb;
     }
 
-    .output-box {
-      background: rgba(255,255,255,0.04);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 15px;
+    .subscribe-btn {
+      display: block;
+      margin-top: 12px;
+      padding: 12px;
+      background: #22c55e;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
     }
 
-    .output-box h3 {
-      margin-top: 0;
-      margin-bottom: 8px;
-      font-size: 1rem;
-      opacity: 0.9;
+    .subscribe-btn:hover {
+      background: #16a34a;
     }
 
-    .pro-section {
-      background: rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 25px;
-      margin-top: 40px;
-    }
-
-    .pro-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .pro-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      opacity: 0.6;
-      font-size: 0.85rem;
+    #output {
+      margin-top: 15px;
+      text-align: left;
+      font-size: 14px;
+      white-space: pre-line;
     }
   </style>
 </head>
 
 <body>
-  <div class="app-container">
+  <div class="container">
+    <h2>Auto Shorts Generator</h2>
 
-    <header>
-      <h1>Auto Shorts Generator</h1>
-      <p>Create viral hooks, captions, and scripts — instantly.</p>
-    </header>
+    <input
+      id="topicInput"
+      type="text"
+      placeholder="Enter a topic (e.g. killer facts)"
+    />
 
-    <div class="usage-box">
-      ⚠️ Free users get <strong>2 total generations</strong>. Upgrade to Pro for unlimited use.
-    </div>
+    <button id="generateBtn">Generate Captions</button>
 
-    <div class="generator-box">
-      <textarea id="topic" rows="3" placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"></textarea>
+    <!-- ✅ STRIPE PAYMENT LINK (THIS IS CORRECT) -->
+    <a
+  href="https://buy.stripe.com/7sY3cwbdA7dcbac9oP5kk00"
+  target="_blank"
+  class="subscribe-btn"
+>
+  Subscribe (€19.99 / month)
 
-      <div class="buttons">
-        <button class="primary" onclick="generate()">Generate Content</button>
-        <button class="pro" onclick="upgrade()">Upgrade to Pro</button>
-      </div>
+  </a>
 
-      <div class="output-box">
-        <h3>Captions</h3>
-        <div id="captions">—</div>
-      </div>
-
-      <div class="output-box">
-        <h3>Hook</h3>
-        <div id="hook">—</div>
-      </div>
-
-      <div class="output-box">
-        <h3>Script</h3>
-        <div id="script">—</div>
-      </div>
-    </div>
-
-    <div class="pro-section">
-      <h2>What Pro Unlocks</h2>
-      <p>Built for creators who want results — not limits.</p>
-
-      <div class="pro-grid">
-        <div class="pro-card">
-          <strong>Unlimited Generations</strong>
-          <p>No caps. Generate as much as you want.</p>
-        </div>
-        <div class="pro-card">
-          <strong>Longer, Higher-Quality Scripts</strong>
-          <p>Better pacing, stronger retention.</p>
-        </div>
-        <div class="pro-card">
-          <strong>Priority AI Quality</strong>
-          <p>Tuned outputs for virality.</p>
-        </div>
-        <div class="pro-card">
-          <strong>Future Video Creation</strong>
-          <p>Automatic short-form video generation (coming soon).</p>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      © Auto Shorts Generator — All rights reserved
-    </footer>
-
+    <div id="output"></div>
   </div>
 
-<script>
-async function generate() {
-  const topic = document.getElementById("topic").value.trim();
-  if (!topic) return alert("Enter a topic");
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const topicInput = document.getElementById("topicInput");
+    const output = document.getElementById("output");
+let freeUses = localStorage.getItem("freeUses");
 
-  const res = await fetch("/generate-captions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ topic })
-  });
+if (!freeUses) {
+  localStorage.setItem("freeUses", "1");
+  freeUses = "1";
+}
+    generateBtn.addEventListener("click", async () => {
+    let remaining = parseInt(localStorage.getItem("freeUses"));
 
-  const data = await res.json();
-  if (data.error) return alert(data.error);
-
-  document.getElementById("captions").innerText = data.captions;
-  document.getElementById("hook").innerText = data.hook;
-  document.getElementById("script").innerText = data.script;
+if (remaining <= 0) {
+  window.location.href = "https://buy.stripe.com/7sY3cwbdA7dcba9oP5kk00";
+  return;
 }
 
-function upgrade() {
-  fetch("/create-checkout-session", { method: "POST" })
-    .then(res => res.json())
-    .then(data => window.location.href = data.url)
-    .catch(() => alert("Checkout error"));
-}
-</script>
 
+localStorage.setItem("freeUses", remaining - 1);
+      const topic = topicInput.value.trim();
+      if (!topic) {
+        alert("Please enter a topic");
+        return;
+      }
+
+      output.textContent = "Generating captions...";
+
+      try {
+        const res = await fetch("/generate-captions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic })
+        });
+
+        const data = await res.json();
+
+        if (data.captions) {
+          output.textContent = data.captions.join("\n\n");
+        } else {
+          output.textContent = "Error generating captions.";
+        }
+      } catch (err) {
+        output.textContent = "Server error.";
+      }
+    });
+  </script>
 </body>
 </html>
