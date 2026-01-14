@@ -6,250 +6,217 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    :root {
+      --bg-dark: #020617;
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --blue: #38bdf8;
+      --green: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(180deg, #0f172a, #020617);
-      color: #e5e7eb;
+      color: var(--text-main);
+      background:
+        radial-gradient(900px 500px at 50% -20%, rgba(56,189,248,0.18), transparent 60%),
+        radial-gradient(700px 400px at 80% 10%, rgba(34,197,94,0.15), transparent 60%),
+        linear-gradient(180deg, #020617 0%, #000 100%);
+      min-height: 100vh;
     }
 
-    .app-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
+    .app {
+      max-width: 880px;
+      margin: 80px auto;
+      padding: 0 24px;
     }
 
     /* HEADER */
-    .header {
+    header {
       text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      opacity: 0.8;
-      font-size: 1.1rem;
-    }
-
-    /* USAGE NOTICE */
-    .usage-box {
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 28px;
-      font-size: 0.95rem;
-      text-align: center;
-    }
-
-    /* GENERATOR */
-    .generator-box {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 24px;
       margin-bottom: 36px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    /* NOTICE */
+    .notice {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #cbd5f5;
+      margin-bottom: 28px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 1.25rem;
     }
 
     textarea {
       width: 100%;
-      min-height: 60px;
-      padding: 12px;
-      border-radius: 10px;
+      min-height: 80px;
+      padding: 16px;
+      border-radius: 14px;
       border: none;
-      outline: none;
       font-size: 1rem;
-      margin-bottom: 16px;
+      background: #f8fafc;
+      color: #020617;
+      margin-bottom: 18px;
     }
 
-    .buttons {
+    /* BUTTONS */
+    .actions {
       display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 14px;
+      margin-bottom: 30px;
     }
 
     button {
       flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
+      padding: 15px;
       font-size: 1rem;
-      cursor: pointer;
       font-weight: 600;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
     }
 
-    #generateBtn {
-      background: #2563eb;
-      color: white;
+    .generate {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #020617;
     }
 
-    #upgradeBtn {
-      background: #16a34a;
-      color: white;
+    .generate:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 25px rgba(56,189,248,0.35);
+    }
+
+    .upgrade {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+    }
+
+    .upgrade:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 25px rgba(34,197,94,0.35);
     }
 
     /* OUTPUT */
-    .output-box {
-      background: rgba(255, 255, 255, 0.04);
-      border-radius: 14px;
+    .output {
+      background: rgba(30, 41, 59, 0.75);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
       padding: 18px;
       margin-bottom: 16px;
     }
 
-    .output-box h3 {
-      margin-top: 0;
-      margin-bottom: 6px;
-      font-size: 1.1rem;
+    .output h3 {
+      margin: 0 0 6px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #93c5fd;
     }
 
-    .output-box pre {
-      white-space: pre-wrap;
+    .content {
       font-size: 0.95rem;
       line-height: 1.5;
+      white-space: pre-line;
     }
 
-    /* PRO SECTION */
-    .pro-box {
-      background: linear-gradient(135deg, #1e293b, #020617);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 28px;
-      margin-top: 48px;
-    }
-
-    .pro-box h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
+    .pro-info {
+      margin-top: 24px;
       text-align: center;
-    }
-
-    .pro-list {
-      max-width: 520px;
-      margin: 0 auto 24px;
-      padding-left: 0;
-      list-style: none;
-    }
-
-    .pro-list li {
-      margin-bottom: 10px;
-      font-size: 0.95rem;
-    }
-
-    .pro-list li::before {
-      content: "✔ ";
-      color: #22c55e;
-      font-weight: bold;
-    }
-
-    .pro-box button {
-      width: 100%;
-      background: #22c55e;
-      color: #022c22;
-      font-size: 1.05rem;
-    }
-
-    footer {
-      text-align: center;
-      opacity: 0.4;
-      margin-top: 60px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
   </style>
 </head>
 
 <body>
-  <div class="app-container">
+  <div class="app">
 
-    <!-- HEADER -->
-    <header class="header">
+    <header>
       <h1>Auto Shorts Generator</h1>
-      <p class="subtitle">
-        Create viral hooks, captions, and scripts — instantly.
-      </p>
+      <p>Create viral hooks, captions, and scripts — instantly.</p>
     </header>
 
-    <!-- USAGE NOTICE -->
-    <section class="usage-box">
-      ⚠️ Free users get <strong>2 total generations</strong>.  
-      Upgrade to Pro for unlimited use.
-    </section>
+    <div class="notice">
+      ⚠️ Free users get <strong>2 total generations</strong>. Upgrade to Pro for unlimited use.
+    </div>
 
-    <!-- GENERATOR -->
-    <section class="generator-box">
-      <textarea
-        id="topicInput"
-        placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"
-      ></textarea>
+    <div class="card">
+      <h2>Create Your Short</h2>
 
-      <div class="buttons">
-        <button id="generateBtn">Generate Content</button>
-        <button id="upgradeBtn">Upgrade to Pro</button>
+      <textarea id="topicInput" placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"></textarea>
+
+      <div class="actions">
+        <button class="generate" id="generateBtn">Generate Content</button>
+        <button class="upgrade" id="upgradeBtn">Upgrade to Pro</button>
       </div>
 
-      <div class="output-box">
+      <div class="output">
         <h3>Captions</h3>
-        <pre id="captionsOutput">—</pre>
+        <div class="content" id="captionsOutput">—</div>
       </div>
 
-      <div class="output-box">
+      <div class="output">
         <h3>Hook</h3>
-        <pre id="hookOutput">—</pre>
+        <div class="content" id="hookOutput">—</div>
       </div>
 
-      <div class="output-box">
+      <div class="output">
         <h3>Script</h3>
-        <pre id="scriptOutput">—</pre>
+        <div class="content" id="scriptOutput">—</div>
       </div>
-    </section>
 
-    <!-- PRO INFO -->
-    <section class="pro-box">
-      <h2>Pro Unlocks</h2>
-      <ul class="pro-list">
-        <li>Unlimited generations</li>
-        <li>Longer, high-retention scripts</li>
-        <li>Multiple viral captions per idea</li>
-        <li>Future video generation (AI visuals + voice)</li>
-        <li>Priority access to new features</li>
-      </ul>
-      <button id="upgradeBtn">Upgrade to Pro</button>
-    </section>
+      <div class="pro-info">
+        Pro includes unlimited generations, longer scripts, priority quality, and future full video creation.
+      </div>
+    </div>
 
-    <footer>
-      Auto Shorts Generator • Built for creators
-    </footer>
   </div>
 
-  <!-- LOGIC -->
   <script>
-    const generateBtn = document.getElementById("generateBtn");
-    const upgradeBtn = document.getElementById("upgradeBtn");
-
-    function getUsage() {
-      return Number(localStorage.getItem("free_generations_used") || 0);
-    }
-
-    function incrementUsage() {
-      localStorage.setItem(
-        "free_generations_used",
-        getUsage() + 1
-      );
-    }
-
-    generateBtn.addEventListener("click", async () => {
+    document.getElementById("generateBtn").addEventListener("click", async () => {
       const topic = document.getElementById("topicInput").value.trim();
-      if (!topic) return alert("Enter a topic first.");
+      if (!topic) return alert("Please enter a topic.");
 
-      if (getUsage() >= 2) {
-        alert("Free limit reached. Upgrade to Pro to continue.");
-        return;
-      }
-
-      document.getElementById("captionsOutput").innerText = "Generating...";
-      document.getElementById("hookOutput").innerText = "Generating...";
-      document.getElementById("scriptOutput").innerText = "Generating...";
+      captionsOutput.textContent = "Generating...";
+      hookOutput.textContent = "Generating...";
+      scriptOutput.textContent = "Generating...";
 
       try {
         const res = await fetch("/generate-captions", {
@@ -259,17 +226,17 @@
         });
 
         const data = await res.json();
-        incrementUsage();
+        if (data.error) return alert(data.error);
 
-        document.getElementById("captionsOutput").innerText = data.captions || "—";
-        document.getElementById("hookOutput").innerText = data.hook || "—";
-        document.getElementById("scriptOutput").innerText = data.script || "—";
+        captionsOutput.textContent = data.captions;
+        hookOutput.textContent = data.hook;
+        scriptOutput.textContent = data.script;
       } catch {
-        alert("Generation failed.");
+        alert("Something went wrong.");
       }
     });
 
-    upgradeBtn.addEventListener("click", async () => {
+    document.getElementById("upgradeBtn").addEventListener("click", async () => {
       const res = await fetch("/create-checkout-session", { method: "POST" });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
