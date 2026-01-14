@@ -1,3 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Shorts Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: linear-gradient(180deg, #0f172a, #020617);
+      color: #e5e7eb;
+    }
+
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    /* USAGE NOTICE */
+    .usage-box {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 28px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* GENERATOR */
+    .generator-box {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .generator-box h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      border-radius: 10px;
+      border: none;
+      padding: 14px;
+      font-size: 15px;
+      resize: vertical;
+      margin-bottom: 14px;
+      outline: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .generate-btn {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .pro-btn {
+      background: #22c55e;
+      color: #022c22;
+    }
+
+    /* OUTPUT */
+    .output {
+      margin-top: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .output-box {
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .output-box h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .placeholder {
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* PRO FEATURES */
+    .pro-section {
+      margin-top: 48px;
+      background: rgba(2, 6, 23, 0.9);
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    .pro-section h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .pro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .pro-card {
+      background: rgba(30, 41, 59, 0.8);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      font-size: 14px;
+    }
+
+    .pro-card strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 13px;
+      color: #64748b;
+    }
+  </style>
+</head>
+
 <body>
   <div class="app-container">
 
@@ -5,66 +173,130 @@
     <header class="header">
       <h1>Auto Shorts Generator</h1>
       <p class="subtitle">
-        Generate viral hooks, scripts, captions — fast.
+        Generate viral hooks, captions, and short-form scripts — instantly.
       </p>
     </header>
 
     <!-- USAGE NOTICE -->
     <section class="usage-box">
-      <p>
-        ⚠️ Free users get <strong>2 generations total</strong>.  
-        Upgrade to Pro for unlimited use.
-      </p>
+      ⚠️ Free users get <strong>2 total generations</strong>.  
+      Upgrade to Pro for unlimited content.
     </section>
 
-    <!-- INPUT -->
+    <!-- GENERATOR -->
     <section class="generator-box">
       <h2>Create Your Short</h2>
 
       <textarea
-        id="promptInput"
-        placeholder="Describe your video idea (any niche, any topic)..."
+        id="topicInput"
+        placeholder="Enter a topic (e.g. crazy facts, conspiracy theories, AI stories)"
       ></textarea>
 
-      <button id="generateBtn">Generate</button>
-    </section>
-
-    <!-- OUTPUT -->
-    <section class="output-box">
-      <div class="output-section">
-        <h3>🔥 Hook</h3>
-        <div id="hookOutput" class="output"></div>
+      <div class="actions">
+        <button class="generate-btn" id="generateBtn">
+          Generate Content
+        </button>
+        <button class="pro-btn" id="upgradeBtn">
+          Upgrade to Pro
+        </button>
       </div>
 
-      <div class="output-section">
-        <h3>📜 Script</h3>
-        <div id="scriptOutput" class="output"></div>
-      </div>
+      <div class="output">
+        <div class="output-box">
+          <h3>Captions</h3>
+          <div id="captionsOutput" class="placeholder">Nothing generated yet.</div>
+        </div>
 
-      <div class="output-section">
-        <h3>🏷️ Captions</h3>
-        <div id="captionsOutput" class="output"></div>
+        <div class="output-box">
+          <h3>Hook</h3>
+          <div id="hookOutput" class="placeholder">Nothing generated yet.</div>
+        </div>
+
+        <div class="output-box">
+          <h3>Script</h3>
+          <div id="scriptOutput" class="placeholder">Nothing generated yet.</div>
+        </div>
       </div>
     </section>
 
-    <!-- PRO SECTION -->
-    <section class="pro-box">
-      <h2>Go Pro 🚀</h2>
-      <ul>
-        <li>✅ Unlimited generations</li>
-        <li>✅ Longer hooks & scripts</li>
-        <li>✅ Priority AI speed</li>
-        <li>🔜 AI video generation</li>
-        <li>🔜 Auto-cropping for Shorts</li>
-      </ul>
+    <!-- PRO FEATURES -->
+    <section class="pro-section">
+      <h2>What You Get With Pro</h2>
 
-      <button id="upgradeBtn">Upgrade to Pro</button>
+      <div class="pro-grid">
+        <div class="pro-card">
+          <strong>Unlimited Generations</strong>
+          No daily limits. Generate as much content as you want.
+        </div>
+
+        <div class="pro-card">
+          <strong>Long-Form Viral Scripts</strong>
+          30–60 second short-form scripts built for retention.
+        </div>
+
+        <div class="pro-card">
+          <strong>5 High-Conversion Captions</strong>
+          Optimized for TikTok, Shorts & Reels.
+        </div>
+
+        <div class="pro-card">
+          <strong>Advanced Hooks</strong>
+          Pattern-interrupt, curiosity-driven openers.
+        </div>
+
+        <div class="pro-card">
+          <strong>Future Video Generation</strong>
+          Text → full AI-generated short videos (coming soon).
+        </div>
+
+        <div class="pro-card">
+          <strong>Priority Features</strong>
+          Early access to new tools and upgrades.
+        </div>
+      </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <p>© Auto Shorts Generator</p>
+    <footer>
+      © Auto Shorts Generator — Built for creators
     </footer>
 
   </div>
+
+  <!-- JS (DOES NOT TOUCH STRIPE LOGIC) -->
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const upgradeBtn = document.getElementById("upgradeBtn");
+
+    generateBtn.addEventListener("click", async () => {
+      const topic = document.getElementById("topicInput").value.trim();
+      if (!topic) return alert("Enter a topic first.");
+
+      document.getElementById("captionsOutput").innerText = "Generating...";
+      document.getElementById("hookOutput").innerText = "Generating...";
+      document.getElementById("scriptOutput").innerText = "Generating...";
+
+      try {
+        const res = await fetch("/generate-captions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("captionsOutput").innerText = data.captions || "—";
+        document.getElementById("hookOutput").innerText = data.hook || "—";
+        document.getElementById("scriptOutput").innerText = data.script || "—";
+      } catch {
+        alert("Generation failed.");
+      }
+    });
+
+    upgradeBtn.addEventListener("click", async () => {
+      const res = await fetch("/create-checkout-session", { method: "POST" });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    });
+  </script>
 </body>
+</html>
