@@ -60,12 +60,25 @@ app.post("/generate-captions", async (req, res) => {
     if (!topic) {
       return res.status(400).json({ error: "Missing topic" });
     }
+const prompt = `
+You are a professional viral content creator.
 
-    res.json({
-      captions: `🔥 ${topic} that will blow your mind`,
-      hook: `You won’t believe this about ${topic}`,
-      script: `Here are some crazy facts about ${topic} that most people don’t know...`
-    });
+Create content for the topic: "${topic}"
+
+RETURN FORMAT:
+CAPTIONS:
+- Caption 1
+- Caption 2
+- Caption 3
+- Caption 4
+- Caption 5
+
+HOOK:
+...
+
+SCRIPT:
+...
+`;
   } catch (err) {
     console.error("Generate error:", err.message);
     res.status(500).json({ error: "Generation failed" });
