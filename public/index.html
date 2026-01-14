@@ -3,104 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <title>Auto Shorts Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --bg-main: radial-gradient(1200px at top, #1b2a4a 0%, #0b1220 45%, #060914 100%);
-      --card-bg: rgba(255,255,255,0.06);
-      --card-border: rgba(255,255,255,0.12);
-      --text-main: #e6ebf5;
-      --text-muted: #a9b1c7;
-      --accent-blue: #4ea3ff;
-      --accent-green: #67d89b;
-      --accent-purple: #8b7cff;
-      --danger: #ffb347;
+      --bg-gradient: radial-gradient(circle at top, #1f2b4a, #0b1220);
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #b9c2d3;
+      --accent-blue: #4da3ff;
+      --accent-green: #4ade80;
     }
 
     * {
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background: var(--bg-main);
+      background: var(--bg-gradient);
       color: var(--text-main);
       display: flex;
       justify-content: center;
-      padding: 40px 16px;
+      padding: 40px 20px;
     }
 
     .app-container {
       width: 100%;
-      max-width: 860px;
+      max-width: 900px;
     }
 
-    /* ---------- HEADER ---------- */
-    .header {
+    header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
-    .header h1 {
-      font-size: 2.6rem;
-      margin-bottom: 10px;
-      letter-spacing: -0.5px;
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
     }
 
-    .subtitle {
+    header p {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
-    /* ---------- NOTICE ---------- */
     .usage-box {
-      background: rgba(255, 200, 120, 0.12);
-      border: 1px solid rgba(255, 200, 120, 0.35);
-      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      padding: 14px;
       border-radius: 12px;
       text-align: center;
       margin-bottom: 24px;
-      font-size: 0.95rem;
+      color: var(--text-muted);
     }
 
-    /* ---------- CARD ---------- */
     .card {
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 24px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(12px);
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
     }
 
-    /* ---------- INPUT ---------- */
-    .generator-box h2 {
+    h2 {
       margin-top: 0;
       margin-bottom: 14px;
-      font-size: 1.4rem;
     }
 
     textarea {
       width: 100%;
       min-height: 70px;
-      resize: none;
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 12px;
       border: none;
-      outline: none;
-      background: rgba(255,255,255,0.9);
-      color: #111;
+      padding: 14px;
       font-size: 1rem;
+      resize: none;
+      outline: none;
     }
 
-    .actions {
+    .buttons {
       display: flex;
       gap: 12px;
-      margin-top: 14px;
-      flex-wrap: wrap;
+      margin-top: 16px;
     }
 
     button {
@@ -109,77 +98,58 @@
       border-radius: 14px;
       border: none;
       font-size: 1rem;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-generate {
-      background: linear-gradient(135deg, var(--accent-blue), #3c7cff);
-      color: white;
-    }
-
-    .btn-pro {
-      background: linear-gradient(135deg, var(--accent-green), #4fc08d);
-      color: #0b1220;
       font-weight: 600;
+      cursor: pointer;
     }
 
-    /* ---------- OUTPUT ---------- */
+    .generate-btn {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+
+    .upgrade-btn {
+      background: var(--accent-green);
+      color: #000;
+    }
+
     .output h3 {
-      margin-bottom: 8px;
-      letter-spacing: 0.4px;
+      margin-bottom: 6px;
     }
 
-    .output-box {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 16px;
-      color: var(--text-main);
+    .output pre {
       white-space: pre-wrap;
+      color: var(--text-muted);
       line-height: 1.5;
-      font-size: 0.95rem;
+      margin: 0;
     }
 
-    /* ---------- PRO SECTION ---------- */
-    .pro-section h2 {
-      text-align: center;
-      margin-bottom: 8px;
+    .pro-box {
+      background: linear-gradient(135deg, #2a3f6f, #1c294b);
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid var(--border);
     }
 
-    .pro-sub {
+    .pro-box h2 {
+      margin-top: 0;
+    }
+
+    .pro-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0 0;
+    }
+
+    .pro-list li {
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    footer {
       text-align: center;
       color: var(--text-muted);
-      margin-bottom: 22px;
-    }
-
-    .pro-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-
-    .pro-feature {
-      background: rgba(139,124,255,0.08);
-      border: 1px solid rgba(139,124,255,0.25);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .pro-feature h4 {
-      margin: 0 0 8px;
-      color: var(--accent-purple);
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 26px;
       font-size: 0.85rem;
-      color: var(--text-muted);
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -188,108 +158,105 @@
   <div class="app-container">
 
     <!-- HEADER -->
-    <header class="header">
+    <header>
       <h1>Auto Shorts Generator</h1>
-      <p class="subtitle">Create viral hooks, captions, and scripts — instantly.</p>
+      <p>Create viral hooks, captions, and scripts — instantly.</p>
     </header>
 
     <!-- USAGE NOTICE -->
-    <section class="usage-box">
+    <div class="usage-box">
       ⚠️ Free users get <strong>2 total generations</strong>. Upgrade to Pro for unlimited use.
-    </section>
+    </div>
 
     <!-- GENERATOR -->
-    <section class="card generator-box">
+    <div class="card">
       <h2>Create Your Short</h2>
-
       <textarea id="topicInput" placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"></textarea>
 
-      <div class="actions">
-        <button class="btn-generate" onclick="generate()">Generate Content</button>
-        <button class="btn-pro" onclick="upgrade()">Upgrade to Pro</button>
+      <div class="buttons">
+        <button class="generate-btn" onclick="generateContent()">Generate Content</button>
+        <button class="upgrade-btn" onclick="goPro()">Upgrade to Pro</button>
       </div>
-    </section>
+    </div>
 
     <!-- OUTPUT -->
-    <section class="card output">
-      <h3>CAPTIONS</h3>
-      <div id="captions" class="output-box">—</div>
+    <div class="card output">
+      <h3>Captions</h3>
+      <pre id="captions">—</pre>
+    </div>
 
-      <h3 style="margin-top:18px;">HOOK</h3>
-      <div id="hook" class="output-box">—</div>
+    <div class="card output">
+      <h3>Hook</h3>
+      <pre id="hook">—</pre>
+    </div>
 
-      <h3 style="margin-top:18px;">SCRIPT</h3>
-      <div id="script" class="output-box">—</div>
-    </section>
+    <div class="card output">
+      <h3>Script</h3>
+      <pre id="script">—</pre>
+    </div>
 
-    <!-- PRO DETAILS -->
-    <section class="card pro-section">
-      <h2>What Pro Unlocks</h2>
-      <p class="pro-sub">Built for creators who want results — not limits.</p>
+    <!-- PRO INFO -->
+    <div class="pro-box">
+      <h2>Pro Includes</h2>
+      <ul class="pro-list">
+        <li>✔ Unlimited generations</li>
+        <li>✔ Longer, higher-quality scripts</li>
+        <li>✔ Priority AI quality</li>
+        <li>✔ Future full video generation (no CapCut needed)</li>
+      </ul>
+    </div>
 
-      <div class="pro-grid">
-        <div class="pro-feature">
-          <h4>Unlimited Generations</h4>
-          <p>No caps. Generate as many hooks, scripts, and captions as you want.</p>
-        </div>
-
-        <div class="pro-feature">
-          <h4>Longer, Higher-Quality Scripts</h4>
-          <p>More depth, better pacing, and stronger retention.</p>
-        </div>
-
-        <div class="pro-feature">
-          <h4>Priority AI Quality</h4>
-          <p>Higher-quality outputs tuned for virality.</p>
-        </div>
-
-        <div class="pro-feature">
-          <h4>Future Video Creation</h4>
-          <p>Automatic short-form video generation (coming soon).</p>
-        </div>
-      </div>
-
-      <div class="footer-note">
-        Pro is designed to replace CapCut — not depend on it.
-      </div>
-    </section>
+    <footer>
+      Built for creators who want speed, quality, and results.
+    </footer>
 
   </div>
 
+  <!-- SCRIPT -->
   <script>
-    async function generate() {
+    async function generateContent() {
       const topic = document.getElementById("topicInput").value.trim();
-      if (!topic) return alert("Enter a topic first.");
+      if (!topic) return alert("Please enter a topic");
 
-      document.getElementById("captions").innerText = "Generating...";
-      document.getElementById("hook").innerText = "Generating...";
-      document.getElementById("script").innerText = "Generating...";
+      document.getElementById("captions").textContent = "Generating...";
+      document.getElementById("hook").textContent = "Generating...";
+      document.getElementById("script").textContent = "Generating...";
 
-      const res = await fetch("/generate-captions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic })
-      });
+      try {
+        const res = await fetch("/generate-captions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            topic,
+            isPro: false   // ✅ STEP 5 — FREE USER FLAG
+          })
+        });
 
-      if (!res.ok) {
-        document.getElementById("captions").innerText = "Upgrade to Pro to continue.";
-        document.getElementById("hook").innerText = "—";
-        document.getElementById("script").innerText = "—";
-        return;
+        const data = await res.json();
+
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        document.getElementById("captions").textContent = data.captions || "—";
+        document.getElementById("hook").textContent = data.hook || "—";
+        document.getElementById("script").textContent = data.script || "—";
+
+      } catch (err) {
+        alert("Something went wrong");
       }
-
-      const data = await res.json();
-      document.getElementById("captions").innerText = data.captions;
-      document.getElementById("hook").innerText = data.hook;
-      document.getElementById("script").innerText = data.script;
     }
 
-    async function upgrade() {
-      const res = await fetch("/create-checkout-session", { method: "POST" });
-      const data = await res.json();
-      window.location.href = data.url;
+    function goPro() {
+      fetch("/create-checkout-session", { method: "POST" })
+        .then(res => res.json())
+        .then(data => {
+          if (data.url) window.location.href = data.url;
+        });
     }
   </script>
-
 </body>
 </html>
