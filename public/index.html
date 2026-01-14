@@ -8,7 +8,7 @@
   <style>
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(180deg, #0f172a, #020617);
       color: #e5e7eb;
     }
@@ -26,142 +26,135 @@
     }
 
     .header h1 {
-      font-size: 36px;
+      font-size: 2.5rem;
       margin-bottom: 8px;
     }
 
     .subtitle {
-      color: #94a3b8;
-      font-size: 16px;
+      opacity: 0.8;
+      font-size: 1.1rem;
     }
 
     /* USAGE NOTICE */
     .usage-box {
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px 16px;
       margin-bottom: 28px;
+      font-size: 0.95rem;
       text-align: center;
-      font-size: 14px;
     }
 
     /* GENERATOR */
     .generator-box {
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(255, 255, 255, 0.05);
       border-radius: 16px;
       padding: 24px;
-      margin-bottom: 32px;
-      border: 1px solid rgba(148, 163, 184, 0.15);
-    }
-
-    .generator-box h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
+      margin-bottom: 36px;
     }
 
     textarea {
       width: 100%;
-      min-height: 70px;
+      min-height: 60px;
+      padding: 12px;
       border-radius: 10px;
       border: none;
-      padding: 14px;
-      font-size: 15px;
-      resize: vertical;
-      margin-bottom: 14px;
       outline: none;
+      font-size: 1rem;
+      margin-bottom: 16px;
     }
 
-    .actions {
+    .buttons {
       display: flex;
       gap: 12px;
-      flex-wrap: wrap;
+      margin-bottom: 24px;
     }
 
     button {
       flex: 1;
       padding: 14px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
-      font-size: 15px;
+      font-size: 1rem;
       cursor: pointer;
       font-weight: 600;
     }
 
-    .generate-btn {
-      background: #3b82f6;
+    #generateBtn {
+      background: #2563eb;
       color: white;
     }
 
-    .pro-btn {
-      background: #22c55e;
-      color: #022c22;
+    #upgradeBtn {
+      background: #16a34a;
+      color: white;
     }
 
     /* OUTPUT */
-    .output {
-      margin-top: 24px;
-      display: grid;
-      gap: 16px;
-    }
-
     .output-box {
-      background: rgba(30, 41, 59, 0.9);
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
     }
 
     .output-box h3 {
       margin-top: 0;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 1.1rem;
     }
 
-    .placeholder {
-      color: #94a3b8;
-      font-style: italic;
+    .output-box pre {
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
 
-    /* PRO FEATURES */
-    .pro-section {
-      margin-top: 48px;
-      background: rgba(2, 6, 23, 0.9);
-      border-radius: 16px;
+    /* PRO SECTION */
+    .pro-box {
+      background: linear-gradient(135deg, #1e293b, #020617);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
       padding: 28px;
-      border: 1px solid rgba(148, 163, 184, 0.15);
+      margin-top: 48px;
     }
 
-    .pro-section h2 {
+    .pro-box h2 {
       margin-top: 0;
       margin-bottom: 12px;
       text-align: center;
     }
 
-    .pro-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
+    .pro-list {
+      max-width: 520px;
+      margin: 0 auto 24px;
+      padding-left: 0;
+      list-style: none;
     }
 
-    .pro-card {
-      background: rgba(30, 41, 59, 0.8);
-      padding: 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.15);
-      font-size: 14px;
+    .pro-list li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
     }
 
-    .pro-card strong {
-      display: block;
-      margin-bottom: 6px;
+    .pro-list li::before {
+      content: "✔ ";
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    .pro-box button {
+      width: 100%;
+      background: #22c55e;
+      color: #022c22;
+      font-size: 1.05rem;
     }
 
     footer {
       text-align: center;
+      opacity: 0.4;
       margin-top: 60px;
-      font-size: 13px;
-      color: #64748b;
+      font-size: 0.8rem;
     }
   </style>
 </head>
@@ -173,103 +166,86 @@
     <header class="header">
       <h1>Auto Shorts Generator</h1>
       <p class="subtitle">
-        Generate viral hooks, captions, and short-form scripts — instantly.
+        Create viral hooks, captions, and scripts — instantly.
       </p>
     </header>
 
     <!-- USAGE NOTICE -->
     <section class="usage-box">
       ⚠️ Free users get <strong>2 total generations</strong>.  
-      Upgrade to Pro for unlimited content.
+      Upgrade to Pro for unlimited use.
     </section>
 
     <!-- GENERATOR -->
     <section class="generator-box">
-      <h2>Create Your Short</h2>
-
       <textarea
         id="topicInput"
-        placeholder="Enter a topic (e.g. crazy facts, conspiracy theories, AI stories)"
+        placeholder="Enter a topic (e.g. killer facts, mind-blowing history)"
       ></textarea>
 
-      <div class="actions">
-        <button class="generate-btn" id="generateBtn">
-          Generate Content
-        </button>
-        <button class="pro-btn" id="upgradeBtn">
-          Upgrade to Pro
-        </button>
+      <div class="buttons">
+        <button id="generateBtn">Generate Content</button>
+        <button id="upgradeBtn">Upgrade to Pro</button>
       </div>
 
-      <div class="output">
-        <div class="output-box">
-          <h3>Captions</h3>
-          <div id="captionsOutput" class="placeholder">Nothing generated yet.</div>
-        </div>
+      <div class="output-box">
+        <h3>Captions</h3>
+        <pre id="captionsOutput">—</pre>
+      </div>
 
-        <div class="output-box">
-          <h3>Hook</h3>
-          <div id="hookOutput" class="placeholder">Nothing generated yet.</div>
-        </div>
+      <div class="output-box">
+        <h3>Hook</h3>
+        <pre id="hookOutput">—</pre>
+      </div>
 
-        <div class="output-box">
-          <h3>Script</h3>
-          <div id="scriptOutput" class="placeholder">Nothing generated yet.</div>
-        </div>
+      <div class="output-box">
+        <h3>Script</h3>
+        <pre id="scriptOutput">—</pre>
       </div>
     </section>
 
-    <!-- PRO FEATURES -->
-    <section class="pro-section">
-      <h2>What You Get With Pro</h2>
-
-      <div class="pro-grid">
-        <div class="pro-card">
-          <strong>Unlimited Generations</strong>
-          No daily limits. Generate as much content as you want.
-        </div>
-
-        <div class="pro-card">
-          <strong>Long-Form Viral Scripts</strong>
-          30–60 second short-form scripts built for retention.
-        </div>
-
-        <div class="pro-card">
-          <strong>5 High-Conversion Captions</strong>
-          Optimized for TikTok, Shorts & Reels.
-        </div>
-
-        <div class="pro-card">
-          <strong>Advanced Hooks</strong>
-          Pattern-interrupt, curiosity-driven openers.
-        </div>
-
-        <div class="pro-card">
-          <strong>Future Video Generation</strong>
-          Text → full AI-generated short videos (coming soon).
-        </div>
-
-        <div class="pro-card">
-          <strong>Priority Features</strong>
-          Early access to new tools and upgrades.
-        </div>
-      </div>
+    <!-- PRO INFO -->
+    <section class="pro-box">
+      <h2>Pro Unlocks</h2>
+      <ul class="pro-list">
+        <li>Unlimited generations</li>
+        <li>Longer, high-retention scripts</li>
+        <li>Multiple viral captions per idea</li>
+        <li>Future video generation (AI visuals + voice)</li>
+        <li>Priority access to new features</li>
+      </ul>
+      <button id="upgradeBtn">Upgrade to Pro</button>
     </section>
 
     <footer>
-      © Auto Shorts Generator — Built for creators
+      Auto Shorts Generator • Built for creators
     </footer>
-
   </div>
 
-  <!-- JS (DOES NOT TOUCH STRIPE LOGIC) -->
+  <!-- LOGIC -->
   <script>
     const generateBtn = document.getElementById("generateBtn");
     const upgradeBtn = document.getElementById("upgradeBtn");
 
+    function getUsage() {
+      return Number(localStorage.getItem("free_generations_used") || 0);
+    }
+
+    function incrementUsage() {
+      localStorage.setItem(
+        "free_generations_used",
+        getUsage() + 1
+      );
+    }
+
     generateBtn.addEventListener("click", async () => {
       const topic = document.getElementById("topicInput").value.trim();
       if (!topic) return alert("Enter a topic first.");
+
+      if (getUsage() >= 2) {
+        alert("Free limit reached. Upgrade to Pro to continue.");
+        return;
+      }
 
       document.getElementById("captionsOutput").innerText = "Generating...";
       document.getElementById("hookOutput").innerText = "Generating...";
@@ -283,6 +259,7 @@
         });
 
         const data = await res.json();
+        incrementUsage();
 
         document.getElementById("captionsOutput").innerText = data.captions || "—";
         document.getElementById("hookOutput").innerText = data.hook || "—";
