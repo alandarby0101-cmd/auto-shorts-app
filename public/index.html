@@ -7,187 +7,198 @@
 
   <style>
     :root {
-      --bg-main: linear-gradient(135deg, #0f172a, #1e293b);
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.12);
+      --bg1: #0f172a;
+      --bg2: #020617;
+      --card: #111827;
+      --border: #1e293b;
       --accent: #6366f1;
       --accent-soft: #818cf8;
-      --text-main: #f8fafc;
-      --text-muted: #cbd5f5;
-      --danger: #f87171;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
     }
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--bg-main);
-      color: var(--text-main);
       min-height: 100vh;
-      padding: 40px 20px;
+      font-family: Inter, system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at top, var(--bg1), var(--bg2));
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
     }
 
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
+    .app {
+      width: 100%;
+      max-width: 920px;
+      display: grid;
+      gap: 28px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 40px;
     }
 
     header h1 {
-      font-size: 2.6rem;
-      font-weight: 800;
-      margin-bottom: 10px;
+      font-size: 2.4rem;
+      margin-bottom: 6px;
     }
 
     header p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
     .card {
-      background: var(--card-bg);
+      background: linear-gradient(180deg, #0b1220, var(--card));
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 28px;
-      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 26px;
+      position: relative;
     }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    input {
+    textarea {
       width: 100%;
+      min-height: 120px;
+      resize: vertical;
       padding: 14px;
       border-radius: 12px;
+      background: #020617;
+      color: var(--text);
       border: 1px solid var(--border);
-      background: rgba(0,0,0,0.3);
-      color: var(--text-main);
-      font-size: 1rem;
-    }
-
-    input::placeholder {
-      color: #94a3b8;
+      font-size: 15px;
     }
 
     .actions {
       display: flex;
-      gap: 14px;
-      margin-top: 18px;
+      gap: 12px;
       flex-wrap: wrap;
+      margin-top: 14px;
     }
 
     button {
-      padding: 14px 20px;
-      border-radius: 14px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 700;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 15px;
       cursor: pointer;
+      border: none;
     }
 
     .primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .primary:hover {
-      background: var(--accent-soft);
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: #fff;
     }
 
     .secondary {
-      background: rgba(255,255,255,0.08);
-      color: white;
+      background: transparent;
       border: 1px solid var(--border);
+      color: var(--text);
     }
 
-    .locked {
-      background: rgba(248,113,113,0.15);
-      border: 1px solid var(--danger);
-      color: #fecaca;
-      padding: 14px;
-      border-radius: 12px;
-      margin-top: 16px;
-      font-weight: 600;
+    .usage {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 10px;
     }
 
     .output h3 {
-      margin-top: 0;
+      margin-top: 20px;
       margin-bottom: 6px;
+      color: #c7d2fe;
     }
 
     .output p {
-      white-space: pre-wrap;
-      line-height: 1.6;
-      color: var(--text-muted);
+      background: #020617;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      min-height: 48px;
     }
 
-    .pro {
-      background: linear-gradient(135deg, #1e1b4b, #312e81);
-      border: 1px solid #6366f1;
+    .pro-section {
+      display: grid;
+      gap: 14px;
+      background: linear-gradient(135deg, #111827, #020617);
+      border: 1px solid #312e81;
     }
 
-    .pro h2 {
-      margin-top: 0;
+    .pro-section h2 {
+      margin: 0;
     }
 
-    .pro ul {
-      margin: 16px 0 22px;
-      padding-left: 20px;
+    .pro-list {
+      display: grid;
+      gap: 8px;
+      color: #c7d2fe;
     }
 
-    .pro li {
+    /* LOCK OVERLAY */
+    #proOverlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(15,23,42,0.95);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      z-index: 10;
+      padding: 36px;
+      text-align: center;
+    }
+
+    #proOverlay h2 {
       margin-bottom: 10px;
-      color: #e0e7ff;
+    }
+
+    #proOverlay p {
+      color: #c7d2fe;
+      margin-bottom: 22px;
     }
 
     footer {
       text-align: center;
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-top: 40px;
+      font-size: 13px;
+      color: var(--muted);
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="app">
 
+    <!-- HEADER -->
     <header>
       <h1>Auto Shorts Generator</h1>
-      <p>Create viral hooks, scripts & captions in seconds.</p>
+      <p>Create hooks, scripts & captions for viral YouTube Shorts in seconds</p>
     </header>
 
-    <!-- APP INPUT -->
+    <!-- INPUT -->
     <div class="card">
-      <label for="topicInput">Video topic</label>
-      <input
-        id="topicInput"
-        placeholder="e.g. Dark psychology facts, motivation, true crime, business tips..."
-      />
+      <textarea id="prompt" placeholder="Describe your video idea, niche, or topic…"></textarea>
 
       <div class="actions">
-        <button class="primary" onclick="generateContent()">Generate</button>
+        <button class="primary" onclick="generate()">Generate</button>
         <button class="secondary" onclick="upgrade()">Upgrade to Pro</button>
       </div>
 
-      <div id="lockNotice" class="locked" style="display:none;">
-        Free limit reached. Upgrade to Pro for unlimited access.
+      <div id="usageText" class="usage"></div>
+      <div id="lockNotice" class="usage" style="display:none;">
+        Free limit reached — upgrade to continue
       </div>
     </div>
 
     <!-- OUTPUT -->
-    <div class="card output">
+    <div class="card output" id="outputCard">
+
+      <div id="proOverlay">
+        <h2>Upgrade to Pro</h2>
+        <p>
+          You’ve used your free generations.<br>
+          Unlock unlimited hooks, scripts & captions.
+        </p>
+        <button class="primary" onclick="upgrade()">Unlock Pro</button>
+      </div>
+
       <h3>Hook</h3>
       <p id="hook">—</p>
 
@@ -198,88 +209,29 @@
       <p id="captions">—</p>
     </div>
 
-    <!-- PRO SECTION -->
-    <div class="card pro">
-      <h2>Pro Features</h2>
-      <ul>
-        <li>Unlimited generations</li>
-        <li>Long-form high-retention scripts</li>
-        <li>Advanced viral hooks</li>
-        <li>Future AI video generation (realistic & art styles)</li>
-        <li>Priority updates & features</li>
-      </ul>
-
-      <button class="primary" onclick="upgrade()">Unlock Pro</button>
+    <!-- PRO DETAILS -->
+    <div class="card pro-section">
+      <h2>What Pro Gives You</h2>
+      <div class="pro-list">
+        • Unlimited generations  
+        • Longer, higher-retention hooks & scripts  
+        • Stronger CTAs & virality triggers  
+        • Faster processing priority  
+        • Future AI video generation access  
+        • No daily limits, ever  
+      </div>
     </div>
 
     <footer>
-      © Auto Shorts Generator
+      © Auto Shorts Generator — All rights reserved
     </footer>
+
   </div>
 
+  <!-- Frontend JS hooks only -->
   <script>
-    const MAX_FREE_USES = 2;
-    let usageCount = Number(localStorage.getItem("usageCount") || 0);
-
-    function isLocked() {
-      return usageCount >= MAX_FREE_USES;
-    }
-
-    function updateLockUI() {
-      if (isLocked()) {
-        document.getElementById("lockNotice").style.display = "block";
-      }
-    }
-
-    updateLockUI();
-
-    async function generateContent() {
-      if (isLocked()) {
-        updateLockUI();
-        return;
-      }
-
-      const topic = document.getElementById("topicInput").value.trim();
-      if (!topic) return;
-
-      document.getElementById("hook").textContent = "Generating…";
-      document.getElementById("script").textContent = "Generating…";
-      document.getElementById("captions").textContent = "Generating…";
-
-      try {
-        const res = await fetch("/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic })
-        });
-
-        const data = await res.json();
-
-        document.getElementById("hook").textContent = data.hook || "—";
-        document.getElementById("script").textContent = data.script || "—";
-        document.getElementById("captions").textContent = data.captions || "—";
-
-        usageCount++;
-        localStorage.setItem("usageCount", usageCount);
-        updateLockUI();
-
-      } catch (err) {
-        document.getElementById("hook").textContent = "Error generating content.";
-        document.getElementById("script").textContent = "—";
-        document.getElementById("captions").textContent = "—";
-      }
-    }
-
-    async function upgrade() {
-      try {
-        const res = await fetch("/create-checkout-session", { method: "POST" });
-        const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
-        }
-      } catch (e) {
-        alert("Checkout unavailable. Please try again.");
-      }
+    function upgrade() {
+      window.location.href = "/create-checkout-session";
     }
   </script>
 </body>
