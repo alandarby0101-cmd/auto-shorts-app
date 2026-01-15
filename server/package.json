@@ -2,14 +2,14 @@
   "name": "auto-shorts-server",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
+    "express": "^4.22.1",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
-    "express": "^4.22.1",
-    "openai": "^6.16.0",
-    "stripe": "^14.21.0"
+    "openai": "^4.0.0"
   }
 }
