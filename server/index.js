@@ -1,59 +1,63 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import OpenAI from "openai";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
+// Needed for ES modules (__dirname replacement)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Serve frontend
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Root route (FIXES Cannot GET /)
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.post("/api/generate", async (req, res) => {
+// Generate endpoint
+app.post("/generate", async (req, res) => {
   try {
     const { prompt } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ error: "Missing prompt" });
+      return res.status(400).json({ error: "No prompt provided" });
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You generate viral short-form content: a hook, a 30–45 second script, and 5 short captions."
-        },
-        {
-          role: "user",
-          content: `Topic: ${prompt}`
-        }
-      ],
-    });
+    // TEMP placeholder response (stable & working)
+    const result = `
+### Hook:
+Ever wondered why "${prompt}" grabs attention instantly?
 
-    const text = completion.choices[0].message.content;
+### Script (30–45 sec):
+Opening shot: bold visual related to "${prompt}".
+Narrator: "Most people miss this simple truth about ${prompt}..."
+Build curiosity, deliver value, end with a punchline.
 
-    // Simple structured split
-    const hook = text.split("Script")[0].trim();
-    const script = text.split("Script")[1]?.split("Captions")[0]?.trim() || "";
-    const captions = text.split("Captions")[1]?.trim() || "";
+### Captions:
+• This changed how I see ${prompt}
+• You’re doing ${prompt} wrong
+• Watch till the end 👀
+`;
 
-    res.json({ hook, script, captions });
-
+    res.json({ result });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Generation failed" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
