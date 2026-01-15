@@ -2,27 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AutoShorts AI</title>
+  <title>AutoShorts AI – Viral Shorts Generator</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/favicon.png" />
 
-  <!-- Meta -->
+  <!-- Basic SEO -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generate viral hooks, scripts, and captions for TikTok, Reels, and Shorts in seconds." />
 
-  <!-- Styles (unchanged, keep yours if you already have a CSS file) -->
   <style>
     body {
       margin: 0;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(135deg, #0f172a, #020617);
       color: #e5e7eb;
     }
 
     .container {
       max-width: 900px;
-      margin: 60px auto;
-      padding: 20px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      width: 42px;
+      height: 42px;
     }
 
     h1 {
@@ -30,37 +42,37 @@
       margin-bottom: 10px;
     }
 
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+
     input {
       width: 100%;
       padding: 14px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: none;
-      margin-bottom: 12px;
       font-size: 1rem;
+      margin-bottom: 14px;
     }
 
     button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
       background: linear-gradient(90deg, #38bdf8, #22d3ee);
       color: #020617;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
       font-weight: 600;
-      width: 100%;
-      font-size: 1rem;
+      cursor: pointer;
     }
 
     button:hover {
       opacity: 0.9;
-    }
-
-    .output {
-      margin-top: 30px;
-      background: #020617;
-      border-radius: 12px;
-      padding: 20px;
-      white-space: pre-wrap;
     }
 
     .error {
@@ -68,75 +80,166 @@
       margin-top: 10px;
     }
 
-    section {
-      margin-top: 80px;
+    .output h3 {
+      margin-bottom: 6px;
+      color: #38bdf8;
+    }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      padding: 14px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+    }
+
+    .features, .pro {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .feature, .pro-item {
+      background: rgba(255,255,255,0.05);
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    .feature strong, .pro-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #f8fafc;
+    }
+
+    .upgrade {
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      opacity: 0.6;
+      font-size: 0.9rem;
+      margin-top: 40px;
     }
   </style>
 </head>
-
 <body>
+
   <div class="container">
-    <h1>Generate Viral Shorts Content</h1>
-    <p>Turn any idea into scroll-stopping hooks, scripts, and captions in seconds.</p>
 
-    <input id="prompt" placeholder="Enter a topic (e.g. horses, motivation, fitness)" />
-    <button onclick="generate()">Generate</button>
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="/logo.png" alt="AutoShorts AI Logo" />
+      <strong>AutoShorts AI</strong>
+    </div>
 
-    <div id="error" class="error"></div>
-    <div id="output" class="output"></div>
+    <!-- HERO / GENERATE -->
+    <div class="card">
+      <h1>Generate Viral Shorts Content</h1>
+      <p>Turn any idea into scroll-stopping hooks, scripts, and captions in seconds.</p>
 
-    <!-- WHY USE SECTION -->
-    <section>
+      <input id="prompt" placeholder="Enter a topic (e.g. gym motivation, AI, mindset)" />
+      <button onclick="generate()">Generate</button>
+
+      <div id="error" class="error"></div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div id="output" class="card output" style="display:none;">
+      <h3>Hook</h3>
+      <pre id="hook"></pre>
+
+      <h3>Short Script</h3>
+      <pre id="script"></pre>
+
+      <h3>Captions</h3>
+      <pre id="captions"></pre>
+    </div>
+
+    <!-- WHY USE -->
+    <div class="card">
       <h2>Why creators use AutoShorts AI</h2>
-      <ul>
-        <li>⚡ Built for virality</li>
-        <li>🧠 AI trained for TikTok, Reels & Shorts</li>
-        <li>⏱ Save hours per video</li>
-      </ul>
-    </section>
+      <div class="features">
+        <div class="feature">
+          <strong>⚡ Built for virality</strong>
+          Optimised for retention, watch time, and engagement.
+        </div>
+        <div class="feature">
+          <strong>🧠 Trained for Shorts</strong>
+          Specifically built for TikTok, Reels, and YouTube Shorts.
+        </div>
+        <div class="feature">
+          <strong>⏱ Save hours per video</strong>
+          Go from idea to script in under 10 seconds.
+        </div>
+      </div>
+    </div>
 
-    <!-- PRO SECTION (UNCHANGED STRUCTURE) -->
-    <section>
-      <h2>Upgrade to Pro</h2>
-      <p>Unlimited generations, advanced hooks, and priority features.</p>
-      <button>Upgrade to Pro</button>
-    </section>
+    <!-- PRO -->
+    <div class="card">
+      <h2>What Pro Unlocks</h2>
+      <div class="pro">
+        <div class="pro-item">
+          <strong>Unlimited generations</strong>
+          No caps. Create as much as you want.
+        </div>
+        <div class="pro-item">
+          <strong>Advanced hooks</strong>
+          Higher-converting, curiosity-driven openers.
+        </div>
+        <div class="pro-item">
+          <strong>Priority features</strong>
+          Early access to new tools and updates.
+        </div>
+      </div>
+
+      <div class="upgrade">
+        <button onclick="window.location.href='https://buy.stripe.com/3cIfZigxU2WWdik30r5kk01'">
+          Upgrade to Pro
+        </button>
+      </div>
+    </div>
+
+    <footer>
+      © AutoShorts AI
+    </footer>
+
   </div>
 
-  <script>
-    async function generate() {
-      const promptInput = document.getElementById("prompt");
-      const output = document.getElementById("output");
-      const errorDiv = document.getElementById("error");
+<script>
+async function generate() {
+  const prompt = document.getElementById("prompt").value.trim();
+  const errorEl = document.getElementById("error");
+  const outputEl = document.getElementById("output");
 
-      errorDiv.textContent = "";
-      output.textContent = "";
+  errorEl.textContent = "";
+  outputEl.style.display = "none";
 
-      const prompt = promptInput.value.trim();
-      if (!prompt) {
-        errorDiv.textContent = "Please enter a topic.";
-        return;
-      }
+  if (!prompt) {
+    errorEl.textContent = "Please enter a topic.";
+    return;
+  }
 
-      try {
-        const res = await fetch("/api/generate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ prompt })
-        });
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
 
-        if (!res.ok) {
-          throw new Error("Server error");
-        }
+    if (!res.ok) throw new Error("Server error");
 
-        const data = await res.json();
-        output.textContent = data.output;
-      } catch (err) {
-        errorDiv.textContent = "Server error";
-      }
-    }
-  </script>
+    const data = await res.json();
+
+    document.getElementById("hook").textContent = data.hook;
+    document.getElementById("script").textContent = data.script;
+    document.getElementById("captions").textContent = data.captions;
+
+    outputEl.style.display = "block";
+  } catch (err) {
+    errorEl.textContent = "Server error. Try again.";
+  }
+}
+</script>
+
 </body>
 </html>

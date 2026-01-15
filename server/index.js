@@ -1,43 +1,27 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+import cors from "cors";
 import OpenAI from "openai";
-import path from "path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Fix __dirname for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "../public")));
-
-// Root route (fixes Cannot GET /)
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
-
-// OpenAI client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Generate endpoint
 app.post("/api/generate", async (req, res) => {
   try {
-    const { topic } = req.body;
+    const { prompt } = req.body;
 
-    if (!topic) {
-      return res.status(400).json({ error: "Topic is required" });
+    if (!prompt) {
+      return res.status(400).json({ error: "Missing prompt" });
     }
 
     const completion = await openai.chat.completions.create({
@@ -46,29 +30,30 @@ app.post("/api/generate", async (req, res) => {
         {
           role: "system",
           content:
-            "You create viral YouTube Shorts hooks, short scripts, and captions."
+            "You generate viral short-form content: a hook, a 30–45 second script, and 5 short captions."
         },
         {
           role: "user",
-          content: `Create:
-1) A strong hook
-2) A short script (30–45 sec)
-3) 3 viral captions
-Topic: ${topic}`
+          content: `Topic: ${prompt}`
         }
-      ]
+      ],
     });
 
     const text = completion.choices[0].message.content;
 
-    res.json({ output: text });
+    // Simple structured split
+    const hook = text.split("Script")[0].trim();
+    const script = text.split("Script")[1]?.split("Captions")[0]?.trim() || "";
+    const captions = text.split("Captions")[1]?.trim() || "";
+
+    res.json({ hook, script, captions });
+
   } catch (err) {
-    console.error("Generate error:", err);
+    console.error(err);
     res.status(500).json({ error: "Generation failed" });
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
