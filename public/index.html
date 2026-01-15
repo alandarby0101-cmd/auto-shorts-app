@@ -2,160 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AutoShorts AI – Viral Shorts Generator</title>
+  <title>Auto Shorts AI</title>
 
   <!-- FAVICON -->
-  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAMFBMVEUAAAD///////////////////////////////////////////////////////////////////8zU9D6AAAADHRSTlMAAQIDBAUGBwgJCgsMDV9hRAAAAEpJREFUGNNjYMAFGBgYGRkZGJhYWBhYWFiY2Fg4OLi4uDh4+Pj4BAYGBgYGJgYGBgYmJiYGBgYGJiYGBgYGBgYGAABBgAALWQDKk3aMcAAAAASUVORK5CYII=" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- META -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg: #0b1020;
-      --card: #121933;
-      --accent: #4fd1ff;
-      --accent-2: #7c7cff;
-      --text: #e6ebff;
-      --muted: #9aa3c7;
-      --border: rgba(255,255,255,0.08);
-    }
-
-    * { box-sizing: border-box; }
-
     body {
+      font-family: 'Inter', sans-serif;
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(1200px 600px at top, #131c3a, var(--bg));
-      color: var(--text);
-      line-height: 1.6;
+      background: linear-gradient(180deg, #0f172a, #020617);
+      color: #e5e7eb;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 32px 20px 80px;
-    }
-
-    /* HEADER */
     header {
+      padding: 24px;
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 40px;
+      gap: 12px;
+      border-bottom: 1px solid #1e293b;
     }
 
-    .logo {
-      width: 42px;
-      height: 42px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: #0b1020;
+    header img {
+      height: 36px;
     }
 
-    .brand {
+    header h1 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 32px 20px;
+    }
+
+    .card {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      margin-top: 0;
       font-size: 22px;
-      font-weight: 700;
     }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(180deg, #151d3f, #0f1530);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 32px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-      margin-bottom: 50px;
-    }
-
-    .hero h1 {
-      font-size: 34px;
-      margin: 0 0 8px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      margin-bottom: 24px;
-    }
-
-    input {
+    textarea {
       width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #0b1020;
-      color: var(--text);
-      font-size: 16px;
-      margin-bottom: 14px;
+      min-height: 120px;
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: #e5e7eb;
+      padding: 12px;
+      font-size: 14px;
     }
 
     button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
       border: none;
-      font-size: 16px;
-      font-weight: 600;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 10px;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #0b1020;
+      font-weight: 600;
+      margin-top: 14px;
     }
 
-    button:hover {
-      opacity: 0.92;
+    button.secondary {
+      background: #020617;
+      border: 1px solid #334155;
     }
 
-    #error {
-      margin-top: 12px;
-      color: #ff6b6b;
-    }
-
-    /* OUTPUT */
-    #output {
-      display: none;
-      margin-top: 32px;
+    .outputs {
       display: grid;
-      gap: 18px;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 24px;
     }
 
-    .output-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
+    .output-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 16px;
     }
 
-    .output-card h3 {
+    .output-box h3 {
       margin-top: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-size: 16px;
     }
 
     .copy-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--accent);
+      margin-top: 10px;
+      background: #020617;
+      border: 1px solid #334155;
+      font-size: 12px;
       padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    /* SECTIONS */
-    .section {
-      background: linear-gradient(180deg, #141c3a, #0d132b);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 32px;
-      margin-top: 60px;
-    }
-
-    .section h2 {
-      margin-top: 0;
-      margin-bottom: 24px;
     }
 
     .features {
@@ -165,159 +118,134 @@
     }
 
     .feature {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 20px;
-      border: 1px solid var(--border);
-    }
-
-    /* PRO */
-    .pro-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .pro-card img {
-      width: 100%;
+      background: #020617;
+      border: 1px solid #1e293b;
       border-radius: 12px;
-      margin-bottom: 12px;
+      padding: 20px;
     }
 
-    .price {
-      font-size: 26px;
-      font-weight: 800;
-      margin: 24px 0 10px;
+    .feature img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
 
     footer {
       text-align: center;
-      color: var(--muted);
-      margin-top: 80px;
+      padding: 24px;
+      color: #64748b;
+      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
 
-    <!-- HEADER -->
-    <header>
-      <div class="logo">A</div>
-      <div class="brand">AutoShorts AI</div>
-    </header>
+<header>
+  <img src="/logo.png" alt="Auto Shorts AI Logo">
+  <h1>Auto Shorts AI</h1>
+</header>
 
-    <!-- HERO -->
-    <section class="hero">
-      <h1>Generate Viral Shorts Content</h1>
-      <p>Turn any idea into scroll-stopping hooks, scripts, and captions — ready for TikTok, Reels, and Shorts.</p>
+<main>
 
-      <input id="prompt" placeholder="Enter a topic (e.g. gym motivation, AI facts, golf tips)" />
-      <button onclick="generate()">Generate</button>
+  <!-- GENERATOR -->
+  <div class="card">
+    <h2>Generate Viral Shorts Content</h2>
+    <textarea id="prompt" placeholder="Enter your video topic or idea..."></textarea>
+    <button id="generateBtn">Generate Content</button>
 
-      <div id="error"></div>
-
-      <div id="output">
-        <div class="output-card">
-          <h3>Hook <button class="copy-btn" onclick="copyText('hook')">Copy</button></h3>
-          <div id="hook"></div>
-        </div>
-
-        <div class="output-card">
-          <h3>Script <button class="copy-btn" onclick="copyText('script')">Copy</button></h3>
-          <div id="script"></div>
-        </div>
-
-        <div class="output-card">
-          <h3>Captions <button class="copy-btn" onclick="copyText('captions')">Copy</button></h3>
-          <div id="captions"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY -->
-    <section class="section">
-      <h2>Why creators use AutoShorts AI</h2>
-      <div class="features">
-        <div class="feature">⚡ Built for virality & retention</div>
-        <div class="feature">🧠 Trained for TikTok, Reels & Shorts</div>
-        <div class="feature">⏱ Save hours per video</div>
-      </div>
-    </section>
-
-    <!-- PRO -->
-    <section class="section">
-      <h2>What Pro Unlocks</h2>
-
-      <div class="pro-grid">
-        <div class="pro-card">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800" />
-          <strong>Unlimited Generations</strong>
-          <p>Create as much content as you want.</p>
-        </div>
-
-        <div class="pro-card">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800" />
-          <strong>Stronger Hooks</strong>
-          <p>Advanced AI prompts for higher retention.</p>
-        </div>
-
-        <div class="pro-card">
-          <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=800" />
-          <strong>Long-Form Scripts</strong>
-          <p>30–60 second Shorts-ready scripts.</p>
-        </div>
+    <div class="outputs">
+      <div class="output-box">
+        <h3>Hook</h3>
+        <div id="hook"></div>
+        <button class="copy-btn" onclick="copyText('hook')">Copy</button>
       </div>
 
-      <div class="price">€19 / month</div>
-      <button onclick="window.location.href='/create-checkout-session'">
-        Upgrade to Pro
-      </button>
-    </section>
+      <div class="output-box">
+        <h3>Script</h3>
+        <div id="script"></div>
+        <button class="copy-btn" onclick="copyText('script')">Copy</button>
+      </div>
 
-    <footer>
-      © AutoShorts AI — Built for creators
-    </footer>
-
+      <div class="output-box">
+        <h3>Captions</h3>
+        <div id="captions"></div>
+        <button class="copy-btn" onclick="copyText('captions')">Copy</button>
+      </div>
+    </div>
   </div>
 
+  <!-- WHY USE -->
+  <div class="card">
+    <h2>Why Use Auto Shorts AI?</h2>
+    <div class="features">
+      <div class="feature">
+        <h4>Designed for Shorts</h4>
+        <p>Every hook, script and caption is optimised for TikTok, Reels and YouTube Shorts.</p>
+      </div>
+      <div class="feature">
+        <h4>Psychology-Based Hooks</h4>
+        <p>We use scroll-stopping psychology to keep viewers watching past 3 seconds.</p>
+      </div>
+      <div class="feature">
+        <h4>Speed & Consistency</h4>
+        <p>Create daily viral-ready content in seconds without burnout.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRO -->
+  <div class="card">
+    <h2>Pro Unlocks</h2>
+    <div class="features">
+      <div class="feature">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c">
+        <h4>Unlimited Generations</h4>
+        <p>No limits. Generate as much content as you want.</p>
+      </div>
+      <div class="feature">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
+        <h4>Longer Scripts</h4>
+        <p>Full storytelling scripts designed to maximise retention.</p>
+      </div>
+      <div class="feature">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+        <h4>Future AI Video Engine</h4>
+        <p>Coming soon: generate full AI videos automatically.</p>
+      </div>
+    </div>
+
+    <br>
+    <button onclick="window.location.href='https://buy.stripe.com/3cIfZigxU2WWdik30r5kk01'">
+      Upgrade to Pro — €19.99 / month
+    </button>
+  </div>
+
+</main>
+
+<footer>
+  © 2026 Auto Shorts AI — Built for creators who want growth.
+</footer>
+
 <script>
-async function generate() {
-  const prompt = document.getElementById("prompt").value.trim();
-  const errorEl = document.getElementById("error");
-  const output = document.getElementById("output");
-
-  errorEl.textContent = "";
-  output.style.display = "none";
-
-  if (!prompt) {
-    errorEl.textContent = "Please enter a topic.";
-    return;
-  }
-
-  try {
-    const res = await fetch("/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+  async function generate() {
+    const prompt = document.getElementById('prompt').value;
+    const res = await fetch('/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
-
     const data = await res.json();
-
-    document.getElementById("hook").innerText = data.hook || data.result;
-    document.getElementById("script").innerText = data.script || data.result;
-    document.getElementById("captions").innerText = data.captions || data.result;
-
-    output.style.display = "grid";
-  } catch {
-    errorEl.textContent = "Server error.";
+    document.getElementById('hook').innerText = data.hook;
+    document.getElementById('script').innerText = data.script;
+    document.getElementById('captions').innerText = data.captions;
   }
-}
 
-function copyText(id) {
-  const text = document.getElementById(id).innerText;
-  navigator.clipboard.writeText(text);
-}
+  document.getElementById('generateBtn').onclick = generate;
+
+  function copyText(id) {
+    navigator.clipboard.writeText(document.getElementById(id).innerText);
+  }
 </script>
 
 </body>

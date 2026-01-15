@@ -34,29 +34,48 @@ app.post("/generate", async (req, res) => {
       return res.status(400).json({ error: "No prompt provided" });
     }
 
-    // TEMP placeholder response (stable & working)
-    const result = `
-### Hook:
-Ever wondered why "${prompt}" grabs attention instantly?
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are AutoShorts AI.
 
-### Script (30–45 sec):
-Opening shot: bold visual related to "${prompt}".
-Narrator: "Most people miss this simple truth about ${prompt}..."
-Build curiosity, deliver value, end with a punchline.
+Generate VIRAL short-form content.
 
-### Captions:
-• This changed how I see ${prompt}
-• You’re doing ${prompt} wrong
-• Watch till the end 👀
-`;
+Return STRICT JSON ONLY with:
+- hook: array of 2–3 strong hooks
+- script: 45–60 second detailed script with narration + scene cues
+- captions: array of 8–12 TikTok-style captions
 
-    res.json({ result });
+Rules:
+- Do NOT repeat content
+- Do NOT shorten
+- Do NOT include markdown
+- JSON only
+`
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      temperature: 0.9
+    });
+
+    const raw = completion.choices[0].message.content;
+
+    const parsed = JSON.parse(raw);
+
+    res.json(parsed);
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    console.error("Generate error:", err);
+    res.status(500).json({ error: "Generation failed" });
   }
 });
-
+    
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
