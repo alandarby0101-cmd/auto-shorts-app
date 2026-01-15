@@ -1,57 +1,83 @@
 import express from "express";
-import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// --------------------
+// Setup
+// --------------------
 const app = express();
-app.use(cors());
+const PORT = process.env.PORT || 10000;
+
+// Fix __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// --------------------
+// Middleware
+// --------------------
 app.use(express.json());
 
-app.post("/generate", async (req, res) => {
-  try {
-    const { idea } = req.body;
+// ✅ Serve frontend files
+app.use(express.static(path.join(__dirname, "../public")));
 
-    if (!idea) {
-      return res.status(400).json({ error: "No idea provided" });
+// --------------------
+// Homepage route
+// --------------------
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
+
+// --------------------
+// Generate content endpoint
+// --------------------
+app.post("/api/generate", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+
+    if (!prompt) {
+      return res.status(400).json({ error: "Prompt is required" });
     }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
           {
-            role: "system",
-            content:
-              "You generate viral hooks, short-form scripts, and captions for social media.",
-          },
-          {
             role: "user",
-            content: `Create a hook, a short script, and 3 captions about: ${idea}`,
-          },
-        ],
-      }),
+            content: `Create:
+1) A viral hook
+2) A short video script
+3) 5 engaging captions
+
+Topic: ${prompt}`
+          }
+        ]
+      })
     });
 
     const data = await response.json();
-    const text = data.choices[0].message.content;
 
-    const [hook, script, captions] = text.split("\n\n");
+    if (!data.choices || !data.choices[0]) {
+      return res.status(500).json({ error: "AI response failed" });
+    }
 
-    res.json({
-      hook: hook || "",
-      script: script || "",
-      captions: captions || "",
-    });
+    const output = data.choices[0].message.content;
+
+    res.json({ output });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Generation failed" });
+    console.error("Generate error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-const PORT = process.env.PORT || 3000;
+// --------------------
+// Start server
+// --------------------
 app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log(`Server running on port ${PORT}`);
 });
