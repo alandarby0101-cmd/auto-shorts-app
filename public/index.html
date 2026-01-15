@@ -5,75 +5,111 @@
   <title>Auto Shorts AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Favicon (temporary text-based, logo comes next) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <!-- Favicon (temporary – we’ll replace with real logo next) -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
   <style>
     :root {
       --bg: #0b1220;
-      --panel: #111a2e;
-      --panel-soft: #0f1a33;
-      --border: #24345a;
-      --primary: #4fd1ff;
-      --text: #e6edff;
-      --muted: #9fb3d9;
+      --panel: #101a33;
+      --panel-soft: #0f1b33;
+      --border: #1e2a4a;
+      --text: #e6ecff;
+      --muted: #a9b6e8;
+      --accent: #6cf2ff;
+      --accent-2: #7aa2ff;
+      --danger: #ff6b6b;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 600px at top, #14224a, var(--bg));
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      background: radial-gradient(1200px 600px at top, #101a33, var(--bg));
       color: var(--text);
     }
 
     .container {
-      max-width: 960px;
+      max-width: 1000px;
       margin: auto;
-      padding: 48px 20px 80px;
+      padding: 60px 20px 90px;
     }
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 8px;
+    /* ---------- HERO ---------- */
+
+    .hero {
+      text-align: center;
+      margin-bottom: 60px;
     }
 
-    h2 {
-      margin: 40px 0 16px;
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(108,242,255,0.12);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 16px;
     }
 
-    p {
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
       color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto;
     }
 
-    .panel {
+    /* ---------- CARDS ---------- */
+
+    .card {
       background: linear-gradient(180deg, var(--panel), var(--panel-soft));
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-top: 24px;
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
     input {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
       border: 1px solid var(--border);
-      background: #0c1733;
+      background: #0b1429;
       color: var(--text);
       font-size: 16px;
     }
 
     button {
-      margin-top: 14px;
-      padding: 14px 18px;
-      border-radius: 12px;
       border: none;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
       cursor: pointer;
-      font-weight: 600;
-      background: linear-gradient(135deg, #4fd1ff, #7cf0ff);
-      color: #04131f;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #07111f;
     }
 
     button.secondary {
@@ -82,42 +118,105 @@
       color: var(--text);
     }
 
-    .note {
-      margin-top: 8px;
-      font-size: 14px;
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      font-size: 13px;
       color: var(--muted);
+      margin-top: 8px;
     }
 
-    .output-box {
-      background: #0c1733;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      min-height: 56px;
-      white-space: pre-wrap;
+    .error {
+      color: var(--danger);
+      margin-top: 10px;
+      font-weight: 600;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
+    /* ---------- OUTPUT ---------- */
+
+    .output h3 {
+      margin-top: 24px;
+      color: var(--accent);
     }
 
-    .feature {
-      background: #0c1733;
-      border: 1px solid var(--border);
-      border-radius: 14px;
+    .output p {
+      background: #0b1429;
       padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      white-space: pre-wrap;
+      min-height: 52px;
     }
+
+    /* ---------- WHY SECTION ---------- */
+
+    .why {
+      margin-top: 80px;
+    }
+
+    .why h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 36px;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .why-card {
+      background: linear-gradient(180deg, #0f1a33, #0c162b);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .why-card h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .why-card p {
+      font-size: 15px;
+    }
+
+    /* ---------- PRO SECTION ---------- */
 
     .pro {
-      border: 2px solid #4fd1ff;
-      background: linear-gradient(180deg, #0f2447, #0b1733);
+      margin-top: 90px;
+      text-align: center;
     }
 
-    .center {
-      text-align: center;
+    .pro h2 {
+      font-size: 34px;
+      margin-bottom: 16px;
+    }
+
+    .pro-box {
+      max-width: 640px;
+      margin: auto;
+      background: linear-gradient(180deg, #121f3d, #0f1b33);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px;
+    }
+
+    .pro ul {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+    }
+
+    .pro li {
+      margin-bottom: 12px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -126,100 +225,98 @@
   <div class="container">
 
     <!-- HERO -->
-    <h1>Auto Shorts AI</h1>
-    <p>Create viral hooks, scripts & captions in seconds.</p>
-
-    <!-- GENERATE -->
-    <div class="panel">
-      <h2>Generate Content</h2>
-      <p>Describe your video idea and we’ll do the rest.</p>
-
-      <input id="topicInput" placeholder="e.g. Dark psychology facts" />
-      <button id="generateBtn">Generate</button>
-      <p class="note">Free users get 2 generations. Pro unlocks unlimited.</p>
-      <p id="error" style="color:#ff8a8a;"></p>
+    <div class="hero">
+      <div class="badge">Built for viral short-form</div>
+      <h1><span>Auto Shorts AI</span></h1>
+      <p>Create scroll-stopping hooks, scripts, and captions in seconds — engineered for TikTok, Reels & Shorts.</p>
     </div>
 
-    <!-- OUTPUTS -->
-    <div class="panel">
-      <h2>Hook</h2>
-      <div id="hookOutput" class="output-box">—</div>
+    <!-- GENERATOR -->
+    <div class="card">
+      <label>Video topic</label>
+      <input id="topicInput" placeholder="e.g. killer facts, dark psychology, side hustles" />
 
-      <h2>Script</h2>
-      <div id="scriptOutput" class="output-box">—</div>
+      <div class="row">
+        <button id="generateBtn">Generate</button>
+        <button class="secondary" onclick="document.getElementById('pro').scrollIntoView({behavior:'smooth'})">
+          Upgrade to Pro
+        </button>
+      </div>
 
-      <h2>Captions</h2>
-      <div id="captionsOutput" class="output-box">—</div>
+      <div class="hint">Free users get 2 generations. Pro unlocks unlimited.</div>
+      <div id="errorEl" class="error"></div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="card output">
+      <h3>Hook</h3>
+      <p id="hookOutput">—</p>
+
+      <h3>Script</h3>
+      <p id="scriptOutput">—</p>
+
+      <h3>Captions</h3>
+      <p id="captionsOutput">—</p>
     </div>
 
     <!-- WHY -->
-    <h2>Why creators use Auto Shorts AI</h2>
-    <div class="grid">
-      <div class="feature">
-        <strong>Built for algorithms</strong>
-        <p>Every hook is engineered to stop the scroll.</p>
+    <section class="why">
+      <h2>Why creators use Auto Shorts AI</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <h3>Built for algorithms</h3>
+          <p>Every hook and caption is structured to maximize retention, rewatches, and completion rate.</p>
+        </div>
+        <div class="why-card">
+          <h3>No creative burnout</h3>
+          <p>Never stare at a blank screen again. Generate unlimited ideas on demand.</p>
+        </div>
+        <div class="why-card">
+          <h3>Made for speed</h3>
+          <p>From idea to post-ready content in under 60 seconds.</p>
+        </div>
       </div>
-      <div class="feature">
-        <strong>No creative burnout</strong>
-        <p>Never stare at a blank screen again.</p>
-      </div>
-      <div class="feature">
-        <strong>Fast execution</strong>
-        <p>From idea to publish-ready in under 60 seconds.</p>
-      </div>
-    </div>
+    </section>
 
     <!-- PRO -->
-    <div id="pro" class="panel pro">
-      <h2>What Pro Unlocks</h2>
-      <div class="grid">
-        <div class="feature">
-          <strong>Unlimited generations</strong>
-          <p>No daily limits. Create endlessly.</p>
-        </div>
-        <div class="feature">
-          <strong>Stronger hooks</strong>
-          <p>More aggressive, high-retention openings.</p>
-        </div>
-        <div class="feature">
-          <strong>Longer scripts</strong>
-          <p>Optimized pacing for Shorts & Reels.</p>
-        </div>
+    <section id="pro" class="pro">
+      <h2>Unlock Pro</h2>
+      <div class="pro-box">
+        <p>For creators who want growth without limits.</p>
+        <ul>
+          <li>🚀 Unlimited generations</li>
+          <li>🧠 Stronger viral hooks</li>
+          <li>📈 Optimized captions for reach</li>
+          <li>⚡ Priority performance</li>
+        </ul>
+        <button>Upgrade to Pro (Coming Soon)</button>
       </div>
-
-      <div class="center">
-        <button class="secondary" onclick="document.getElementById('pro').scrollIntoView({behavior:'smooth'})">
-          Upgrade to Pro (Coming Soon)
-        </button>
-      </div>
-    </div>
+    </section>
 
   </div>
 
-  <!-- SCRIPT -->
   <script>
     const generateBtn = document.getElementById("generateBtn");
     const topicInput = document.getElementById("topicInput");
-
     const hookOutput = document.getElementById("hookOutput");
     const scriptOutput = document.getElementById("scriptOutput");
     const captionsOutput = document.getElementById("captionsOutput");
-    const errorEl = document.getElementById("error");
+    const errorEl = document.getElementById("errorEl");
 
     generateBtn.addEventListener("click", async () => {
+      errorEl.textContent = "";
+      hookOutput.textContent = "—";
+      scriptOutput.textContent = "—";
+      captionsOutput.textContent = "—";
+
       const topic = topicInput.value.trim();
       if (!topic) {
         errorEl.textContent = "Please enter a topic.";
         return;
       }
 
-      errorEl.textContent = "";
-      hookOutput.textContent = "Generating...";
-      scriptOutput.textContent = "Generating...";
-      captionsOutput.textContent = "Generating...";
-
       try {
-        const res = await fetch("/generate", {
+        const res = await fetch("/generate-captions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic })
@@ -229,24 +326,16 @@
 
         if (data.error) {
           errorEl.textContent = data.error;
-          hookOutput.textContent = "—";
-          scriptOutput.textContent = "—";
-          captionsOutput.textContent = "—";
           return;
         }
 
         hookOutput.textContent = data.hook || "—";
         scriptOutput.textContent = data.script || "—";
-        captionsOutput.textContent = (data.captions || []).join("\n");
-
-      } catch (err) {
-        errorEl.textContent = "Server error.";
-        hookOutput.textContent = "—";
-        scriptOutput.textContent = "—";
-        captionsOutput.textContent = "—";
+        captionsOutput.textContent = data.captions?.join("\n") || "—";
+      } catch {
+        errorEl.textContent = "Server error. Please try again.";
       }
     });
   </script>
-
 </body>
 </html>
