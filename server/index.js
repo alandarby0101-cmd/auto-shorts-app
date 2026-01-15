@@ -1,5 +1,5 @@
 import express from "express";
-import fetch from "node-fetch";
+const response = await fetch("http://api.openai.com/..."):;
 import cors from "cors";
 import dotenv from "dotenv";
 
