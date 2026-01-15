@@ -8,12 +8,11 @@
   <style>
     :root {
       --bg: #0b1220;
-      --card: #121a2f;
-      --accent: #6ee7ff;
-      --accent-2: #7c7cff;
-      --text: #e5edff;
+      --card: #111a2e;
+      --accent: #5ddcff;
+      --accent2: #c77dff;
+      --text: #ffffff;
       --muted: #9aa4bf;
-      --border: rgba(255,255,255,0.08);
     }
 
     * {
@@ -23,14 +22,14 @@
 
     body {
       margin: 0;
-      background: radial-gradient(circle at top, #121a2f, #070b16);
+      background: radial-gradient(circle at top, #162042, #0b1220);
       color: var(--text);
     }
 
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px 80px;
     }
 
     /* HERO */
@@ -47,59 +46,54 @@
     }
 
     .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text;
-      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero p {
       font-size: 18px;
       color: var(--muted);
-      max-width: 640px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
     /* CARD */
     .card {
-      background: linear-gradient(180deg, #131c33, #0f162b);
-      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #151f3d, #0f1730);
       border-radius: 18px;
-      padding: 26px;
+      padding: 28px;
       margin-bottom: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
     }
 
     textarea {
       width: 100%;
-      background: #0b1220;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      color: var(--text);
-      resize: none;
-      min-height: 90px;
-      font-size: 15px;
-    }
-
-    textarea::placeholder {
-      color: var(--muted);
+      min-height: 100px;
+      background: #0c1430;
+      border: 1px solid #223066;
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+      font-size: 16px;
+      resize: vertical;
     }
 
     .btn {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #020617;
+      margin-top: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       border: none;
-      padding: 14px 22px;
-      font-weight: 800;
-      border-radius: 14px;
+      border-radius: 12px;
+      padding: 14px 26px;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
-      font-size: 15px;
-    }
-
-    .btn.secondary {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
+      color: #020617;
     }
 
     .btn:disabled {
@@ -107,32 +101,25 @@
       cursor: not-allowed;
     }
 
-    .hint {
-      font-size: 13px;
+    .note {
+      font-size: 14px;
       color: var(--muted);
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
-    /* OUTPUT */
-    .output h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-    }
-
-    .output-box {
-      background: #0b1220;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      min-height: 70px;
+    .output {
+      background: #0c1430;
+      border: 1px solid #223066;
+      border-radius: 12px;
+      padding: 14px;
+      min-height: 60px;
       color: var(--text);
-      white-space: pre-wrap;
     }
 
-    /* PRO */
+    /* PRO CARD */
     .pro {
       text-align: center;
-      padding: 30px;
+      background: linear-gradient(180deg, #1b2b6f, #121a3b);
     }
 
     .pro ul {
@@ -142,8 +129,8 @@
     }
 
     .pro li {
-      margin-bottom: 10px;
-      color: var(--muted);
+      margin: 10px 0;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -153,34 +140,35 @@
 
     <!-- HERO -->
     <div class="hero">
-      <h1><span>Auto Shorts AI</span></h1>
+      <h1>Auto <span>Shorts AI</span></h1>
       <p>Create viral hooks, scripts & captions in seconds — built for creators who want growth without burnout.</p>
     </div>
 
     <!-- GENERATE -->
     <div class="card">
-      <h3>Generate Content</h3>
-      <textarea id="idea" placeholder="Describe your video idea..."></textarea>
+      <h2>Generate Content</h2>
+      <p class="note">Describe your video idea and we’ll generate hooks, scripts and captions.</p>
 
-      <div style="margin-top:14px">
-        <button class="btn" id="generateBtn">Generate</button>
-      </div>
+      <textarea id="idea" placeholder="e.g. Create an ad for this app"></textarea>
 
-      <div class="hint">
-        Free users get 2 generations. Pro unlocks unlimited.
-      </div>
+      <button class="btn" id="generateBtn">Generate</button>
+      <div class="note">Free users get 2 generations. Pro unlocks unlimited.</div>
     </div>
 
-    <!-- OUTPUT -->
-    <div class="card output">
+    <!-- OUTPUTS -->
+    <div class="card">
       <h3>Hook</h3>
-      <div id="hook" class="output-box"></div>
+      <div class="output" id="hook">—</div>
+    </div>
 
-      <h3 style="margin-top:20px">Script</h3>
-      <div id="script" class="output-box"></div>
+    <div class="card">
+      <h3>Script</h3>
+      <div class="output" id="script">—</div>
+    </div>
 
-      <h3 style="margin-top:20px">Captions</h3>
-      <div id="captions" class="output-box"></div>
+    <div class="card">
+      <h3>Captions</h3>
+      <div class="output" id="captions">—</div>
     </div>
 
     <!-- PRO -->
@@ -191,7 +179,7 @@
       <ul>
         <li>🚀 Unlimited generations</li>
         <li>🧠 Stronger viral hooks</li>
-        <li>📈 Optimized captions</li>
+        <li>📈 Optimized captions for reach</li>
         <li>⚡ Priority performance</li>
       </ul>
 
@@ -208,22 +196,22 @@
     const scriptEl = document.getElementById("script");
     const captionsEl = document.getElementById("captions");
 
-    // ✅ STRIPE WORKING LINK
+    // ✅ STRIPE — DO NOT TOUCH
     proBtn.addEventListener("click", () => {
       window.location.href = "https://buy.stripe.com/3cIfZigxU2WWdik30r5kk01";
     });
 
-    // ✅ GENERATE FIX
+    // ✅ SAFE GENERATE HANDLER (NO UI CRASH)
     generateBtn.addEventListener("click", async () => {
       const idea = document.getElementById("idea").value.trim();
-      if (!idea) return;
+
+      if (!idea) {
+        alert("Please enter a video idea.");
+        return;
+      }
 
       generateBtn.disabled = true;
-      generateBtn.textContent = "Generating...";
-
-      hookEl.textContent = "";
-      scriptEl.textContent = "";
-      captionsEl.textContent = "";
+      generateBtn.innerText = "Generating...";
 
       try {
         const res = await fetch("/generate", {
@@ -232,24 +220,22 @@
           body: JSON.stringify({ idea })
         });
 
-        if (!res.ok) {
-          throw new Error("Server error");
-        }
+        if (!res.ok) throw new Error("Server error");
 
         const data = await res.json();
 
-        hookEl.textContent = data.hook || "—";
-        scriptEl.textContent = data.script || "—";
-        captionsEl.textContent = data.captions || "—";
+        hookEl.innerText = data.hook || "—";
+        scriptEl.innerText = data.script || "—";
+        captionsEl.innerText = data.captions || "—";
 
       } catch (err) {
-        hookEl.textContent = "Server error.";
-        scriptEl.textContent = "—";
-        captionsEl.textContent = "—";
+        hookEl.innerText = "⚠️ Generation temporarily unavailable.";
+        scriptEl.innerText = "—";
+        captionsEl.innerText = "—";
       }
 
       generateBtn.disabled = false;
-      generateBtn.textContent = "Generate";
+      generateBtn.innerText = "Generate";
     });
   </script>
 </body>
