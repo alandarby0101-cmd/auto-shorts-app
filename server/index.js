@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Needed for Render + ES modules
+// Fix __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 // OpenAI client
-const client = new OpenAI({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
@@ -37,19 +37,24 @@ app.post("/api/generate", async (req, res) => {
     const { topic } = req.body;
 
     if (!topic) {
-      return res.status(400).json({ error: "Missing topic" });
+      return res.status(400).json({ error: "Topic is required" });
     }
 
-    const completion = await client.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "You generate viral YouTube Shorts hooks, scripts, and captions."
+          content:
+            "You create viral YouTube Shorts hooks, short scripts, and captions."
         },
         {
           role: "user",
-          content: `Create a viral YouTube Shorts hook, short script, and captions about: ${topic}`
+          content: `Create:
+1) A strong hook
+2) A short script (30–45 sec)
+3) 3 viral captions
+Topic: ${topic}`
         }
       ]
     });
@@ -57,9 +62,9 @@ app.post("/api/generate", async (req, res) => {
     const text = completion.choices[0].message.content;
 
     res.json({ output: text });
-  } catch (error) {
-    console.error("Generate error:", error);
-    res.status(500).json({ error: "Server error" });
+  } catch (err) {
+    console.error("Generate error:", err);
+    res.status(500).json({ error: "Generation failed" });
   }
 });
 

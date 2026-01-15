@@ -3,279 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <title>Auto Shorts AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
-    :root {
-      --bg: #0b1220;
-      --card: #121a2b;
-      --accent: #5ddcff;
-      --accent2: #c77dff;
-      --text: #eaf1ff;
-      --muted: #9aa4c7;
-      --radius: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: Inter, system-ui, sans-serif;
-    }
-
     body {
-      margin: 0;
-      background: linear-gradient(180deg, #0b1220, #070d1a);
-      color: var(--text);
+      background: #0f172a;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding-top: 60px;
     }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px;
-    }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-
-    .hero h1 {
-      font-size: 46px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      margin-bottom: 12px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 650px;
-      margin: auto;
-    }
-
-    /* GENERATE CARD */
     .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 60px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      background: #020617;
+      padding: 24px;
+      border-radius: 12px;
+      width: 420px;
     }
-
-    textarea {
+    input, button {
       width: 100%;
-      min-height: 90px;
-      background: #0e1627;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 8px;
       border: none;
-      border-radius: 12px;
-      padding: 14px;
-      color: var(--text);
-      font-size: 16px;
-      resize: none;
-      margin-bottom: 14px;
     }
-
-    .btn {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none;
-      padding: 14px 26px;
-      font-size: 16px;
-      font-weight: 700;
-      border-radius: 999px;
+    button {
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
-      color: #081018;
     }
-
-    .note {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    /* OUTPUT */
-    .output {
-      margin-top: 30px;
-    }
-
-    .output h3 {
-      margin-bottom: 6px;
-    }
-
-    .box {
-      background: #0e1627;
-      border-radius: 12px;
-      padding: 14px;
-      min-height: 60px;
-      color: var(--text);
-    }
-
-    /* WHY USE */
-    .why {
-      margin-top: 80px;
-    }
-
-    .why h2 {
-      text-align: center;
-      font-size: 34px;
-      margin-bottom: 40px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-
-    .why-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 22px;
-    }
-
-    .why-card h4 {
-      margin-bottom: 8px;
-    }
-
-    .why-card p {
-      color: var(--muted);
-      font-size: 15px;
-    }
-
-    /* PRO */
-    .pro {
-      margin-top: 80px;
-      text-align: center;
-    }
-
-    .pro .card {
-      max-width: 520px;
-      margin: auto;
+    pre {
+      background: #020617;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
+  <div class="card">
+    <h2>Auto Shorts AI</h2>
 
-    <!-- HERO -->
-    <div class="hero">
-      <h1><span>Auto Shorts AI</span></h1>
-      <p>Create viral hooks, scripts & captions in seconds — engineered for reach, retention, and growth.</p>
-    </div>
+    <input id="topic" placeholder="Enter a topic…" />
+    <button id="generateBtn">Generate</button>
 
-    <!-- GENERATE -->
-    <div class="card">
-      <h2>Generate Content</h2>
-      <textarea id="topic" placeholder="Describe your video idea..."></textarea>
-      <button class="btn" id="generateBtn">Generate</button>
-      <div class="note">Free users get 2 generations. Pro unlocks unlimited.</div>
-
-      <div class="output">
-        <h3>Hook</h3>
-        <div class="box" id="hook">—</div>
-
-        <h3>Script</h3>
-        <div class="box" id="script">—</div>
-
-        <h3>Captions</h3>
-        <div class="box" id="captions">—</div>
-      </div>
-    </div>
-
-    <!-- WHY USE -->
-    <div class="why">
-      <h2>Why creators use Auto Shorts AI</h2>
-
-      <div class="grid">
-        <div class="why-card">
-          <h4>Built for algorithms</h4>
-          <p>Every hook and script is structured to maximize watch time, retention, and replays.</p>
-        </div>
-
-        <div class="why-card">
-          <h4>No creative burnout</h4>
-          <p>Never stare at a blank screen again. Generate ideas endlessly in seconds.</p>
-        </div>
-
-        <div class="why-card">
-          <h4>Faster than competitors</h4>
-          <p>From idea to post-ready content in under 60 seconds.</p>
-        </div>
-
-        <div class="why-card">
-          <h4>Designed to scale</h4>
-          <p>Perfect for creators, faceless channels, agencies, and brand accounts.</p>
-        </div>
-
-        <div class="why-card">
-          <h4>Optimized captions</h4>
-          <p>Captions engineered for reach, shares, saves, and engagement.</p>
-        </div>
-
-        <div class="why-card">
-          <h4>Pro users win more</h4>
-          <p>Unlimited generations and priority performance for serious growth.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRO -->
-    <div class="pro">
-      <div class="card">
-        <h2>Unlock Pro</h2>
-        <p>For creators who want growth without limits.</p>
-
-        <button class="btn" id="proBtn">Upgrade to Pro</button>
-      </div>
-    </div>
-
+    <pre id="output">—</pre>
   </div>
 
   <script>
-    const generateBtn = document.getElementById("generateBtn");
-    const proBtn = document.getElementById("proBtn");
+    const btn = document.getElementById("generateBtn");
+    const topicInput = document.getElementById("topic");
+    const output = document.getElementById("output");
 
-    const hookEl = document.getElementById("hook");
-    const scriptEl = document.getElementById("script");
-    const captionsEl = document.getElementById("captions");
-
-    // STRIPE (DO NOT TOUCH)
-    proBtn.addEventListener("click", () => {
-      window.location.href = "https://buy.stripe.com/3cIfZigxU2WWdik30r5kk01";
-    });
-
-    // GENERATE
-    generateBtn.addEventListener("click", async () => {
-      const topic = document.getElementById("topic").value.trim();
-      if (!topic) return alert("Please enter a topic");
-
-      hookEl.textContent = "Generating...";
-      scriptEl.textContent = "Generating...";
-      captionsEl.textContent = "Generating...";
+    btn.addEventListener("click", async () => {
+      output.textContent = "Generating…";
 
       try {
-        const res = await fetch("/generate", {
+        const res = await fetch("/api/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic }),
+          body: JSON.stringify({ topic: topicInput.value })
         });
 
         const data = await res.json();
 
-        hookEl.textContent = data.hook || "—";
-        scriptEl.textContent = data.script || "—";
-        captionsEl.textContent = data.captions || "—";
-
-      } catch {
-        hookEl.textContent = "Error generating content";
-        scriptEl.textContent = "—";
-        captionsEl.textContent = "—";
+        if (data.output) {
+          output.textContent = data.output;
+        } else {
+          output.textContent = "Error generating content";
+        }
+      } catch (err) {
+        output.textContent = "Server error";
       }
     });
   </script>
