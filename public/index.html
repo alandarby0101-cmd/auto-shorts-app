@@ -2,266 +2,241 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Auto Shorts Generator</title>
+  <title>Auto Shorts AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b1220;
-      --card: #121a2b;
-      --border: #1f2a44;
-      --text: #e5ecff;
-      --muted: #9fb0ff;
-      --accent: #4f7cff;
-      --danger: #ff6b6b;
+      --bg-dark: #0b0f14;
+      --bg-soft: #111827;
+      --card: #0f172a;
+      --accent: #38bdf8;
+      --accent-soft: #0ea5e9;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border: #1e293b;
+      --success: #22c55e;
     }
 
     * {
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
-      margin: 0;
-      background: linear-gradient(180deg, #0b1220, #0e1630);
-      color: var(--text);
+      background: radial-gradient(1200px 600px at top, #0b1220, var(--bg-dark));
+      color: var(--text-main);
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 820px;
+    header {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 720px;
       margin: 0 auto;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
       padding: 40px 20px 80px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 32px;
+      display: grid;
+      gap: 40px;
     }
 
     .card {
-      background: var(--card);
+      background: linear-gradient(180deg, var(--card), #020617);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
     }
 
-    label {
-      font-size: 14px;
-      color: var(--muted);
+    .card h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
-    input {
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    textarea {
       width: 100%;
-      margin-top: 8px;
-      padding: 14px;
-      border-radius: 12px;
+      background: #020617;
       border: 1px solid var(--border);
-      background: #0e1628;
-      color: var(--text);
+      border-radius: 12px;
+      padding: 16px;
+      color: var(--text-main);
+      resize: vertical;
+      min-height: 120px;
       font-size: 15px;
     }
 
-    .actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
     button {
-      padding: 12px 18px;
-      border-radius: 12px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-soft));
       border: none;
+      color: #020617;
+      padding: 14px 22px;
+      border-radius: 12px;
       font-weight: 600;
       cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(56,189,248,0.35);
+    }
+
+    .muted {
+      color: var(--text-muted);
       font-size: 14px;
     }
 
-    .generate {
-      background: var(--accent);
-      color: white;
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .feature {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .feature h3 {
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--text-muted);
     }
 
     .pro {
-      background: transparent;
       border: 1px solid var(--accent);
-      color: var(--accent);
+      background: linear-gradient(180deg, #020617, #020617);
     }
 
-    .error {
+    .pro ul {
+      list-style: none;
       margin-top: 14px;
-      color: var(--danger);
-      font-size: 14px;
     }
 
-    .output h3 {
-      margin-top: 20px;
-      margin-bottom: 6px;
-      color: var(--muted);
-    }
-
-    .output p {
-      background: #0e1628;
-      border: 1px solid var(--border);
-      padding: 14px;
-      border-radius: 12px;
-      min-height: 44px;
-      white-space: pre-wrap;
-    }
-
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    .why {
-      background: linear-gradient(135deg, #162042, #1b2b66);
-      border: 1px solid #2a3d88;
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .why h4 {
-      margin: 0 0 8px;
-      color: #dbe3ff;
-    }
-
-    .why p {
-      margin: 0;
-      font-size: 14px;
-      color: #c7d2ff;
+    .pro li {
+      margin-bottom: 10px;
+      color: var(--text-main);
     }
 
     footer {
       text-align: center;
-      margin-top: 40px;
-      font-size: 13px;
-      color: var(--muted);
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Auto Shorts Generator</h1>
-    <div class="subtitle">
-      Create viral hooks, scripts & captions in seconds
-    </div>
 
-    <!-- INPUT CARD -->
-    <div class="card">
-      <label>Video topic</label>
-      <input id="topicInput" placeholder="e.g. Dark psychology facts" />
+<header>
+  <h1>Auto Shorts AI</h1>
+  <p>Create scroll-stopping captions, hooks, and scripts in seconds — built for YouTube Shorts, TikTok & Reels.</p>
+</header>
 
-      <div class="actions">
-        <button id="generateBtn" class="generate">Generate</button>
-        <button id="proBtn" class="pro">Upgrade to Pro</button>
-      </div>
+<main>
 
-      <div id="errorEl" class="error"></div>
-    </div>
+  <!-- GENERATOR -->
+  <div class="card">
+    <h2>Generate Content</h2>
+    <p>Describe your video idea and we’ll generate captions, hooks, and scripts designed to stop the scroll.</p>
 
-    <!-- OUTPUT -->
-    <div class="card output">
-      <h3>Hook</h3>
-      <p id="hookOutput">—</p>
+    <textarea id="prompt" placeholder="Example: A true crime short about a mysterious disappearance..."></textarea>
+    <br><br>
+    <button id="generateBtn">Generate</button>
+    <p class="muted">Free users get 2 generations. Pro unlocks unlimited.</p>
 
-      <h3>Script</h3>
-      <p id="scriptOutput">—</p>
-
-      <h3>Captions</h3>
-      <p id="captionsOutput">—</p>
-    </div>
-
-    <!-- WHY THIS APP -->
-    <div class="card">
-      <h2 style="margin-top:0;">Why creators love this</h2>
-
-      <div class="why-grid">
-        <div class="why">
-          <h4>Built for Virality</h4>
-          <p>Hooks engineered to stop scrolling and boost retention.</p>
-        </div>
-
-        <div class="why">
-          <h4>All-in-One</h4>
-          <p>No more juggling tools. Hooks, scripts, captions in one click.</p>
-        </div>
-
-        <div class="why">
-          <h4>Speed Advantage</h4>
-          <p>Create content ideas faster than other creators can copy.</p>
-        </div>
-
-        <div class="why">
-          <h4>Made for Shorts</h4>
-          <p>Optimized for TikTok, Reels & YouTube Shorts formats.</p>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      © Auto Shorts Generator — All rights reserved
-    </footer>
+    <div id="output" style="margin-top:20px;"></div>
   </div>
 
-  <script>
-    const generateBtn = document.getElementById("generateBtn");
-    const proBtn = document.getElementById("proBtn");
+  <!-- WHY THIS APP -->
+  <div class="card">
+    <h2>Why creators use Auto Shorts AI</h2>
 
-    const topicInput = document.getElementById("topicInput");
-    const hookOutput = document.getElementById("hookOutput");
-    const scriptOutput = document.getElementById("scriptOutput");
-    const captionsOutput = document.getElementById("captionsOutput");
-    const errorEl = document.getElementById("errorEl");
+    <div class="grid-3">
+      <div class="feature">
+        <h3>Built for algorithms</h3>
+        <p>Every hook and caption is engineered to increase retention and watch time.</p>
+      </div>
 
-    generateBtn.addEventListener("click", async () => {
-      errorEl.textContent = "";
-      hookOutput.textContent = "—";
-      scriptOutput.textContent = "—";
-      captionsOutput.textContent = "—";
+      <div class="feature">
+        <h3>No creative burnout</h3>
+        <p>Never stare at a blank screen again. Generate ideas endlessly.</p>
+      </div>
 
-      const topic = topicInput.value.trim();
-      if (!topic) {
-        errorEl.textContent = "Please enter a topic.";
-        return;
-      }
+      <div class="feature">
+        <h3>Fast execution</h3>
+        <p>From idea to upload-ready content in under 60 seconds.</p>
+      </div>
+    </div>
+  </div>
 
-      try {
-        const res = await fetch("/generate-captions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ topic })
-        });
+  <!-- PRO SECTION -->
+  <div class="card pro">
+    <h2>Upgrade to Pro</h2>
+    <p>Unlock the full power of Auto Shorts AI.</p>
 
-        const data = await res.json();
+    <ul>
+      <li>✅ Unlimited caption, hook & script generations</li>
+      <li>✅ Longer, more detailed scripts</li>
+      <li>✅ Priority AI responses</li>
+      <li>✅ Future video generation tools</li>
+      <li>✅ No daily limits — ever</li>
+    </ul>
 
-        if (!res.ok) {
-          errorEl.textContent = data.error || "Generation failed.";
-          return;
-        }
+    <br>
+    <button id="upgradeBtn">Upgrade to Pro</button>
+  </div>
 
-        hookOutput.textContent = data.hook || "—";
-        scriptOutput.textContent = data.script || "—";
-        captionsOutput.textContent = data.captions?.join("\n") || "—";
-      } catch {
-        errorEl.textContent = "Server error.";
-      }
-    });
+</main>
 
-    proBtn.addEventListener("click", () => {
-      // Replace later with Stripe / checkout
-      window.location.href = "https://example.com/upgrade";
-    });
-  </script>
+<footer>
+  © Auto Shorts AI — Built for creators who want growth without burnout.
+</footer>
+
+<!-- IMPORTANT: JS HOOKS (DO NOT CHANGE IDs) -->
+<script>
+  document.getElementById("generateBtn")?.addEventListener("click", () => {
+    if (typeof generate === "function") generate();
+  });
+
+  document.getElementById("upgradeBtn")?.addEventListener("click", () => {
+    if (typeof upgradeToPro === "function") upgradeToPro();
+  });
+</script>
+
 </body>
 </html>
