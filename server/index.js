@@ -1,103 +1,66 @@
-require("dotenv").config();
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors";
+import dotenv from "dotenv";
 
-const express = require("express");
-const path = require("path");
-const OpenAI = require("openai");
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* ===================== MIDDLEWARE ===================== */
+app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
-// ✅ FIX: define public folder correctly
-const PUBLIC_DIR = path.join(__dirname, "../public");
-app.use(express.static(PUBLIC_DIR));
-
-/* ===================== OPENAI ===================== */
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-/* ===================== FREE LIMIT ===================== */
-const usageMap = {};
-const FREE_LIMIT = 2;
-
-/* ===================== ROUTES ===================== */
-
-// Serve frontend
 app.get("/", (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+  res.send("Auto Shorts AI backend running");
 });
 
-// Health check (Render uses this)
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-// Generate captions
-app.post("/generate-captions", async (req, res) => {
+app.post("/generate", async (req, res) => {
   try {
-    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    usageMap[ip] = usageMap[ip] || 0;
-
-    if (usageMap[ip] >= FREE_LIMIT) {
-      return res
-        .status(403)
-        .json({ error: "Free limit reached. Upgrade to Pro." });
-    }
-
-    usageMap[ip]++;
-
     const { topic } = req.body;
+
     if (!topic) {
-      return res.status(400).json({ error: "Missing topic" });
+      return res.status(400).json({ error: "No topic provided" });
     }
 
     const prompt = `
-Create short-form viral content for: "${topic}"
+Create viral short-form video content about: "${topic}"
 
-Return EXACTLY this format:
-
-CAPTIONS:
-- Caption 1 (max 12 words, curiosity-driven)
-- Caption 2
-- Caption 3
-
+Return:
 HOOK:
-Single hook sentence
-
 SCRIPT:
-Short engaging script (4–6 lines)
+CAPTIONS:
 `;
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.8,
+      }),
     });
 
-    const text = completion.choices[0].message.content;
+    const data = await response.json();
+    const text = data.choices[0].message.content;
 
-    const captions =
-      text.split("CAPTIONS:")[1]?.split("HOOK:")[0]
-        ?.split("-")
-        .map(c => c.trim())
-        .filter(Boolean) || [];
+    res.json({
+      hook: text.split("SCRIPT:")[0].replace("HOOK:", "").trim(),
+      script: text.split("SCRIPT:")[1].split("CAPTIONS:")[0].trim(),
+      captions: text.split("CAPTIONS:")[1].trim(),
+    });
 
-    const hook =
-      text.split("HOOK:")[1]?.split("SCRIPT:")[0]?.trim() || "";
-
-    const script =
-      text.split("SCRIPT:")[1]?.trim() || "";
-
-    res.json({ captions, hook, script });
   } catch (err) {
-    console.error("AI error:", err);
-    res.status(500).json({ error: "Generation failed" });
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-/* ===================== START SERVER ===================== */
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
