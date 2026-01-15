@@ -1,82 +1,60 @@
 import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
-
-dotenv.config();
+import Stripe from "stripe";
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Needed for ES modules (__dirname replacement)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Middleware
-app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(process.cwd(), "public")));
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, "../public")));
-
-// Root route (FIXES Cannot GET /)
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+  res.sendFile(path.join(process.cwd(), "public/index.html"));
 });
 
-// Generate endpoint
 app.post("/generate", async (req, res) => {
-  try {
-    const { prompt } = req.body;
+  const { prompt } = req.body;
 
-    if (!prompt) {
-      return res.status(400).json({ error: "No prompt provided" });
-    }
+  const hook = `HOOK:\nDid you know this about ${prompt}? Most people scroll past this without realising why it matters…`;
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: `
-You are AutoShorts AI.
+  const script = `SCRIPT (45–60 seconds):
 
-Generate VIRAL short-form content.
+Opening shot: Strong visual tied directly to "${prompt}"
 
-Return STRICT JSON ONLY with:
-- hook: array of 2–3 strong hooks
-- script: 45–60 second detailed script with narration + scene cues
-- captions: array of 8–12 TikTok-style captions
+Narrator:
+Most people think they understand ${prompt}, but there’s one thing almost nobody talks about…
 
-Rules:
-- Do NOT repeat content
-- Do NOT shorten
-- Do NOT include markdown
-- JSON only
-`
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ],
-      temperature: 0.9
-    });
+Here’s the truth:
+[Deliver real insight, contradiction, or curiosity gap]
 
-    const raw = completion.choices[0].message.content;
+This is why creators who understand ${prompt} keep people watching till the end.
+And once you see it, you can’t unsee it.
 
-    const parsed = JSON.parse(raw);
+End with punchline or reveal.`;
 
-    res.json(parsed);
+  const captions = `CAPTIONS:
+• This changed how I see ${prompt}
+• You're doing ${prompt} wrong
+• Watch till the end 👀
+• Nobody talks about this
+• This is why it works`;
 
-  } catch (err) {
-    console.error("Generate error:", err);
-    res.status(500).json({ error: "Generation failed" });
-  }
+  res.json({ hook, script, captions });
 });
-    
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+
+app.get("/create-checkout-session", async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    mode: "subscription",
+    line_items: [{
+      price: process.env.STRIPE_PRICE_ID,
+      quantity: 1
+    }],
+    success_url: "/?pro=true",
+    cancel_url: "/"
+  });
+
+  res.redirect(session.url);
 });
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running on", PORT));
