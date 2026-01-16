@@ -18,12 +18,7 @@
 
     * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  color: #fff;
-  background: transparent;
-  overflow-x: hidden;
-}
+
 
 /* === Galaxy / Wavy Animated Background (CLEAN FIX) === */
 
@@ -33,31 +28,19 @@ body {
   overflow-x: hidden;
 }
 
-/* animated glow layer */
+/* galaxy background image */
 body::before {
   content: "";
   position: fixed;
-  inset: -30%;
-  background:
-    radial-gradient(circle at 25% 35%, rgba(160, 90, 255, 0.55), transparent 55%),
-    radial-gradient(circle at 75% 45%, rgba(90, 180, 255, 0.45), transparent 55%),
-    radial-gradient(circle at 50% 75%, rgba(220, 140, 255, 0.40), transparent 55%);
-  filter: blur(80px);
-  animation: galaxyMove 16s linear infinite alternate;
+  inset: 0;
+  background-image: url("/galaxy-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: galaxyMove 20s ease-in-out infinite alternate;
   z-index: -1;
   pointer-events: none;
 }
-
-/* subtle movement */
-@keyframes galaxyMove {
-  0% {
-    transform: translate(-6%, -4%) scale(1);
-  }
-  100% {
-    transform: translate(6%, 4%) scale(1.15);
-  }
-}
-
 
 
 @keyframes floatBg {
