@@ -3,250 +3,301 @@
 <head>
   <meta charset="UTF-8" />
   <title>Auto Shorts AI</title>
-
-  <!-- FAVICON -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-
-  <!-- META -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+  <link rel="icon" href="/favicon.png" />
   <style>
     body {
-      font-family: 'Inter', sans-serif;
       margin: 0;
-      background: linear-gradient(180deg, #0f172a, #020617);
-      color: #e5e7eb;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(1200px at 10% 10%, #5b2cff, transparent),
+                  radial-gradient(1200px at 90% 30%, #7b3cff, transparent),
+                  #0b0f2a;
+      color: #ffffff;
     }
-
+  
     header {
-      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(10, 14, 40, 0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+  
+    .nav-left {
       display: flex;
       align-items: center;
       gap: 12px;
-      border-bottom: 1px solid #1e293b;
+      font-weight: 700;
+      font-size: 18px;
     }
-
-    header img {
-      height: 36px;
+  
+    nav a {
+      margin: 0 14px;
+      color: #cfd4ff;
+      text-decoration: none;
+      font-weight: 500;
     }
-
-    header h1 {
-      font-size: 20px;
-      font-weight: 600;
+  
+    nav a:hover {
+      color: #ffffff;
     }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 32px 20px;
+  
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+      padding: 100px 80px;
     }
-
-    .card {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 32px;
+  
+    .hero h1 {
+      font-size: 52px;
+      line-height: 1.1;
+      margin-bottom: 18px;
     }
-
-    h2 {
-      margin-top: 0;
-      font-size: 22px;
+  
+    .hero p {
+      font-size: 18px;
+      color: #cfd4ff;
+      max-width: 520px;
     }
-
+  
+    .input-box {
+      margin-top: 28px;
+      display: flex;
+      gap: 14px;
+    }
+  
     textarea {
-      width: 100%;
-      min-height: 120px;
-      border-radius: 10px;
-      border: 1px solid #1e293b;
-      background: #020617;
-      color: #e5e7eb;
-      padding: 12px;
-      font-size: 14px;
-    }
-
-    button {
-      background: linear-gradient(135deg, #6366f1, #22d3ee);
-      border: none;
-      color: white;
-      padding: 14px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      margin-top: 14px;
-    }
-
-    button.secondary {
-      background: #020617;
-      border: 1px solid #334155;
-    }
-
-    .outputs {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-top: 24px;
-    }
-
-    .output-box {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
       padding: 16px;
-    }
-
-    .output-box h3 {
-      margin-top: 0;
+      color: white;
       font-size: 16px;
+      resize: none;
+      min-height: 70px;
     }
-
-    .copy-btn {
-      margin-top: 10px;
-      background: #020617;
-      border: 1px solid #334155;
-      font-size: 12px;
-      padding: 6px 10px;
+  
+    button {
+      background: linear-gradient(135deg, #6b4cff, #9b6cff);
+      border: none;
+      border-radius: 14px;
+      padding: 16px 26px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
     }
-
-    .features {
+  
+    .section-grid {
+      padding: 80px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
     }
-
-    .feature {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 12px;
-      padding: 20px;
-    }
-
-    .feature img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    footer {
-      text-align: center;
+  
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
       padding: 24px;
-      color: #64748b;
-      font-size: 13px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <img src="/logo.png" alt="Auto Shorts AI Logo">
-  <h1>Auto Shorts AI</h1>
-</header>
+  <!-- NAVBAR -->
+  <header>
+    <div class="nav-left">
+      <img src="/logo.png" alt="Auto Shorts AI" height="32" />
+      <span>Auto Shorts AI</span>
+    </div>
 
-<main>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Features</a>
+      <a href="#">Pro Version</a>
+      <a href="#">Pricing</a>
+      <a href="#">FAQ</a>
+    </nav>
 
-  <!-- GENERATOR -->
-  <div class="card">
-    <h2>Generate Viral Shorts Content</h2>
-    <textarea id="prompt" placeholder="Enter your video topic or idea..."></textarea>
-    <button id="generateBtn">Generate Content</button>
+    <div class="nav-right">
+      <button id="upgradeBtn">Upgrade to Pro</button>
+    </div>
+  </header>
+<section class="hero">
+  <div>
+    <h1>Generate Viral Shorts Scripts in Seconds</h1>
 
-    <div class="outputs">
-      <div class="output-box">
-        <h3>Hook</h3>
-        <div id="hook"></div>
-        <button class="copy-btn" onclick="copyText('hook')">Copy</button>
-      </div>
+    <p>
+      Let our AI craft high-retention short-form video scripts designed
+      to hook viewers in the first 3 seconds and keep them watching
+      for 70–80 seconds — even on the free plan.
+    </p>
 
-      <div class="output-box">
-        <h3>Script</h3>
-        <div id="script"></div>
-        <button class="copy-btn" onclick="copyText('script')">Copy</button>
-      </div>
+    <div class="input-box">
+      <textarea
+        id="prompt"
+        placeholder="Enter your video topic or idea..."
+      ></textarea>
 
-      <div class="output-box">
-        <h3>Captions</h3>
-        <div id="captions"></div>
-        <button class="copy-btn" onclick="copyText('captions')">Copy</button>
-      </div>
+      <button onclick="generateContent()">
+        Generate Content
+      </button>
     </div>
   </div>
 
-  <!-- WHY USE -->
-  <div class="card">
-    <h2>Why Use Auto Shorts AI?</h2>
-    <div class="features">
-      <div class="feature">
-        <h4>Designed for Shorts</h4>
-        <p>Every hook, script and caption is optimised for TikTok, Reels and YouTube Shorts.</p>
-      </div>
-      <div class="feature">
-        <h4>Psychology-Based Hooks</h4>
-        <p>We use scroll-stopping psychology to keep viewers watching past 3 seconds.</p>
-      </div>
-      <div class="feature">
-        <h4>Speed & Consistency</h4>
-        <p>Create daily viral-ready content in seconds without burnout.</p>
-      </div>
-    </div>
+  <div>
+    <img
+      src="https://dummyimage.com/520x340/2b2f7a/ffffff&text=Auto+Shorts+AI+Preview"
+      style="width:100%; border-radius:18px; box-shadow:0 40px 80px rgba(0,0,0,0.45);"
+      alt="App preview"
+    />
   </div>
+</section>
+  <!-- HERO SECTION -->
+  <section id="hero">
+    <div class="hero-left">
+      <h1>Generate Viral Shorts Scripts in Seconds</h1>
+      <p>
+        Let our AI instantly generate long-form short-video scripts
+        designed to hook viewers and keep attention for 70–80 seconds.
+      </p>
 
-  <!-- PRO -->
-  <div class="card">
-    <h2>Pro Unlocks</h2>
-    <div class="features">
-      <div class="feature">
-        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c">
-        <h4>Unlimited Generations</h4>
-        <p>No limits. Generate as much content as you want.</p>
-      </div>
-      <div class="feature">
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4">
-        <h4>Longer Scripts</h4>
-        <p>Full storytelling scripts designed to maximise retention.</p>
-      </div>
-      <div class="feature">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-        <h4>Future AI Video Engine</h4>
-        <p>Coming soon: generate full AI videos automatically.</p>
-      </div>
+      <textarea
+        id="promptInput"
+        placeholder="Enter your video topic or idea..."
+        rows="3"
+      ></textarea>
+
+      <button id="generateBtn">Generate Content</button>
     </div>
 
-    <br>
-    <button onclick="window.location.href='https://buy.stripe.com/3cIfZigxU2WWdik30r5kk01'">
-      Upgrade to Pro — €19.99 / month
-    </button>
+    <div class="hero-right">
+      <!-- App preview image goes here later -->
+      <div id="appPreview">
+        <p>App Preview</p>
+      </div>
+    </div>
+  </section>
+<section class="results" id="results" style="display:none;">
+  <div class="result-box">
+    <h3>Hook</h3>
+    <pre id="hookText"></pre>
+    <button onclick="copyText('hookText')">Copy</button>
   </div>
 
-</main>
+  <div class="result-box">
+    <h3>Script (70–80 seconds)</h3>
+    <pre id="scriptText"></pre>
+    <button onclick="copyText('scriptText')">Copy</button>
+  </div>
 
-<footer>
-  © 2026 Auto Shorts AI — Built for creators who want growth.
-</footer>
+  <div class="result-box">
+    <h3>Captions</h3>
+    <pre id="captionText"></pre>
+    <button onclick="copyText('captionText')">Copy</button>
+  </div>
+</section>
+  <!-- RESULTS SECTION -->
+  <section id="results">
 
-<script>
-  async function generate() {
-    const prompt = document.getElementById('prompt').value;
-    const res = await fetch('/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+    <div class="result-box">
+      <h3>Hook</h3>
+      <button class="copyBtn" data-copy="hook">Copy</button>
+      <pre id="hookOutput"></pre>
+    </div>
+
+    <div class="result-box">
+      <h3>Script</h3>
+      <button class="copyBtn" data-copy="script">Copy</button>
+      <pre id="scriptOutput"></pre>
+    </div>
+
+    <div class="result-box">
+      <h3>Captions</h3>
+      <button class="copyBtn" data-copy="captions">Copy</button>
+      <pre id="captionsOutput"></pre>
+    </div>
+
+  </section>
+
+  <!-- FEATURES GRID -->
+  <section id="features">
+
+    <div class="feature-card">
+      <h4>Hook Scripts</h4>
+      <p>Curiosity, FOMO, and story-based hooks designed to stop the scroll.</p>
+    </div>
+
+    <div class="feature-card">
+      <h4>Advanced Features <span>(PRO)</span></h4>
+      <p>Unlimited generations, longer scripts, and advanced optimization.</p>
+    </div>
+
+    <div class="feature-card">
+      <h4>Engagement Generations</h4>
+      <p>Psychology-based captions and algorithm-friendly pacing.</p>
+    </div>
+
+  </section>
+
+  <!-- SECOND FEATURES GRID -->
+  <section id="features-secondary">
+
+    <div class="feature-card">
+      <h4>Curiosity Hooks</h4>
+      <p>Open loops that force viewers to keep watching.</p>
+    </div>
+
+    <div class="feature-card">
+      <h4>Longer Scripts</h4>
+      <p>Full 70–80 second scripts with structured pacing.</p>
+    </div>
+
+    <div class="feature-card">
+      <h4>Viral Captions & Hashtags</h4>
+      <p>Optimized captions designed for reach and engagement.</p>
+    </div>
+
+  </section>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+
+    generateBtn.addEventListener("click", async () => {
+      const prompt = document.getElementById("promptInput").value;
+
+      const res = await fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await res.json();
+
+      document.getElementById("hookOutput").textContent = data.hook;
+      document.getElementById("scriptOutput").textContent = data.script;
+      document.getElementById("captionsOutput").textContent = data.captions;
     });
-    const data = await res.json();
-    document.getElementById('hook').innerText = data.hook;
-    document.getElementById('script').innerText = data.script;
-    document.getElementById('captions').innerText = data.captions;
-  }
 
-  document.getElementById('generateBtn').onclick = generate;
+    document.querySelectorAll(".copyBtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.copy + "Output";
+        navigator.clipboard.writeText(
+          document.getElementById(target).textContent
+        );
+      });
+    });
 
-  function copyText(id) {
-    navigator.clipboard.writeText(document.getElementById(id).innerText);
-  }
-</script>
+    document.getElementById("upgradeBtn").onclick = () => {
+      window.location.href = "/create-checkout-session";
+    };
+  </script>
 
 </body>
 </html>
