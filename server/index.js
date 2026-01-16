@@ -129,6 +129,39 @@ app.get("/create-checkout-session", async (req, res) => {
     res.status(500).send("Stripe error");
   }
 });
+// ===== FREE USAGE + PRO LOCK LOGIC (STEP 2) =====
+
+const FREE_LIMIT = 2;
+
+function getUsageCount() {
+  return Number(localStorage.getItem("freeGenerations") || 0);
+}
+
+function incrementUsage() {
+  const count = getUsageCount() + 1;
+  localStorage.setItem("freeGenerations", count);
+  return count;
+}
+
+function applyProLock() {
+  const scriptBox = document.getElementById("scriptOutput")?.closest(".result-box");
+  const captionsBox = document.getElementById("captionsOutput")?.closest(".result-box");
+
+  if (scriptBox) scriptBox.classList.add("locked");
+  if (captionsBox) captionsBox.classList.add("locked");
+}
+
+function handleGenerationLimit() {
+  const usage = incrementUsage();
+
+  if (usage > FREE_LIMIT) {
+    applyProLock();
+    alert("You’ve used your 2 free generations. Upgrade to Pro to unlock unlimited scripts 🚀");
+    return false;
+  }
+
+  return true;
+}
 
 // =========================
 // START SERVER

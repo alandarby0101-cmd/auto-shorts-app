@@ -192,6 +192,29 @@
       text-align: center;
       color: var(--text-muted);
     }
+/* ===== PRO LOCK / BLUR LOGIC (STEP 1) ===== */
+
+.locked {
+  position: relative;
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.locked::after {
+  content: "🔒 Pro Feature — Upgrade to Unlock";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 20, 60, 0.75);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 18px;
+  backdrop-filter: blur(4px);
+}
 
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
@@ -241,13 +264,13 @@
     <button>Copy</button>
   </div>
 
-  <div class="result-box">
+  <div class="result-box lockable">
     <h3>Script</h3>
     <pre id="scriptOutput">Your script will appear here…</pre>
     <button>Copy</button>
   </div>
 
-  <div class="result-box">
+  <div class="result-box lockable">
     <h3>Captions</h3>
     <pre id="captionsOutput">Your captions will appear here…</pre>
     <button>Copy</button>
@@ -280,6 +303,28 @@
 <footer>
   © Auto Shorts AI — Built for creators who want speed.
 </footer>
+<script>
+  let generationCount = 0;
+  const MAX_FREE_GENERATIONS = 2;
+
+  function handleGenerationLimit() {
+    generationCount++;
+
+    if (generationCount > MAX_FREE_GENERATIONS) {
+      alert("Free limit reached. Upgrade to Pro to continue.");
+      return false;
+    }
+
+    return true;
+  }
+
+  const generateBtn = document.getElementById("generateBtn");
+
+  generateBtn.addEventListener("click", () => {
+    if (!handleGenerationLimit()) return;
+    generateContent();
+  });
+</script>
 
 </body>
 </html>
