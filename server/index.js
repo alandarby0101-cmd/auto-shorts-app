@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
 import Stripe from "stripe";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -9,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "public/index.html"));
+ res.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
 
 app.post("/generate", async (req, res) => {
