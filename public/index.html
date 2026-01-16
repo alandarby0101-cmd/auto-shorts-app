@@ -20,27 +20,39 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(180,120,255,0.35), transparent 60%),
-    radial-gradient(900px 500px at 10% 30%, rgba(120,90,255,0.35), transparent 55%),
-    linear-gradient(180deg, #0b1026 0%, #0a0f2e 40%, #0c0f3a 70%, #070a1f 100%);
-  color: #ffffff;
+  color: #fff;
+  background: transparent;
   overflow-x: hidden;
 }
 
+/* Wavy animated background */
 body::before {
   content: "";
   position: fixed;
-  inset: -40%;
+  inset: 0;
   background:
-    radial-gradient(circle at 30% 30%, rgba(160,110,255,0.25), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(120,90,255,0.25), transparent 45%);
-  filter: blur(120px);
-  animation: floatGlow 18s ease-in-out infinite alternate;
+    radial-gradient(circle at 30% 40%, rgba(140, 80, 255, 0.35), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(80, 160, 255, 0.35), transparent 45%),
+    radial-gradient(circle at 50% 80%, rgba(180, 120, 255, 0.25), transparent 50%);
+  animation: floatBg 18s ease-in-out infinite alternate;
+  z-index: 0;
   pointer-events: none;
-  z-index: -1;
 }
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes floatBg {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-40px, 30px);
+  }
+}
+
 
 @keyframes floatGlow {
   from { transform: translate(-40px, -20px); }
