@@ -1,87 +1,73 @@
-import express from "express";
-import path from "path";
-import Stripe from "stripe";
-import { fileURLToPath } from "url";
+import OpenAI from "openai";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "public")));
-
-// Serve homepage
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Generate content (FREE = still long scripts)
-app.post("/generate", (req, res) => {
-  const { prompt } = req.body;
+app.post("/generate", async (req, res) => {
+  try {
+    const { prompt } = req.body;
 
-  const hook = `
-Did you know this about ${prompt}?
-Most people get this completely wrong — and that’s why their videos flop.
+    if (!prompt || prompt.trim().length === 0) {
+      return res.status(400).json({ error: "Prompt required" });
+    }
+
+    const systemPrompt = `
+You are a professional viral YouTube Shorts scriptwriter.
+
+ABSOLUTE RULES:
+- Output must be READY TO READ ALOUD
+- No advice, no meta commentary
+- No teaching about content creation
+- No headings inside the script
+- Short punchy spoken sentences
+- Natural human cadence
+- Reset curiosity every 2–4 seconds
+- Works for AI voiceovers
+- Adapt to ANY topic
+- End with a soft follow CTA
+
+The script must sound like a real creator speaking to camera.
 `;
 
-  const script = `
-SCRIPT (70–80 seconds)
+    const userPrompt = `
+Topic: ${prompt}
 
-Opening shot:
-Strong visual directly related to "${prompt}".
-Fast movement. No talking for the first second.
+Generate:
+1) A 1–2 line hook
+2) A 60–80 second SPOKEN YouTube Shorts script
+3) 5 short viral captions
 
-Problem:
-Most creators fail with ${prompt} because they explain too early instead of creating curiosity.
+Output EXACTLY in this format:
 
-Explanation:
-The algorithm rewards retention, not intelligence.
-If viewers don’t feel tension, they swipe.
-${prompt} only works when curiosity is sustained.
+HOOK:
+<text>
 
-Solution:
-Start with tension.
-Delay the payoff.
-Reveal the insight only after the viewer is invested.
+SCRIPT:
+<spoken script>
 
-Payoff:
-Here’s what actually works with ${prompt} — and why almost nobody uses it.
-
-CTA:
-Follow for more insights like this.
+CAPTIONS:
+- caption
+- caption
+- caption
+- caption
+- caption
 `;
 
-  const captions = `
-• This changed how I think about ${prompt}
-• Everyone gets ${prompt} wrong — here’s why
-• Watch this before you try ${prompt}
-• The mistake nobody tells you about ${prompt}
-• Why most people fail at ${prompt}
-`;
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      temperature: 0.95,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
+      ],
+    });
 
-  res.json({ hook, script, captions });
-});
+    const result = completion.choices[0].message.content;
 
-// Stripe checkout
-app.get("/create-checkout-session", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    line_items: [
-      {
-        price: process.env.STRIPE_PRICE_ID,
-        quantity: 1,
-      },
-    ],
-    success_url: "/?pro=true",
-    cancel_url: "/",
-  });
-
-  res.redirect(session.url);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+    res.json({ result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "AI generation failed" });
+  }
 });

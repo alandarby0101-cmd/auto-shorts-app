@@ -4,300 +4,333 @@
   <meta charset="UTF-8" />
   <title>Auto Shorts AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/favicon.png" />
+
   <style>
+    :root {
+      --bg-dark: #0b0f2a;
+      --bg-gradient: radial-gradient(1200px at 50% -200px, #5b3cff33, transparent),
+                     linear-gradient(180deg, #120c3d, #070b24);
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --primary: #4f6bff;
+      --secondary: #7a4bff;
+      --text-main: #ffffff;
+      --text-muted: #b9c0ff;
+      --glow: 0 0 30px rgba(96, 110, 255, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: 'Inter', system-ui, sans-serif;
-      background: radial-gradient(1200px at 10% 10%, #5b2cff, transparent),
-                  radial-gradient(1200px at 90% 30%, #7b3cff, transparent),
-                  #0b0f2a;
-      color: #ffffff;
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
     }
-  
+
+    /* ---------- HEADER ---------- */
     header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       padding: 20px 48px;
-      background: rgba(10, 14, 40, 0.85);
-      backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-  
-    .nav-left {
+
+    .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       font-weight: 700;
       font-size: 18px;
     }
-  
+
+    nav {
+      display: flex;
+      gap: 28px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
     nav a {
-      margin: 0 14px;
-      color: #cfd4ff;
+      color: inherit;
       text-decoration: none;
-      font-weight: 500;
     }
-  
-    nav a:hover {
-      color: #ffffff;
+
+    .upgrade-btn {
+      background: var(--primary);
+      padding: 10px 18px;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--glow);
     }
-  
+
+    /* ---------- HERO ---------- */
     .hero {
       display: grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 60px;
+      padding: 80px 80px 60px;
       align-items: center;
-      padding: 100px 80px;
     }
-  
+
     .hero h1 {
-      font-size: 52px;
-      line-height: 1.1;
-      margin-bottom: 18px;
+      font-size: 48px;
+      line-height: 1.15;
+      margin-bottom: 20px;
     }
-  
+
     .hero p {
-      font-size: 18px;
-      color: #cfd4ff;
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 12px;
       max-width: 520px;
     }
-  
-    .input-box {
-      margin-top: 28px;
-      display: flex;
-      gap: 14px;
-    }
-  
-    textarea {
+
+    .input-row input {
       flex: 1;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      padding: 16px;
-      color: white;
-      font-size: 16px;
-      resize: none;
-      min-height: 70px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-size: 15px;
     }
-  
-    button {
-      background: linear-gradient(135deg, #6b4cff, #9b6cff);
+
+    .input-row button {
+      padding: 14px 22px;
+      border-radius: 10px;
       border: none;
-      border-radius: 14px;
-      padding: 16px 26px;
-      font-weight: 700;
-      color: white;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
       cursor: pointer;
+      box-shadow: var(--glow);
     }
-  
-    .section-grid {
-      padding: 80px;
+
+    .preview {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      height: 320px;
+      padding: 24px;
+      box-shadow: inset 0 0 40px rgba(120,120,255,0.08);
+    }
+
+    .preview-title {
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+
+    /* ---------- FEATURES ---------- */
+    .features {
+      padding: 40px 80px 80px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
     }
-  
-    .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+
+    .feature-col {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 18px;
-      padding: 24px;
+      padding: 28px;
+      box-shadow: 0 0 40px rgba(96,110,255,0.08);
+    }
+
+    .feature-col h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 16px;
+      letter-spacing: 0.4px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6f7bff, #8a4bff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .feature strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .feature span {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .pro-badge {
+      display: inline-block;
+      font-size: 11px;
+      background: linear-gradient(135deg, #ff9a3c, #ff4b91);
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    @media (max-width: 1100px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 60px 24px;
+      }
+      .features {
+        grid-template-columns: 1fr;
+        padding: 24px;
+      }
+      header {
+        padding: 20px 24px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
-  <header>
-    <div class="nav-left">
-      <img src="/logo.png" alt="Auto Shorts AI" height="32" />
-      <span>Auto Shorts AI</span>
-    </div>
+<header>
+  <div class="logo">⚡ Auto Shorts AI</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">Pro Version</a>
+    <a href="#">Pricing</a>
+    <a href="#">FAQ</a>
+  </nav>
+  <button class="upgrade-btn">Upgrade to Pro</button>
+</header>
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Features</a>
-      <a href="#">Pro Version</a>
-      <a href="#">Pricing</a>
-      <a href="#">FAQ</a>
-    </nav>
-
-    <div class="nav-right">
-      <button id="upgradeBtn">Upgrade to Pro</button>
-    </div>
-  </header>
 <section class="hero">
   <div>
-    <h1>Generate Viral Shorts Scripts in Seconds</h1>
-
+    <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
     <p>
-      Let our AI craft high-retention short-form video scripts designed
-      to hook viewers in the first 3 seconds and keep them watching
-      for 70–80 seconds — even on the free plan.
+      Let our advanced AI craft high-retention short-form video scripts designed
+      to hook viewers in the first 3 seconds and keep them watching for 70–80 seconds —
+      even on the free plan.
     </p>
 
-    <div class="input-box">
-      <textarea
-        id="prompt"
-        placeholder="Enter your video topic or idea..."
-      ></textarea>
-
-      <button onclick="generateContent()">
-        Generate Content
-      </button>
+    <div class="input-row">
+      <input placeholder="Enter your video topic or idea..." />
+      <button>Generate Content</button>
     </div>
   </div>
 
-  <div>
-    <img
-      src="https://dummyimage.com/520x340/2b2f7a/ffffff&text=Auto+Shorts+AI+Preview"
-      style="width:100%; border-radius:18px; box-shadow:0 40px 80px rgba(0,0,0,0.45);"
-      alt="App preview"
-    />
+  <div class="preview">
+    <div class="preview-title">Auto Shorts AI Preview</div>
   </div>
 </section>
-  <!-- HERO SECTION -->
-  <section id="hero">
-    <div class="hero-left">
-      <h1>Generate Viral Shorts Scripts in Seconds</h1>
-      <p>
-        Let our AI instantly generate long-form short-video scripts
-        designed to hook viewers and keep attention for 70–80 seconds.
-      </p>
 
-      <textarea
-        id="promptInput"
-        placeholder="Enter your video topic or idea..."
-        rows="3"
-      ></textarea>
+<section class="features">
 
-      <button id="generateBtn">Generate Content</button>
-    </div>
+  <div class="feature-col">
+    <h3>HOOK SCRIPTS</h3>
 
-    <div class="hero-right">
-      <!-- App preview image goes here later -->
-      <div id="appPreview">
-        <p>App Preview</p>
+    <div class="feature">
+      <div class="icon">🧠</div>
+      <div>
+        <strong>Curiosity Hooks</strong>
+        <span>Open curiosity gaps that force viewers to keep watching.</span>
       </div>
     </div>
-  </section>
-<section class="results" id="results" style="display:none;">
-  <div class="result-box">
-    <h3>Hook</h3>
-    <pre id="hookText"></pre>
-    <button onclick="copyText('hookText')">Copy</button>
+
+    <div class="feature">
+      <div class="icon">🔥</div>
+      <div>
+        <strong>FOMO Hooks</strong>
+        <span>Hooks that create urgency and fear of missing out.</span>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="icon">📖</div>
+      <div>
+        <strong>Story Hooks</strong>
+        <span>Narrative openings that pull viewers into the story.</span>
+      </div>
+    </div>
   </div>
 
-  <div class="result-box">
-    <h3>Script (70–80 seconds)</h3>
-    <pre id="scriptText"></pre>
-    <button onclick="copyText('scriptText')">Copy</button>
+  <div class="feature-col">
+    <h3>ADVANCED FEATURES <span class="pro-badge">PRO</span></h3>
+
+    <div class="feature">
+      <div class="icon">♾️</div>
+      <div>
+        <strong>Unlimited Generations</strong>
+        <span>Generate as many scripts as you need, without limits.</span>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="icon">📝</div>
+      <div>
+        <strong>Longer Scripts</strong>
+        <span>Full 60–80 second scripts optimized for retention.</span>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="icon">🎥</div>
+      <div>
+        <strong>AI Video Engine</strong>
+        <span>Coming soon: automatic video creation.</span>
+      </div>
+    </div>
   </div>
 
-  <div class="result-box">
-    <h3>Captions</h3>
-    <pre id="captionText"></pre>
-    <button onclick="copyText('captionText')">Copy</button>
+  <div class="feature-col">
+    <h3>ENGAGEMENT GENERATION</h3>
+
+    <div class="feature">
+      <div class="icon">🧩</div>
+      <div>
+        <strong>Psychology-Based Hooks</strong>
+        <span>Scripts engineered to trigger human attention.</span>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="icon">📈</div>
+      <div>
+        <strong>Algorithm Friendly</strong>
+        <span>Designed to maximize retention and reach.</span>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="icon">🏷️</div>
+      <div>
+        <strong>Viral Captions</strong>
+        <span>Scroll-stopping captions included with every script.</span>
+      </div>
+    </div>
   </div>
+
 </section>
-  <!-- RESULTS SECTION -->
-  <section id="results">
-
-    <div class="result-box">
-      <h3>Hook</h3>
-      <button class="copyBtn" data-copy="hook">Copy</button>
-      <pre id="hookOutput"></pre>
-    </div>
-
-    <div class="result-box">
-      <h3>Script</h3>
-      <button class="copyBtn" data-copy="script">Copy</button>
-      <pre id="scriptOutput"></pre>
-    </div>
-
-    <div class="result-box">
-      <h3>Captions</h3>
-      <button class="copyBtn" data-copy="captions">Copy</button>
-      <pre id="captionsOutput"></pre>
-    </div>
-
-  </section>
-
-  <!-- FEATURES GRID -->
-  <section id="features">
-
-    <div class="feature-card">
-      <h4>Hook Scripts</h4>
-      <p>Curiosity, FOMO, and story-based hooks designed to stop the scroll.</p>
-    </div>
-
-    <div class="feature-card">
-      <h4>Advanced Features <span>(PRO)</span></h4>
-      <p>Unlimited generations, longer scripts, and advanced optimization.</p>
-    </div>
-
-    <div class="feature-card">
-      <h4>Engagement Generations</h4>
-      <p>Psychology-based captions and algorithm-friendly pacing.</p>
-    </div>
-
-  </section>
-
-  <!-- SECOND FEATURES GRID -->
-  <section id="features-secondary">
-
-    <div class="feature-card">
-      <h4>Curiosity Hooks</h4>
-      <p>Open loops that force viewers to keep watching.</p>
-    </div>
-
-    <div class="feature-card">
-      <h4>Longer Scripts</h4>
-      <p>Full 70–80 second scripts with structured pacing.</p>
-    </div>
-
-    <div class="feature-card">
-      <h4>Viral Captions & Hashtags</h4>
-      <p>Optimized captions designed for reach and engagement.</p>
-    </div>
-
-  </section>
-
-  <script>
-    const generateBtn = document.getElementById("generateBtn");
-
-    generateBtn.addEventListener("click", async () => {
-      const prompt = document.getElementById("promptInput").value;
-
-      const res = await fetch("/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-
-      const data = await res.json();
-
-      document.getElementById("hookOutput").textContent = data.hook;
-      document.getElementById("scriptOutput").textContent = data.script;
-      document.getElementById("captionsOutput").textContent = data.captions;
-    });
-
-    document.querySelectorAll(".copyBtn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const target = btn.dataset.copy + "Output";
-        navigator.clipboard.writeText(
-          document.getElementById(target).textContent
-        );
-      });
-    });
-
-    document.getElementById("upgradeBtn").onclick = () => {
-      window.location.href = "/create-checkout-session";
-    };
-  </script>
 
 </body>
 </html>
