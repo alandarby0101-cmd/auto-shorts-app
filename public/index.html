@@ -266,16 +266,27 @@ body::before {
   animation: backgroundFloat 30s ease-in-out infinite;
 }
 
-    @media (max-width: 900px) {
+   /* === NAVBAR LOGO === */
+.nav-logo {
+  height: 52px;     /* main logo size */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* mobile tweak */
+@media (max-width: 600px) {
+  .nav-logo {
+    height: 42px;
+  }
+}
+
+@media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
       .results-container,
       .info-sections { grid-template-columns: 1fr; }
     }
-    .nav-logo {
-  height: 36px;
-  width: auto;
-  display: block;
-}
+
 
   </style>
 </head>
