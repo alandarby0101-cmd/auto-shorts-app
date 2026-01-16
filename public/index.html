@@ -1,336 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Auto Shorts AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auto Shorts AI</title>
 
-  <style>
-    :root {
-      --bg-dark: #0b0f2a;
-      --bg-gradient: radial-gradient(1200px at 50% -200px, #5b3cff33, transparent),
-                     linear-gradient(180deg, #120c3d, #070b24);
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --primary: #4f6bff;
-      --secondary: #7a4bff;
-      --text-main: #ffffff;
-      --text-muted: #b9c0ff;
-      --glow: 0 0 30px rgba(96, 110, 255, 0.35);
-    }
+<style>
+:root {
+  --bg: #0b1f4b;
+  --card-bg: rgba(255,255,255,0.05);
+  --card-border: rgba(255,255,255,0.12);
+  --text: #ffffff;
+  --text-muted: rgba(255,255,255,0.7);
+  --accent: #3aa0ff;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #0b1f4b, #0a1636);
+  color: var(--text);
+}
 
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-main);
-    }
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px 24px;
+}
 
-    /* ---------- HEADER ---------- */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 48px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
+/* ---------- NAV ---------- */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 18px;
-    }
+.nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  margin: 0 12px;
+}
 
-    nav {
-      display: flex;
-      gap: 28px;
-      font-size: 14px;
-      color: var(--text-muted);
-    }
+.upgrade {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
-    nav a {
-      color: inherit;
-      text-decoration: none;
-    }
+/* ---------- HERO ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+}
 
-    .upgrade-btn {
-      background: var(--primary);
-      padding: 10px 18px;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      box-shadow: var(--glow);
-    }
+.hero h1 {
+  font-size: 44px;
+  line-height: 1.1;
+}
 
-    /* ---------- HERO ---------- */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 60px;
-      padding: 80px 80px 60px;
-      align-items: center;
-    }
+.hero p {
+  color: var(--text-muted);
+  max-width: 520px;
+}
 
-    .hero h1 {
-      font-size: 48px;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
+.input-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
 
-    .hero p {
-      color: var(--text-muted);
-      font-size: 16px;
-      max-width: 520px;
-      margin-bottom: 28px;
-    }
+.input-row input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text);
+}
 
-    .input-row {
-      display: flex;
-      gap: 12px;
-      max-width: 520px;
-    }
+.input-row button {
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
 
-    .input-row input {
-      flex: 1;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--card-border);
-      background: rgba(0,0,0,0.3);
-      color: #fff;
-      font-size: 15px;
-    }
+/* ---------- PREVIEW ---------- */
+.preview {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  height: 320px;
+  padding: 24px;
+}
 
-    .input-row button {
-      padding: 14px 22px;
-      border-radius: 10px;
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--glow);
-    }
+.preview-title {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
 
-    .preview {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      height: 320px;
-      padding: 24px;
-      box-shadow: inset 0 0 40px rgba(120,120,255,0.08);
-    }
+.preview-content {
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
 
-    .preview-title {
-      font-size: 18px;
-      color: var(--text-muted);
-    }
+/* ---------- RESULTS ---------- */
+.results-container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
 
-    /* ---------- FEATURES ---------- */
-    .features {
-      padding: 40px 80px 80px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
+.result-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+}
 
-    .feature-col {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 0 40px rgba(96,110,255,0.08);
-    }
+.result-box h3 {
+  margin-top: 0;
+  color: var(--text-muted);
+}
 
-    .feature-col h3 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 16px;
-      letter-spacing: 0.4px;
-    }
+.result-box pre {
+  white-space: pre-wrap;
+  font-size: 14px;
+}
 
-    .feature {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #6f7bff, #8a4bff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-    }
-
-    .feature strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
-
-    .feature span {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .pro-badge {
-      display: inline-block;
-      font-size: 11px;
-      background: linear-gradient(135deg, #ff9a3c, #ff4b91);
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-left: 6px;
-    }
-
-    @media (max-width: 1100px) {
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 60px 24px;
-      }
-      .features {
-        grid-template-columns: 1fr;
-        padding: 24px;
-      }
-      header {
-        padding: 20px 24px;
-      }
-    }
-  </style>
+.result-box button {
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-<header>
-  <div class="logo">⚡ Auto Shorts AI</div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">Features</a>
-    <a href="#">Pro Version</a>
-    <a href="#">Pricing</a>
-    <a href="#">FAQ</a>
-  </nav>
-  <button class="upgrade-btn">Upgrade to Pro</button>
-</header>
-
-<section class="hero">
-  <div>
-    <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
-    <p>
-      Let our advanced AI craft high-retention short-form video scripts designed
-      to hook viewers in the first 3 seconds and keep them watching for 70–80 seconds —
-      even on the free plan.
-    </p>
-
-    <div class="input-row">
-      <input placeholder="Enter your video topic or idea..." />
-      <button>Generate Content</button>
+  <!-- NAV -->
+  <div class="nav">
+    <strong>⚡ Auto Shorts AI</strong>
+    <div>
+      <a href="#">Home</a>
+      <a href="#">Features</a>
+      <a href="#">Pro Version</a>
+      <a href="#">Pricing</a>
+      <a href="#">FAQ</a>
     </div>
+    <button class="upgrade">Upgrade to Pro</button>
   </div>
 
-  <div class="preview">
-    <div class="preview-title">Auto Shorts AI Preview</div>
-  </div>
-</section>
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <h1>Generate Viral Shorts Scripts<br/>in Seconds</h1>
+      <p>
+        Let our advanced AI craft high-retention short-form video scripts
+        designed to hook viewers in the first 3 seconds and keep them watching
+        for 70–80 seconds — even on the free plan.
+      </p>
 
-<section class="features">
-
-  <div class="feature-col">
-    <h3>HOOK SCRIPTS</h3>
-
-    <div class="feature">
-      <div class="icon">🧠</div>
-      <div>
-        <strong>Curiosity Hooks</strong>
-        <span>Open curiosity gaps that force viewers to keep watching.</span>
+      <div class="input-row">
+        <input id="promptInput" placeholder="Enter any topic…" />
+        <button onclick="generate()">Generate Content</button>
       </div>
     </div>
 
-    <div class="feature">
-      <div class="icon">🔥</div>
-      <div>
-        <strong>FOMO Hooks</strong>
-        <span>Hooks that create urgency and fear of missing out.</span>
-      </div>
-    </div>
-
-    <div class="feature">
-      <div class="icon">📖</div>
-      <div>
-        <strong>Story Hooks</strong>
-        <span>Narrative openings that pull viewers into the story.</span>
+    <!-- PREVIEW -->
+    <div class="preview">
+      <div class="preview-title">Auto Shorts AI Preview</div>
+      <div id="previewContent" class="preview-content">
+        Your generated preview will appear here…
       </div>
     </div>
   </div>
 
-  <div class="feature-col">
-    <h3>ADVANCED FEATURES <span class="pro-badge">PRO</span></h3>
+  <!-- RESULTS -->
+  <div class="results-container">
 
-    <div class="feature">
-      <div class="icon">♾️</div>
-      <div>
-        <strong>Unlimited Generations</strong>
-        <span>Generate as many scripts as you need, without limits.</span>
-      </div>
+    <div class="result-box">
+      <h3>Hook</h3>
+      <pre id="hookOutput">Your hook will appear here…</pre>
+      <button onclick="copyText('hookOutput')">Copy</button>
     </div>
 
-    <div class="feature">
-      <div class="icon">📝</div>
-      <div>
-        <strong>Longer Scripts</strong>
-        <span>Full 60–80 second scripts optimized for retention.</span>
-      </div>
+    <div class="result-box">
+      <h3>Script</h3>
+      <pre id="scriptOutput">Your script will appear here…</pre>
+      <button onclick="copyText('scriptOutput')">Copy</button>
     </div>
 
-    <div class="feature">
-      <div class="icon">🎥</div>
-      <div>
-        <strong>AI Video Engine</strong>
-        <span>Coming soon: automatic video creation.</span>
-      </div>
+    <div class="result-box">
+      <h3>Captions</h3>
+      <pre id="captionsOutput">Your captions will appear here…</pre>
+      <button onclick="copyText('captionsOutput')">Copy</button>
     </div>
+
   </div>
 
-  <div class="feature-col">
-    <h3>ENGAGEMENT GENERATION</h3>
+</div>
 
-    <div class="feature">
-      <div class="icon">🧩</div>
-      <div>
-        <strong>Psychology-Based Hooks</strong>
-        <span>Scripts engineered to trigger human attention.</span>
-      </div>
-    </div>
+<script>
+async function generate() {
+  const prompt = document.getElementById("promptInput").value;
 
-    <div class="feature">
-      <div class="icon">📈</div>
-      <div>
-        <strong>Algorithm Friendly</strong>
-        <span>Designed to maximize retention and reach.</span>
-      </div>
-    </div>
+  if (!prompt) return;
 
-    <div class="feature">
-      <div class="icon">🏷️</div>
-      <div>
-        <strong>Viral Captions</strong>
-        <span>Scroll-stopping captions included with every script.</span>
-      </div>
-    </div>
-  </div>
+  document.getElementById("previewContent").textContent = "Generating…";
 
-</section>
+  const res = await fetch("/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("hookOutput").textContent = data.hook || data.text;
+  document.getElementById("scriptOutput").textContent = data.script || data.text;
+  document.getElementById("captionsOutput").textContent = data.captions || data.text;
+
+  document.getElementById("previewContent").textContent =
+    (data.hook || "") + "\n\n" + (data.script || "");
+}
+
+function copyText(id) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent);
+}
+</script>
 
 </body>
 </html>
