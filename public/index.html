@@ -18,12 +18,36 @@
 
     * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--text-main);
-      background: var(--bg-main);
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(180,120,255,0.35), transparent 60%),
+    radial-gradient(900px 500px at 10% 30%, rgba(120,90,255,0.35), transparent 55%),
+    linear-gradient(180deg, #0b1026 0%, #0a0f2e 40%, #0c0f3a 70%, #070a1f 100%);
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -40%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(160,110,255,0.25), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(120,90,255,0.25), transparent 45%);
+  filter: blur(120px);
+  animation: floatGlow 18s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes floatGlow {
+  from { transform: translate(-40px, -20px); }
+  to   { transform: translate(40px, 20px); }
+}
+
+
 
     header {
       display: flex;
@@ -215,6 +239,21 @@
   border-radius: 18px;
   backdrop-filter: blur(4px);
 }
+@keyframes backgroundFloat {
+  0% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(-40px) translateX(30px);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+}
+
+body::before {
+  animation: backgroundFloat 30s ease-in-out infinite;
+}
 
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
@@ -304,26 +343,43 @@
   © Auto Shorts AI — Built for creators who want speed.
 </footer>
 <script>
-  let generationCount = 0;
-  const MAX_FREE_GENERATIONS = 2;
-
-  function handleGenerationLimit() {
-    generationCount++;
-
-    if (generationCount > MAX_FREE_GENERATIONS) {
-      alert("Free limit reached. Upgrade to Pro to continue.");
-      return false;
-    }
-
-    return true;
-  }
-
-  const generateBtn = document.getElementById("generateBtn");
-
-  generateBtn.addEventListener("click", () => {
-    if (!handleGenerationLimit()) return;
-    generateContent();
-  });
+   const FREE_LIMIT = 2;
+ 
+   function getGenerationCount() {
+     return Number(localStorage.getItem("generationCount") || 0);
+   }
+ 
+   function incrementGenerationCount() {
+     const count = getGenerationCount() + 1;
+     localStorage.setItem("generationCount", count);
+     return count;
+   }
+ 
+   function lockProContent() {
+     document
+       .querySelectorAll(".lockable")
+       .forEach(el => el.classList.add("locked"));
+   }
+ 
+   function handleGenerationLimit() {
+     const count = getGenerationCount();
+ 
+     if (count >= FREE_LIMIT) {
+       lockProContent();
+       alert("You’ve reached the free limit. Upgrade to Pro to continue.");
+       return false;
+     }
+ 
+     incrementGenerationCount();
+     return true;
+   }
+ 
+   const generateBtn = document.getElementById("generateBtn");
+ 
+   generateBtn.addEventListener("click", () => {
+     if (!handleGenerationLimit()) return;
+     generateContent();
+   });
 </script>
 
 </body>
