@@ -1,249 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Auto Shorts AI</title>
+  <meta charset="UTF-8" />
+  <title>Auto Shorts AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-:root {
-  --bg: #0b1f4b;
-  --card-bg: rgba(255,255,255,0.05);
-  --card-border: rgba(255,255,255,0.12);
-  --text: #ffffff;
-  --text-muted: rgba(255,255,255,0.7);
-  --accent: #3aa0ff;
-}
+  <style>
+    :root {
+      --bg-main: radial-gradient(1200px 600px at 10% 10%, #1a3cff 0%, #0a1a4f 40%, #050b2e 100%);
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.12);
+      --text-main: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --primary: #4da3ff;
+      --glow: 0 0 40px rgba(77,163,255,0.25);
+    }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(180deg, #0b1f4b, #0a1636);
-  color: var(--text);
-}
+    * { box-sizing: border-box; }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 40px 24px;
-}
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--text-main);
+      background: var(--bg-main);
+    }
 
-/* ---------- NAV ---------- */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 60px;
-}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 48px;
+    }
 
-.nav a {
-  color: var(--text-muted);
-  text-decoration: none;
-  margin: 0 12px;
-}
+    nav a {
+      color: var(--text-muted);
+      margin-right: 24px;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-.upgrade {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 10px;
-  cursor: pointer;
-}
+    .pro-btn {
+      background: var(--primary);
+      padding: 10px 18px;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
 
-/* ---------- HERO ---------- */
-.hero {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 40px;
-}
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      padding: 64px 48px;
+      align-items: center;
+    }
 
-.hero h1 {
-  font-size: 44px;
-  line-height: 1.1;
-}
+    h1 {
+      font-size: 48px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
 
-.hero p {
-  color: var(--text-muted);
-  max-width: 520px;
-}
+    .subtitle {
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
 
-.input-row {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
+    .input-row {
+      display: flex;
+      gap: 12px;
+    }
 
-.input-row input {
-  flex: 1;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  color: var(--text);
-}
+    .input-row input {
+      flex: 1;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: #fff;
+      outline: none;
+    }
 
-.input-row button {
-  padding: 14px 18px;
-  border-radius: 10px;
-  border: none;
-  background: var(--accent);
-  color: #fff;
-  cursor: pointer;
-}
+    .input-row button {
+      padding: 14px 22px;
+      border-radius: 10px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--glow);
+    }
 
-/* ---------- PREVIEW ---------- */
-.preview {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  height: 320px;
-  padding: 24px;
-}
+    /* PREVIEW IMAGE BOX (STATIC) */
+    .preview {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 40px rgba(120,120,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
 
-.preview-title {
-  font-size: 18px;
-  color: var(--text-muted);
-  margin-bottom: 14px;
-}
+    .preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.12), transparent);
+      animation: shimmer 4s infinite;
+    }
 
-.preview-content {
-  font-size: 16px;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
 
-/* ---------- RESULTS ---------- */
-.results-container {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
+    .preview span {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
 
-.result-box {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 20px;
-}
+    /* RESULTS */
+    .results-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 0 48px 64px;
+    }
 
-.result-box h3 {
-  margin-top: 0;
-  color: var(--text-muted);
-}
+    .result-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+    }
 
-.result-box pre {
-  white-space: pre-wrap;
-  font-size: 14px;
-}
+    .result-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
 
-.result-box button {
-  margin-top: 12px;
-  background: transparent;
-  border: 1px solid var(--card-border);
-  color: var(--text);
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-</style>
+    .result-box pre {
+      white-space: pre-wrap;
+      color: var(--text-muted);
+      min-height: 120px;
+    }
+
+    .result-box button {
+      margin-top: 12px;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* INFO SECTIONS */
+    .info-sections {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 0 48px 80px;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .info-card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .info-card p {
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    footer {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .results-container,
+      .info-sections { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
 
-  <!-- NAV -->
-  <div class="nav">
-    <strong>⚡ Auto Shorts AI</strong>
-    <div>
-      <a href="#">Home</a>
-      <a href="#">Features</a>
-      <a href="#">Pro Version</a>
-      <a href="#">Pricing</a>
-      <a href="#">FAQ</a>
-    </div>
-    <button class="upgrade">Upgrade to Pro</button>
-  </div>
+<header>
+  <strong>⚡ Auto Shorts AI</strong>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">Pro Version</a>
+    <a href="#">Pricing</a>
+    <a href="#">FAQ</a>
+    <a class="pro-btn" href="#">Upgrade to Pro</a>
+  </nav>
+</header>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div>
-      <h1>Generate Viral Shorts Scripts<br/>in Seconds</h1>
-      <p>
-        Let our advanced AI craft high-retention short-form video scripts
-        designed to hook viewers in the first 3 seconds and keep them watching
-        for 70–80 seconds — even on the free plan.
-      </p>
+<section class="hero">
+  <div>
+    <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
+    <p class="subtitle">
+      Let our advanced AI craft high-retention short-form video scripts
+      designed to hook viewers in the first 3 seconds and keep them watching.
+    </p>
 
-      <div class="input-row">
-        <input id="promptInput" placeholder="Enter any topic…" />
-        <button onclick="generate()">Generate Content</button>
-      </div>
-    </div>
-
-    <!-- PREVIEW -->
-    <div class="preview">
-      <div class="preview-title">Auto Shorts AI Preview</div>
-      <div id="previewContent" class="preview-content">
-        Your generated preview will appear here…
-      </div>
+    <div class="input-row">
+      <input placeholder="Enter a topic…" />
+      <button>Generate Content</button>
     </div>
   </div>
 
-  <!-- RESULTS -->
-  <div class="results-container">
+  <div class="preview">
+    <span>Animated Shorts Preview (visual only)</span>
+  </div>
+</section>
 
-    <div class="result-box">
-      <h3>Hook</h3>
-      <pre id="hookOutput">Your hook will appear here…</pre>
-      <button onclick="copyText('hookOutput')">Copy</button>
-    </div>
-
-    <div class="result-box">
-      <h3>Script</h3>
-      <pre id="scriptOutput">Your script will appear here…</pre>
-      <button onclick="copyText('scriptOutput')">Copy</button>
-    </div>
-
-    <div class="result-box">
-      <h3>Captions</h3>
-      <pre id="captionsOutput">Your captions will appear here…</pre>
-      <button onclick="copyText('captionsOutput')">Copy</button>
-    </div>
-
+<section class="results-container">
+  <div class="result-box">
+    <h3>Hook</h3>
+    <pre id="hookOutput">Your hook will appear here…</pre>
+    <button>Copy</button>
   </div>
 
-</div>
+  <div class="result-box">
+    <h3>Script</h3>
+    <pre id="scriptOutput">Your script will appear here…</pre>
+    <button>Copy</button>
+  </div>
 
-<script>
-async function generate() {
-  const prompt = document.getElementById("promptInput").value;
+  <div class="result-box">
+    <h3>Captions</h3>
+    <pre id="captionsOutput">Your captions will appear here…</pre>
+    <button>Copy</button>
+  </div>
+</section>
 
-  if (!prompt) return;
+<section class="info-sections">
+  <div class="info-card">
+    <h3>Why Use This App</h3>
+    <p>• Instantly generate high-retention Shorts scripts</p>
+    <p>• Built for TikTok, Reels, and YouTube Shorts</p>
+    <p>• No thinking, no writing fatigue</p>
+  </div>
 
-  document.getElementById("previewContent").textContent = "Generating…";
+  <div class="info-card">
+    <h3>What Pro Unlocks</h3>
+    <p>• Unlimited generations</p>
+    <p>• Longer, higher-retention scripts</p>
+    <p>• Future video automation tools</p>
+  </div>
 
-  const res = await fetch("/generate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt })
-  });
+  <div class="info-card">
+    <h3>What’s Coming Next</h3>
+    <p>👉 Polished preview animations</p>
+    <p>👉 Pro-only blur logic</p>
+    <p>👉 Stripe-powered gating</p>
+  </div>
+</section>
 
-  const data = await res.json();
-
-  document.getElementById("hookOutput").textContent = data.hook || data.text;
-  document.getElementById("scriptOutput").textContent = data.script || data.text;
-  document.getElementById("captionsOutput").textContent = data.captions || data.text;
-
-  document.getElementById("previewContent").textContent =
-    (data.hook || "") + "\n\n" + (data.script || "");
-}
-
-function copyText(id) {
-  navigator.clipboard.writeText(document.getElementById(id).textContent);
-}
-</script>
+<footer>
+  © Auto Shorts AI — Built for creators who want speed.
+</footer>
 
 </body>
 </html>
