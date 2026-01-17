@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Shorts AI — Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, #1a3cff 0%, #060b2e 60%);
+      color: white;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px);
+      padding: 24px;
+    }
+
+    .main {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .video {
+      grid-column: span 2;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <aside class="sidebar">
+    <h2>🚀 Creator Profile</h2>
+    <p><strong>Status:</strong> Pro</p>
+    <p><strong>Videos Generated:</strong> 0</p>
+    <p><strong>Virality Score:</strong> --</p>
+  </aside>
+
+  <main class="main">
+    <div class="card">
+      <h2>Hooks</h2>
+      <p>Your hooks will appear here.</p>
+    </div>
+
+    <div class="card">
+      <h2>Scripts</h2>
+      <p>Your scripts will appear here.</p>
+    </div>
+
+    <div class="card">
+      <h2>Captions</h2>
+      <p>Your captions will appear here.</p>
+    </div>
+
+    <div class="card video">
+      <h2>🎬 AI Shorts Video Generator</h2>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
