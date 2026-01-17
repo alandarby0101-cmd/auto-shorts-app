@@ -445,6 +445,45 @@ body::before {
    generateShorts();
    });
 </script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  const generateBtn = document.getElementById("generateBtn");
+
+  if (!generateBtn) {
+    console.error("Generate button not found");
+    return;
+  }
+
+  generateBtn.addEventListener("click", async () => {
+    if (!handleGenerationLimit()) return;
+
+    const input = document.getElementById("topicInput");
+    const topic = input.value.trim();
+
+    if (!topic) {
+      alert("Enter a topic first");
+      return;
+    }
+
+    const res = await fetch("/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: topic })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("hooksBox").innerText =
+      data.hook || "No hook returned";
+
+    document.getElementById("scriptBox").innerText =
+      data.script || "No script returned";
+
+    document.getElementById("captionsBox").innerText =
+      data.captions || "No captions returned";
+  });
+
+});
+</script>
 </body>
 </html>
