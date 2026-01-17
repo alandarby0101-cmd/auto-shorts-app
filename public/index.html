@@ -385,106 +385,70 @@ body::before {
 <footer>
   © Auto Shorts AI — Built for creators who want speed.
 </footer>
+<script>
+const FREE_LIMIT = 2;
 
-</script>
-   const FREE_LIMIT = 2;
- 
-   function getGenerationCount() {
-     return Number(localStorage.getItem("generationCount") || 0);
-   }
- 
-   function incrementGenerationCount() {
-     const count = getGenerationCount() + 1;
-     localStorage.setItem("generationCount", count);
-     return count;
-   }
- 
-   function lockProContent() {
-     document
-       .querySelectorAll(".lockable")
-       .forEach(el => el.classList.add("locked"));
-   }
- 
-   function handleGenerationLimit() {
-     const count = getGenerationCount();
- 
-     if (count >= FREE_LIMIT) {
-       lockProContent();
-       alert("You’ve reached the free limit. Upgrade to Pro to continue.");
-       return false;
-     }
- 
-     incrementGenerationCount();
-     return true;
-   }
- async function generateShorts() {
-   const input = document.getElementById("topicInput");
-   const topic = input.value.trim();
- 
-   if (!topic) {
-     alert("Enter a topic first");
-     return;
-   }
- 
-   const res = await fetch("/generate", {
-     method: "POST",
-     headers: { "Content-Type": "application/json" },
-     body: JSON.stringify({ prompt: topic })
-   });
- 
-   const data = await res.json();
- 
-   document.getElementById("hooksBox").innerText = data.hook || "No hook returned";
-   document.getElementById("scriptBox").innerText = data.script || "No script returned";
-   document.getElementById("captionsBox").innerText = data.captions || "No captions returned";
- }
- 
-   const generateBtn = document.getElementById("generateBtn");
- 
-   generateBtn.addEventListener("click", () => {
-     if (!handleGenerationLimit()) return;
-   generateShorts();
-   });
+function getGenerationCount() {
+  return Number(localStorage.getItem("generationCount") || 0);
+}
+
+function incrementGenerationCount() {
+  const count = getGenerationCount() + 1;
+  localStorage.setItem("generationCount", count);
+  return count;
+}
+
+function lockProContent() {
+  document.querySelectorAll(".lockable").forEach(el => {
+    el.classList.add("locked");
+  });
+}
+
+function handleGenerationLimit() {
+  if (getGenerationCount() >= FREE_LIMIT) {
+    lockProContent();
+    alert("You've reached the free limit. Upgrade to Pro to continue.");
+    return false;
+  }
+  incrementGenerationCount();
+  return true;
+}
+
+async function generateShorts() {
+  const input = document.getElementById("topicInput");
+  const topic = input.value.trim();
+
+  if (!topic) {
+    alert("Enter a topic first");
+    return;
+  }
+
+  const res = await fetch("/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: topic })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("hooksBox").innerText = data.hook || "No hook returned";
+  document.getElementById("scriptBox").innerText = data.script || "No script returned";
+  document.getElementById("captionsBox").innerText = data.captions || "No captions returned";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  const generateBtn = document.getElementById("generateBtn");
-
-  if (!generateBtn) {
+  const btn = document.getElementById("generateBtn");
+  if (!btn) {
     console.error("Generate button not found");
     return;
   }
 
-  generateBtn.addEventListener("click", async () => {
+  btn.addEventListener("click", () => {
     if (!handleGenerationLimit()) return;
-
-    const input = document.getElementById("topicInput");
-    const topic = input.value.trim();
-
-    if (!topic) {
-      alert("Enter a topic first");
-      return;
-    }
-
-    const res = await fetch("/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: topic })
-    });
-
-    const data = await res.json();
-
-    document.getElementById("hooksBox").innerText =
-      data.hook || "No hook returned";
-
-    document.getElementById("scriptBox").innerText =
-      data.script || "No script returned";
-
-    document.getElementById("captionsBox").innerText =
-      data.captions || "No captions returned";
+    generateShorts();
   });
-
 });
 </script>
+
 </body>
 </html>
