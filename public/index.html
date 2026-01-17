@@ -386,6 +386,11 @@ body::before {
   © Auto Shorts AI — Built for creators who want speed.
 </footer>
 <script>
+function lockProContent() {
+  localStorage.setItem("isPro", "true");
+  window.location.href = "/pro.html";
+}
+
 const FREE_LIMIT = 2;
 
 function getGenerationCount() {
@@ -410,13 +415,18 @@ function handleGenerationLimit() {
     alert("You've reached the free limit. Upgrade to Pro to continue.");
     return false;
   }
-  incrementGenerationCount();
   return true;
 }
 
 async function generateShorts() {
-  const input = document.getElementById("topicInput");
-  const topic = input.value.trim();
+const input = document.getElementById("topicInput");
+if (!input) {
+  alert("Topic input not found (check id)");
+  console.error("Missing #topicInput element");
+  return;
+}
+
+const topic = input.value.trim();
 
   if (!topic) {
     alert("Enter a topic first");
@@ -434,6 +444,8 @@ async function generateShorts() {
   document.getElementById("hooksBox").innerText = data.hook || "No hook returned";
   document.getElementById("scriptBox").innerText = data.script || "No script returned";
   document.getElementById("captionsBox").innerText = data.captions || "No captions returned";
+
+  incrementGenerationCount();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
