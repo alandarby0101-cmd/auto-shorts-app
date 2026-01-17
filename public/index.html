@@ -385,7 +385,8 @@ body::before {
 <footer>
   © Auto Shorts AI — Built for creators who want speed.
 </footer>
-<script>
+
+</script>
    const FREE_LIMIT = 2;
  
    function getGenerationCount() {
@@ -437,14 +438,14 @@ body::before {
    document.getElementById("scriptBox").innerText = data.script || "No script returned";
    document.getElementById("captionsBox").innerText = data.captions || "No captions returned";
  }
- </script>
+ 
    const generateBtn = document.getElementById("generateBtn");
  
    generateBtn.addEventListener("click", () => {
      if (!handleGenerationLimit()) return;
    generateShorts();
    });
-</script>
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const generateBtn = document.getElementById("generateBtn");
