@@ -3,88 +3,194 @@
 <head>
   <meta charset="UTF-8" />
   <title>Auto Shorts AI — Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    /* ===== GLOBAL ===== */
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(1200px 600px at 10% 10%, #1a3cff 0%, #060b2e 60%);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       color: white;
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: 280px 1fr;
+      background: radial-gradient(circle at top, #3b1d7a 0%, #120028 40%, #05010d 100%);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .sidebar {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(20px);
-      padding: 24px;
+    h1,h2,h3 {
+      margin: 0 0 10px 0;
     }
 
-    .main {
-      padding: 32px;
+    /* ===== LAYOUT ===== */
+    .app {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: 300px 1fr 380px;
+      gap: 30px;
+      padding: 40px;
     }
 
+    /* ===== GLASS CARDS ===== */
     .card {
       background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(18px);
       border-radius: 16px;
       padding: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 40px rgba(120,80,255,0.15);
     }
 
-    h2 {
-      margin-top: 0;
-      font-size: 18px;
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .video {
-      grid-column: span 2;
-      height: 320px;
+    .profile {
+      text-align: center;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7f5bff, #39ffd2);
+      margin: 0 auto 10px;
+    }
+
+    .status {
+      color: #39ffd2;
+      font-weight: bold;
+    }
+
+    /* ===== CENTER ===== */
+    .center {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #7f5bff, #39ffd2);
+      color: black;
+      font-weight: bold;
+    }
+
+    .output {
+      min-height: 120px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    /* ===== RIGHT PANEL ===== */
+    .video-box {
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+
+    .video-thumb {
+      width: 100%;
+      height: 260px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1b1b3a, #2e145f);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: bold;
       opacity: 0.8;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #7f5bff, #39ffd2);
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
     }
   </style>
 </head>
+
 <body>
 
-<div class="dashboard">
-  <aside class="sidebar">
-    <h2>🚀 Creator Profile</h2>
-    <p><strong>Status:</strong> Pro</p>
-    <p><strong>Videos Generated:</strong> 0</p>
-    <p><strong>Virality Score:</strong> --</p>
-  </aside>
+  <div class="app">
 
-  <main class="main">
-    <div class="card">
-      <h2>Hooks</h2>
-      <p>Your hooks will appear here.</p>
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar">
+      <div class="card profile">
+        <div class="avatar"></div>
+        <h3>Alex Summers</h3>
+        <div class="status">Pro Status: Active</div>
+        <p style="opacity:.7;font-size:13px;">alex.summers@email.com</p>
+      </div>
+
+      <div class="card">
+        <h3>Creator Stats</h3>
+        <p>Videos Generated: 0</p>
+        <p>Virality Score: --</p>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Scripts</h2>
-      <p>Your scripts will appear here.</p>
+    <!-- ===== CENTER ===== -->
+    <div class="center">
+      <div class="card">
+        <h2>Your Shorts Scripts</h2>
+        <div class="tabs">
+          <div class="tab active">Scripts</div>
+          <div class="tab">Hooks</div>
+          <div class="tab">Captions</div>
+        </div>
+        <div class="output" id="scriptsOutput">
+Your scripts will appear here.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Hooks</h3>
+        <div class="output" id="hooksOutput">Your hooks will appear here.</div>
+      </div>
+
+      <div class="card">
+        <h3>Captions</h3>
+        <div class="output" id="captionsOutput">Your captions will appear here.</div>
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Captions</h2>
-      <p>Your captions will appear here.</p>
+    <!-- ===== RIGHT ===== -->
+    <div class="card video-box">
+      <div>
+        <h2>AI Shorts Video</h2>
+        <div class="video-thumb">
+          Video Preview
+        </div>
+      </div>
+      <button class="btn">Create New Video</button>
+      <p style="font-size:12px;opacity:.7;">
+        Unlimited • HD • Up to 300 words
+      </p>
     </div>
 
-    <div class="card video">
-      <h2>🎬 AI Shorts Video Generator</h2>
-    </div>
-  </main>
-</div>
+  </div>
 
 </body>
 </html>
