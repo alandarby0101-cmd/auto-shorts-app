@@ -2,237 +2,187 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Auto Shorts AI — Pro</title>
-
+<title>Auto Shorts AI – Pro</title>
 <style>
-/* ================= RESET ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* ================= BACKGROUND (MATCHES HOMEPAGE) ================= */
+/* ---------- GLOBAL ---------- */
 body {
-  min-height: 100vh;
-  color: #fff;
-  background:
-    radial-gradient(1200px 600px at 50% -10%, rgba(120,80,255,.35), transparent 60%),
-    radial-gradient(800px 500px at 80% 20%, rgba(57,255,210,.18), transparent 60%),
-    linear-gradient(180deg, #120028 0%, #05010d 100%);
-  overflow-x: hidden;
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: radial-gradient(circle at top, #2b1055, #090020);
+  color: white;
 }
 
-/* ================= LAYOUT ================= */
-.app {
+.container {
   display: grid;
-  grid-template-columns: 300px 1fr 380px;
-  gap: 28px;
-  padding: 40px;
+  grid-template-columns: 260px 1fr 360px;
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
-/* ================= GLASS CARD ================= */
-.card {
+/* ---------- LEFT PANEL ---------- */
+.profile {
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.14);
-  backdrop-filter: blur(18px);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 0 45px rgba(130,90,255,0.18);
-  transition: .25s ease;
+  border-radius: 16px;
+  padding: 20px;
 }
 
-.card:hover {
-  box-shadow: 0 0 70px rgba(140,120,255,0.4);
-  transform: translateY(-2px);
-}
-
-/* ================= SIDEBAR ================= */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
-
-.avatar {
-  width: 82px;
-  height: 82px;
-  margin: 0 auto 12px;
+.profile img {
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7f5bff, #39ffd2);
-  box-shadow: 0 0 30px rgba(120,120,255,.6);
+  margin-bottom: 10px;
 }
 
-.status {
-  text-align: center;
-  color: #39ffd2;
-  font-weight: 600;
-  margin-top: 6px;
+.profile h3 {
+  margin: 10px 0 5px;
 }
 
-.small {
-  font-size: 13px;
-  opacity: .75;
-  text-align: center;
+.stat {
+  margin-top: 10px;
+  opacity: 0.85;
 }
 
-/* ================= CENTER ================= */
+/* ---------- CENTER PANEL ---------- */
 .center {
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
 }
 
 .tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 15px;
 }
 
-.tab {
+.tabs button {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
   padding: 8px 14px;
-  font-size: 14px;
   border-radius: 10px;
-  background: rgba(255,255,255,0.08);
   cursor: pointer;
 }
 
-.tab.active {
-  background: linear-gradient(135deg,#7f5bff,#39ffd2);
-  color: #000;
-  font-weight: 700;
+.output-box {
+  flex: 1;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  overflow-y: auto;
 }
 
-.output {
-  background: rgba(0,0,0,.35);
-  border-radius: 14px;
-  padding: 16px;
-  min-height: 160px;
-  white-space: pre-wrap;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* ================= RIGHT PANEL ================= */
-.video-box {
-  height: 260px;
+/* ---------- RIGHT PANEL ---------- */
+.video-panel {
+  background: rgba(255,255,255,0.05);
   border-radius: 16px;
-  background:
-    radial-gradient(circle at top, rgba(120,80,255,.35), transparent 60%),
-    linear-gradient(135deg, #1a1340, #2b1460);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview {
+  background: black;
+  height: 200px;
+  border-radius: 12px;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  opacity: .9;
-  animation: glow 3s ease-in-out infinite alternate;
+  opacity: 0.7;
 }
 
-@keyframes glow {
-  from { box-shadow: 0 0 40px rgba(120,80,255,.3); }
-  to   { box-shadow: 0 0 80px rgba(120,120,255,.55); }
+/* ---------- VOICE + MUSIC ---------- */
+.selector {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
-.btn {
-  width: 100%;
-  padding: 14px;
-  margin-top: 14px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  background: linear-gradient(135deg,#7f5bff,#39ffd2);
-  color: #000;
-}
-
-.feature {
+/* ---------- FINAL SECTION ---------- */
+.final {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #5b2cff, #00c6ff);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
   margin-top: 10px;
-  font-size: 13px;
-  opacity: .75;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width: 1100px) {
-  .app {
-    grid-template-columns: 1fr;
-  }
+.final button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 30px;
+  cursor: pointer;
 }
 </style>
 </head>
-
 <body>
 
-<div class="app">
+<div class="container">
 
   <!-- LEFT -->
-  <div class="sidebar">
-    <div class="card">
-      <div class="avatar"></div>
-      <h3 style="text-align:center;">Alex Summers</h3>
-      <div class="status">✔ Pro Status: Active</div>
-      <div class="small">alex.summers@email.com</div>
-    </div>
-
-    <div class="card">
-      <h3>Creator Stats</h3>
-      <p class="small">Videos Generated: <span id="count">0</span></p>
-      <p class="small">Virality Score: —</p>
-    </div>
+  <div class="profile">
+    <img src="https://i.pravatar.cc/150" />
+    <h3>Alex Summers</h3>
+    <div>✅ Pro Active</div>
+    <div class="stat">Videos: 0</div>
+    <div class="stat">Virality: --</div>
   </div>
 
   <!-- CENTER -->
   <div class="center">
-    <div class="card">
-      <h2>Your Shorts Scripts</h2>
+    <h2>Your Shorts Scripts</h2>
 
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('script', this)">Scripts</div>
-        <div class="tab" onclick="switchTab('hook', this)">Hooks</div>
-        <div class="tab" onclick="switchTab('caption', this)">Captions</div>
-      </div>
-
-      <div id="scriptBox" class="output"></div>
-      <div id="hookBox" class="output" style="display:none;"></div>
-      <div id="captionBox" class="output" style="display:none;"></div>
+    <div class="tabs">
+      <button>Scripts</button>
+      <button>Hooks</button>
+      <button>Captions</button>
     </div>
+
+    <div class="output-box">
+      Your AI content will appear here…
+    </div>
+
+    <button>Generate New</button>
   </div>
 
   <!-- RIGHT -->
-  <div class="card">
-    <h2>AI Shorts Video</h2>
-    <div class="video-box">AI Shorts Video Generator</div>
-    <button class="btn">Create New Video</button>
-    <div class="feature">✔ Unlimited Generations</div>
-    <div class="feature">✔ Script length up to 300 words</div>
-    <div class="feature">✔ HD Video Quality</div>
+  <div class="video-panel">
+    <h2>AI Video Engine</h2>
+
+    <div class="preview">
+      Video Preview
+    </div>
+
+    <textarea placeholder="Paste script here..." style="width:100%;height:80px;border-radius:10px;"></textarea>
+
+    <button style="margin-top:10px;">Create Video</button>
+
+    <h3 style="margin-top:20px;">Voice</h3>
+    <div class="selector">Ryan (US Male)</div>
+
+    <h3>Music</h3>
+    <div class="selector">Synthwave Dreams</div>
+  </div>
+
+  <!-- FINAL MAGIC -->
+  <div class="final">
+    <h2>✨ Create Perfect Short</h2>
+    <p>This will combine script, captions, voice, music and visuals into one AI-generated short.</p>
+    <button>Generate Full Short</button>
   </div>
 
 </div>
-
-<script>
-/* ===== LOAD FROM HOMEPAGE ===== */
-document.getElementById("scriptBox").innerText =
-  localStorage.getItem("lastScript") || "Your scripts will appear here.";
-
-document.getElementById("hookBox").innerText =
-  localStorage.getItem("lastHook") || "Your hooks will appear here.";
-
-document.getElementById("captionBox").innerText =
-  localStorage.getItem("lastCaptions") || "Your captions will appear here.";
-
-/* ===== TABS ===== */
-function switchTab(type, el) {
-  document.querySelectorAll(".output").forEach(o => o.style.display = "none");
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-
-  if (type === "script") scriptBox.style.display = "block";
-  if (type === "hook") hookBox.style.display = "block";
-  if (type === "caption") captionBox.style.display = "block";
-
-  el.classList.add("active");
-}
-</script>
 
 </body>
 </html>
