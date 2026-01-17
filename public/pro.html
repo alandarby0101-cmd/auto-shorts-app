@@ -1,196 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Auto Shorts AI — Pro</title>
+<meta charset="UTF-8" />
+<title>Auto Shorts AI — Pro</title>
 
-  <style>
-    /* ===== GLOBAL ===== */
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      color: white;
-      background: radial-gradient(circle at top, #3b1d7a 0%, #120028 40%, #05010d 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+<style>
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-    h1,h2,h3 {
-      margin: 0 0 10px 0;
-    }
+/* ================= BACKGROUND (MATCHES HOMEPAGE) ================= */
+body {
+  min-height: 100vh;
+  color: #fff;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(120,80,255,.35), transparent 60%),
+    radial-gradient(800px 500px at 80% 20%, rgba(57,255,210,.18), transparent 60%),
+    linear-gradient(180deg, #120028 0%, #05010d 100%);
+  overflow-x: hidden;
+}
 
-    /* ===== LAYOUT ===== */
-    .app {
-      display: grid;
-      grid-template-columns: 300px 1fr 380px;
-      gap: 30px;
-      padding: 40px;
-    }
+/* ================= LAYOUT ================= */
+.app {
+  display: grid;
+  grid-template-columns: 300px 1fr 380px;
+  gap: 28px;
+  padding: 40px;
+}
 
-    /* ===== GLASS CARDS ===== */
-    .card {
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(18px);
-      border-radius: 16px;
-      padding: 20px;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 0 40px rgba(120,80,255,0.15);
-    }
+/* ================= GLASS CARD ================= */
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(18px);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 0 45px rgba(130,90,255,0.18);
+  transition: .25s ease;
+}
 
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+.card:hover {
+  box-shadow: 0 0 70px rgba(140,120,255,0.4);
+  transform: translateY(-2px);
+}
 
-    .profile {
-      text-align: center;
-    }
+/* ================= SIDEBAR ================= */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
 
-    .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #7f5bff, #39ffd2);
-      margin: 0 auto 10px;
-    }
+.avatar {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7f5bff, #39ffd2);
+  box-shadow: 0 0 30px rgba(120,120,255,.6);
+}
 
-    .status {
-      color: #39ffd2;
-      font-weight: bold;
-    }
+.status {
+  text-align: center;
+  color: #39ffd2;
+  font-weight: 600;
+  margin-top: 6px;
+}
 
-    /* ===== CENTER ===== */
-    .center {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+.small {
+  font-size: 13px;
+  opacity: .75;
+  text-align: center;
+}
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
+/* ================= CENTER ================= */
+.center {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
 
-    .tab {
-      padding: 8px 14px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.08);
-      cursor: pointer;
-      font-size: 14px;
-    }
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
 
-    .tab.active {
-      background: linear-gradient(135deg, #7f5bff, #39ffd2);
-      color: black;
-      font-weight: bold;
-    }
+.tab {
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+}
 
-    .output {
-      min-height: 120px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 12px;
-      padding: 15px;
-      font-size: 14px;
-      white-space: pre-wrap;
-    }
+.tab.active {
+  background: linear-gradient(135deg,#7f5bff,#39ffd2);
+  color: #000;
+  font-weight: 700;
+}
 
-    /* ===== RIGHT PANEL ===== */
-    .video-box {
-      height: 420px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      text-align: center;
-    }
+.output {
+  background: rgba(0,0,0,.35);
+  border-radius: 14px;
+  padding: 16px;
+  min-height: 160px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-    .video-thumb {
-      width: 100%;
-      height: 260px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #1b1b3a, #2e145f);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      opacity: 0.8;
-    }
+/* ================= RIGHT PANEL ================= */
+.video-box {
+  height: 260px;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top, rgba(120,80,255,.35), transparent 60%),
+    linear-gradient(135deg, #1a1340, #2b1460);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  opacity: .9;
+  animation: glow 3s ease-in-out infinite alternate;
+}
 
-    .btn {
-      padding: 14px 20px;
-      border-radius: 12px;
-      border: none;
-      background: linear-gradient(135deg, #7f5bff, #39ffd2);
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-    }
-  </style>
+@keyframes glow {
+  from { box-shadow: 0 0 40px rgba(120,80,255,.3); }
+  to   { box-shadow: 0 0 80px rgba(120,120,255,.55); }
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  background: linear-gradient(135deg,#7f5bff,#39ffd2);
+  color: #000;
+}
+
+.feature {
+  margin-top: 10px;
+  font-size: 13px;
+  opacity: .75;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 1100px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <!-- ===== SIDEBAR ===== -->
-    <div class="sidebar">
-      <div class="card profile">
-        <div class="avatar"></div>
-        <h3>Alex Summers</h3>
-        <div class="status">Pro Status: Active</div>
-        <p style="opacity:.7;font-size:13px;">alex.summers@email.com</p>
-      </div>
-
-      <div class="card">
-        <h3>Creator Stats</h3>
-        <p>Videos Generated: 0</p>
-        <p>Virality Score: --</p>
-      </div>
+  <!-- LEFT -->
+  <div class="sidebar">
+    <div class="card">
+      <div class="avatar"></div>
+      <h3 style="text-align:center;">Alex Summers</h3>
+      <div class="status">✔ Pro Status: Active</div>
+      <div class="small">alex.summers@email.com</div>
     </div>
 
-    <!-- ===== CENTER ===== -->
-    <div class="center">
-      <div class="card">
-        <h2>Your Shorts Scripts</h2>
-        <div class="tabs">
-          <div class="tab active">Scripts</div>
-          <div class="tab">Hooks</div>
-          <div class="tab">Captions</div>
-        </div>
-        <div class="output" id="scriptsOutput">
-Your scripts will appear here.
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Hooks</h3>
-        <div class="output" id="hooksOutput">Your hooks will appear here.</div>
-      </div>
-
-      <div class="card">
-        <h3>Captions</h3>
-        <div class="output" id="captionsOutput">Your captions will appear here.</div>
-      </div>
+    <div class="card">
+      <h3>Creator Stats</h3>
+      <p class="small">Videos Generated: <span id="count">0</span></p>
+      <p class="small">Virality Score: —</p>
     </div>
-
-    <!-- ===== RIGHT ===== -->
-    <div class="card video-box">
-      <div>
-        <h2>AI Shorts Video</h2>
-        <div class="video-thumb">
-          Video Preview
-        </div>
-      </div>
-      <button class="btn">Create New Video</button>
-      <p style="font-size:12px;opacity:.7;">
-        Unlimited • HD • Up to 300 words
-      </p>
-    </div>
-
   </div>
+
+  <!-- CENTER -->
+  <div class="center">
+    <div class="card">
+      <h2>Your Shorts Scripts</h2>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('script', this)">Scripts</div>
+        <div class="tab" onclick="switchTab('hook', this)">Hooks</div>
+        <div class="tab" onclick="switchTab('caption', this)">Captions</div>
+      </div>
+
+      <div id="scriptBox" class="output"></div>
+      <div id="hookBox" class="output" style="display:none;"></div>
+      <div id="captionBox" class="output" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="card">
+    <h2>AI Shorts Video</h2>
+    <div class="video-box">AI Shorts Video Generator</div>
+    <button class="btn">Create New Video</button>
+    <div class="feature">✔ Unlimited Generations</div>
+    <div class="feature">✔ Script length up to 300 words</div>
+    <div class="feature">✔ HD Video Quality</div>
+  </div>
+
+</div>
+
+<script>
+/* ===== LOAD FROM HOMEPAGE ===== */
+document.getElementById("scriptBox").innerText =
+  localStorage.getItem("lastScript") || "Your scripts will appear here.";
+
+document.getElementById("hookBox").innerText =
+  localStorage.getItem("lastHook") || "Your hooks will appear here.";
+
+document.getElementById("captionBox").innerText =
+  localStorage.getItem("lastCaptions") || "Your captions will appear here.";
+
+/* ===== TABS ===== */
+function switchTab(type, el) {
+  document.querySelectorAll(".output").forEach(o => o.style.display = "none");
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
+  if (type === "script") scriptBox.style.display = "block";
+  if (type === "hook") hookBox.style.display = "block";
+  if (type === "caption") captionBox.style.display = "block";
+
+  el.classList.add("active");
+}
+</script>
 
 </body>
 </html>
