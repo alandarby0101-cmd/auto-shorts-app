@@ -3,183 +3,216 @@
 <head>
 <meta charset="UTF-8" />
 <title>Auto Shorts AI – Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <style>
-/* ---------- GLOBAL ---------- */
-body {
+/* ===== GLOBAL RESET ===== */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: radial-gradient(circle at top, #2b1055, #090020);
-  color: white;
+  padding: 0;
+  font-family: Inter, system-ui, sans-serif;
 }
 
+/* ===== SAME BACKGROUND AS HOMEPAGE ===== */
+body {
+  min-height: 100vh;
+  background: url("/galaxy-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===== GLASS EFFECT ===== */
+.glass {
+  background: rgba(15, 20, 45, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(120,150,255,0.8);
+  transform: translateY(-3px);
+}
+
+/* ===== LAYOUT ===== */
 .container {
   display: grid;
-  grid-template-columns: 260px 1fr 360px;
-  gap: 20px;
-  padding: 20px;
-  height: 100vh;
-  box-sizing: border-box;
+  grid-template-columns: 260px 1fr 340px;
+  gap: 24px;
+  padding: 30px;
 }
 
-/* ---------- LEFT PANEL ---------- */
+/* ===== PROFILE ===== */
 .profile {
-  background: rgba(255,255,255,0.06);
-  border-radius: 16px;
   padding: 20px;
 }
-
 .profile img {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
-
 .profile h3 {
-  margin: 10px 0 5px;
+  font-size: 18px;
+}
+.profile .status {
+  color: #3bffb2;
+  font-size: 14px;
+  margin-top: 6px;
 }
 
-.stat {
-  margin-top: 10px;
-  opacity: 0.85;
-}
-
-/* ---------- CENTER PANEL ---------- */
-.center {
-  background: rgba(255,255,255,0.04);
-  border-radius: 16px;
+/* ===== SECTIONS ===== */
+.section {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 20px;
+}
+.section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #a6b6ff;
 }
 
+/* ===== TABS ===== */
 .tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
-
-.tabs button {
+.tab {
+  padding: 6px 14px;
+  border-radius: 999px;
   background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 10px;
   cursor: pointer;
 }
+.tab.active {
+  background: #4f7cff;
+}
 
-.output-box {
-  flex: 1;
+/* ===== OUTPUT BOX ===== */
+.output {
   background: rgba(0,0,0,0.3);
   border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-  overflow-y: auto;
+  padding: 14px;
+  min-height: 120px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #dfe6ff;
 }
 
-/* ---------- RIGHT PANEL ---------- */
-.video-panel {
-  background: rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.preview {
-  background: black;
-  height: 200px;
+/* ===== BUTTONS ===== */
+.btn {
+  margin-top: 14px;
+  padding: 12px;
   border-radius: 12px;
-  margin-bottom: 15px;
+  background: linear-gradient(135deg, #5a7cff, #8fa4ff);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(120,150,255,0.7);
+}
+
+/* ===== VIDEO PREVIEW ===== */
+.video-box {
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.7;
-}
-
-/* ---------- VOICE + MUSIC ---------- */
-.selector {
-  background: rgba(0,0,0,0.3);
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-/* ---------- FINAL SECTION ---------- */
-.final {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, #5b2cff, #00c6ff);
+  color: #9fb0ff;
+  font-size: 14px;
   border-radius: 20px;
-  padding: 25px;
-  text-align: center;
-  margin-top: 10px;
+  background: rgba(0,0,0,0.4);
+  margin-bottom: 16px;
 }
 
-.final button {
-  background: black;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 18px;
+/* ===== FINAL COMBINE ===== */
+.combine {
+  grid-column: span 3;
+  text-align: center;
+  padding: 30px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, rgba(70,90,255,0.4), rgba(120,150,255,0.2));
   border-radius: 30px;
-  cursor: pointer;
+  box-shadow: 0 0 60px rgba(120,150,255,0.4);
+}
+
+.combine h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.combine p {
+  color: #cdd6ff;
+  margin-bottom: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<div class="container fade-in">
 
-  <!-- LEFT -->
-  <div class="profile">
-    <img src="https://i.pravatar.cc/150" />
+  <!-- PROFILE -->
+  <div class="glass profile hover-glow">
+    <img src="/logo.png" alt="profile" />
     <h3>Alex Summers</h3>
-    <div>✅ Pro Active</div>
-    <div class="stat">Videos: 0</div>
-    <div class="stat">Virality: --</div>
+    <div class="status">✔ Pro Active</div>
+    <div style="margin-top:14px;font-size:13px;color:#aaa;">Videos: 0</div>
+    <div style="font-size:13px;color:#aaa;">Virality: --</div>
   </div>
 
-  <!-- CENTER -->
-  <div class="center">
-    <h2>Your Shorts Scripts</h2>
+  <!-- MAIN -->
+  <div>
 
-    <div class="tabs">
-      <button>Scripts</button>
-      <button>Hooks</button>
-      <button>Captions</button>
+    <!-- SCRIPT / HOOK / CAPTIONS -->
+    <div class="glass section fade-in">
+      <h2>Your Shorts Scripts</h2>
+      <div class="tabs">
+        <div class="tab active">Scripts</div>
+        <div class="tab">Hooks</div>
+        <div class="tab">Captions</div>
+      </div>
+      <div class="output">Your generated content will appear here.</div>
+      <button class="btn">Generate New Script</button>
     </div>
 
-    <div class="output-box">
-      Your AI content will appear here…
+    <!-- VOICE + MUSIC -->
+    <div class="glass section fade-in hover-glow">
+      <h2>Voice Over & Music</h2>
+      <div class="output">🎙 Voice: Ryan (US Male)<br>🎵 Track: Synthwave Dreams</div>
+      <button class="btn">Change Voice / Music</button>
     </div>
 
-    <button>Generate New</button>
   </div>
 
-  <!-- RIGHT -->
-  <div class="video-panel">
+  <!-- VIDEO -->
+  <div class="glass section fade-in hover-glow">
     <h2>AI Video Engine</h2>
-
-    <div class="preview">
-      Video Preview
-    </div>
-
-    <textarea placeholder="Paste script here..." style="width:100%;height:80px;border-radius:10px;"></textarea>
-
-    <button style="margin-top:10px;">Create Video</button>
-
-    <h3 style="margin-top:20px;">Voice</h3>
-    <div class="selector">Ryan (US Male)</div>
-
-    <h3>Music</h3>
-    <div class="selector">Synthwave Dreams</div>
+    <div class="video-box">AI Video Preview</div>
+    <button class="btn">Create New Video</button>
   </div>
 
-  <!-- FINAL MAGIC -->
-  <div class="final">
-    <h2>✨ Create Perfect Short</h2>
-    <p>This will combine script, captions, voice, music and visuals into one AI-generated short.</p>
-    <button>Generate Full Short</button>
+  <!-- FINAL COMBINE -->
+  <div class="combine fade-in">
+    <h1>✨ Create The Perfect Short</h1>
+    <p>Script + Captions + Voice + Music + Video = Viral Short</p>
+    <button class="btn" style="font-size:18px;padding:16px 28px;">Generate Full Short</button>
   </div>
 
 </div>
