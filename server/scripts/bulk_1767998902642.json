@@ -1,0 +1,35 @@
+[
+  {
+    "topic": "Unsolved Disappearance",
+    "title": "The Vanishing of Emily Stone",
+    "hook": "What happened to Emily Stone? She vanished without a trace, leaving behind haunting questions.",
+    "beats": [
+      "On a sunny day in 2019, Emily was last seen walking her dog in the nearby woods.",
+      "Witnesses reported strange sounds and shadows, but no one could find her.",
+      "Weeks later, her dog returned home alone, a chilling reminder that Emily was still missing."
+    ],
+    "ending": "To this day, Emily's family searches for answers. Could you be the one to uncover the truth?"
+  },
+  {
+    "topic": "Mysterious 911 Call",
+    "title": "The Unsolved Call",
+    "hook": "What would you do if a 911 call led to nowhere?",
+    "beats": [
+      "The screen flickers to life, showing a dark room. A voice trembles through the static: 'Help... they're here...'",
+      "Police rush to the location, but find nothing. No signs of struggle, just an empty house.",
+      "As they leave, the call comes through again, but this time... it's from inside the house."
+    ],
+    "ending": "The haunting voice fades, and the camera zooms into the empty room. 'They're watching...' it echoes, leaving viewers questioning who—or what—was really there."
+  },
+  {
+    "topic": "Cold Case Reopened",
+    "title": "The Mystery Reawakens",
+    "hook": "What if the key to solving a 20-year-old crime was hidden in plain sight?",
+    "beats": [
+      "A dusty old file sits untouched on a desk, crime scene photos slowly fading.",
+      "An anonymous tip leads detectives to a new suspect - a name that sends chills down the spine.",
+      "Flashbacks to the haunting night reveal new evidence, as the camera zooms in on a clue overlooked for decades."
+    ],
+    "ending": "Just when you think it's over… the truth is closer than you think. Will justice finally be served?"
+  }
+]

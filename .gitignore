@@ -1,0 +1,13 @@
+# env
+.env
+.env.local
+
+# deps
+node_modules/
+
+# outputs
+server/output/
+server/frames/
+
+# logs
+*.log

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body style="background:#0b0f2a;color:white;font-family:system-ui;padding:40px">
+<h2>Login</h2>
+<input id="email" placeholder="email" />
+<button onclick="login()">Login</button>
+
+<script>
+async function login() {
+  await fetch("/login", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ email: email.value })
+  });
+  window.location = "/pro";
+}
+</script>
+</body>
+</html>
