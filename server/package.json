@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
     "express": "^4.22.1",
+    "express-session": "^1.19.0",
     "openai": "^4.16.0",
     "stripe": "^20.1.2"
   },
