@@ -100,7 +100,16 @@ app.get("/pro", requireLogin, requirePro, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/pro.html"));
 });
 
+app.get("/stripe/success-login", (req, res) => {
+  // auto-login user after successful payment
+  req.session.user = {
+    email: "stripe-user@temp.com",
+    isPro: true
+  };
 
+  // send them to pro dashboard
+  res.redirect("/pro");
+});
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 })
