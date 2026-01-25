@@ -121,6 +121,60 @@ app.post("/api/create-account", (req, res) => {
 
   res.json({ success: true });
 });
+// GENERATE SCRIPT (mock AI)
+app.post("/api/generate-script", async (req, res) => {
+  const { prompt } = req.body;
+
+  if (!prompt) {
+    return res.status(400).json({ error: "No prompt provided" });
+  }
+
+  // MOCK AI RESPONSE (for now)
+  const script = `
+HOOK: You won't believe this…
+STORY: ${prompt}
+CTA: Follow for more insane facts.
+`;
+
+  res.json({
+    script,
+    music: "Epic Journey",
+    voice: "Ryan (US Male)",
+    previewReady: true
+  });
+});
+// GENERATE SCRIPT (mock AI – working)
+app.post("/api/generate", async (req, res) => {
+  const { prompt } = req.body;
+
+  if (!prompt) {
+    return res.status(400).json({ error: "No prompt provided" });
+  }
+
+  const script = `
+HOOK:
+Did you know this will change how you see ${prompt} forever?
+
+SCRIPT:
+Here are 5 insane facts about ${prompt} that most people don’t know.
+
+1. It’s way more powerful than you think
+2. It’s been misunderstood for years
+3. One mistake can change everything
+4. Experts still argue about it
+5. Once you know this, you can’t unsee it
+
+CAPTION:
+You won’t believe #3 🤯
+`;
+
+  res.json({
+    script,
+    voice: "Ryan (US Male)",
+    music: "Epic Journey",
+    preview: true
+  });
+});
 // server.js (ADD BELOW YOUR OTHER ROUTES)
 app.get("/api/me", (req, res) => {
   res.json({

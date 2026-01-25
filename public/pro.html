@@ -2,137 +2,119 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Auto Shorts AI – Pro</title>
+<title>Pro Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Inter, system-ui, sans-serif;
+:root {
+  --glass: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.15);
+  --glow: 0 0 40px rgba(120,140,255,.35);
+  --blue: #6aa8ff;
+  --bg: #050b2e;
 }
 
+* { box-sizing: border-box; font-family: Inter, system-ui; }
 body {
-  min-height: 100vh;
-  background: url("/galaxy-bg.jpg") no-repeat center center fixed;
-  background-size: cover;
-  color: #fff;
-}
-
-.glass {
-  background: rgba(15, 20, 45, 0.65);
-  backdrop-filter: blur(20px);
-  border: 1px solid #1f2555;
-  border-radius: 18px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.45);
+  margin: 0;
+  background: radial-gradient(circle at top, #1a2cff, #020417 60%);
+  color: white;
 }
 
 .container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 25px;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--glow);
+}
+
+.top {
   display: grid;
   grid-template-columns: 260px 1fr;
-  gap: 24px;
-  padding: 30px;
-  max-width: 1400px;
-  margin: auto;
+  gap: 25px;
 }
 
 .profile {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
   padding: 20px;
-  height: fit-content;
 }
+
 .profile img {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  margin-bottom: 12px;
+  width: 100%;
+  border-radius: 14px;
+  margin-bottom: 10px;
 }
-.profile h3 { font-size: 18px; }
-.profile .status { color: #3bffb2; font-size: 14px; margin-top: 6px; }
+
+.profile h3 { margin: 5px 0; }
 
 .main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* INPUT */
-.input-row {
+.describe {
   display: flex;
-  gap: 12px;
+  gap: 15px;
 }
-.input-row textarea {
-  flex: 1;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #2a2f5a;
-  background: rgba(0,0,0,0.4);
-  color: white;
-  font-size: 14px;
-}
-.btn {
-  padding: 14px 20px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #5a7cff, #8fa4ff);
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.btn:hover { box-shadow: 0 0 20px rgba(120,150,255,0.7); }
 
-/* GRID */
-.grid {
+.describe input {
+  flex: 1;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.3);
+  color: white;
+  font-size: 16px;
+}
+
+.describe button {
+  padding: 0 25px;
+  border-radius: 14px;
+  border: none;
+  background: var(--blue);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
 
 .card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
   padding: 20px;
-  border-radius: 18px;
-  background: rgba(10, 15, 40, 0.6);
-  border: 1px solid #1f2555;
-  display: flex;
-  flex-direction: column;
-  min-height: 360px;
+  min-height: 240px;
 }
 
-.card h2 {
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: #a6b6ff;
-}
-
-.output {
-  flex: 1;
-  background: rgba(0,0,0,0.35);
-  border-radius: 12px;
-  padding: 14px;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #dfe6ff;
-  overflow-y: auto;
-}
-
-.preview {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.4);
-  border-radius: 14px;
-  color: #9fb0ff;
-  margin-bottom: 14px;
+.card h4 {
+  margin-top: 0;
 }
 
 .footer {
+  margin-top: 30px;
   text-align: center;
-  margin-top: 40px;
-  padding: 30px;
-  border-radius: 25px;
-  background: linear-gradient(135deg, rgba(70,90,255,0.4), rgba(120,150,255,0.2));
-  box-shadow: 0 0 50px rgba(120,150,255,0.4);
+}
+
+.footer button {
+  padding: 18px 40px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6aa8ff, #9b7bff);
+  border: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -141,100 +123,112 @@ body {
 
 <div class="container">
 
-  <!-- PROFILE -->
-  <div class="glass profile">
-    <img src="/logo.png" />
-    <h3>Alex Summers</h3>
-    <div class="status">✔ Pro Active</div>
-    <div style="margin-top:12px;font-size:13px;color:#aaa;">Videos: 0</div>
-    <div style="font-size:13px;color:#aaa;">Virality: --</div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <!-- INPUT -->
-    <div class="glass" style="padding:20px;">
-      <h2 style="margin-bottom:10px;">Describe your short</h2>
-      <div class="input-row">
-        <textarea id="promptInput" placeholder="Topic, style, vibe, story..."></textarea>
-        <button class="btn" id="generateScriptBtn">Generate</button>
-      </div>
+  <div class="top">
+    <div class="profile">
+      <img src="/logo.png" />
+      <h3 id="username">Pro User</h3>
+      <p>✔ Pro Active</p>
+      <p id="stats">Videos: 0</p>
     </div>
 
-    <!-- GRID -->
-    <div class="grid">
-
-      <!-- SCRIPT -->
-      <div class="card">
-        <h2>Script / Hooks / Captions</h2>
-        <div class="output" id="scriptOutput">Waiting for input…</div>
+    <div class="main">
+      <div class="describe">
+        <input id="prompt" placeholder="Topic, style, vibe, description..." />
+        <button onclick="generate()">Generate</button>
       </div>
 
-      <!-- AUDIO -->
-      <div class="card">
-        <h2>Voice & Music</h2>
-        <div class="output">
-          🎙 Voice: Ryan (US Male)<br><br>
-          🎵 Track: Synthwave Dreams
+      <div class="cards">
+        <div class="card">
+          <h4>Script / Hooks / Captions</h4>
+          <div id="script">Waiting...</div>
         </div>
-        <button class="btn" style="margin-top:12px;">Change Voice / Music</button>
+
+        <div class="card">
+          <h4>Voice & Music</h4>
+          <div id="music">Auto-selecting…</div>
+        </div>
+
+        <div class="card">
+          <h4>Video Preview</h4>
+          <div id="preview">No preview yet</div>
+        </div>
       </div>
-
-      <!-- VIDEO -->
-      <div class="card">
-        <h2>Video Preview</h2>
-        <div class="preview" id="videoPreview">No preview yet</div>
-        <button class="btn" id="previewBtn">Preview Video</button>
-      </div>
-
     </div>
-
-    <!-- FINAL -->
-    <div class="footer">
-      <h1>Generate Final Short</h1>
-      <p style="margin:10px 0 20px;color:#cdd6ff;">
-        Script → Voice → Music → Video → Download
-      </p>
-      <button class="btn" id="finalBtn" style="font-size:18px;padding:16px 36px;">
-        Generate Full MP4
-      </button>
-    </div>
-
   </div>
+
+  <div class="footer">
+    <button onclick="finalize()">Generate Final Short</button>
+  </div>
+
 </div>
 
 <script>
-const scriptBtn = document.getElementById("generateScriptBtn");
-const previewBtn = document.getElementById("previewBtn");
-const finalBtn = document.getElementById("finalBtn");
-const promptInput = document.getElementById("promptInput");
-const output = document.getElementById("scriptOutput");
-const previewBox = document.getElementById("videoPreview");
+  async function generate() {
+    const prompt = document.getElementById("prompt").value;
+  
+    if (!prompt) {
+      alert("Enter a description first");
+      return;
+    }
+  
+    // UI loading states
+    document.getElementById("script").innerText = "Generating script...";
+    document.getElementById("music").innerText = "Choosing music...";
+    document.getElementById("preview").innerText = "Preparing preview...";
+  
+    try {
+      const res = await fetch("/api/generate-script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+  
+      if (!res.ok) throw new Error("Server error");
+  
+      const data = await res.json();
+  
+      // Fill sections
+      document.getElementById("script").innerText = data.script;
+      document.getElementById("music").innerText = data.music || "Epic Journey";
+      document.getElementById("preview").innerText = "Preview ready (mock)";
+  
+    } catch (err) {
+      document.getElementById("script").innerText = "Error generating script";
+      console.error(err);
+    }
+  }
+  
+  async function finalize() {
+    document.getElementById("preview").innerText = "Rendering final video...";
+  
+    const res = await fetch("/api/generate-video", { method: "POST" });
+    const data = await res.json();
+  
+    document.getElementById("preview").innerText = "Video ready: " + data.url;
+  }
+async function generate() {
+  const prompt = document.getElementById("prompt").value;
+  document.getElementById("script").innerText = "Generating...";
+  document.getElementById("music").innerText = "Choosing music...";
+  document.getElementById("preview").innerText = "Preparing preview...";
 
-scriptBtn.onclick = async () => {
-  if (!promptInput.value) return alert("Enter a topic");
-  output.innerText = "Generating script...";
   const res = await fetch("/api/scripts", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ prompt: promptInput.value })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
   });
+
   const data = await res.json();
-  output.innerText = data.script || "Error generating script";
-};
+  document.getElementById("script").innerText = data.script || "Script ready";
+  document.getElementById("music").innerText = data.music || "Epic Journey";
+  document.getElementById("preview").innerText = "Preview ready";
+}
 
-previewBtn.onclick = async () => {
-  previewBox.innerText = "Rendering preview...";
-  await fetch("/api/video/preview", { method: "POST" });
-  previewBox.innerText = "Preview ready (mock)";
-};
-
-finalBtn.onclick = async () => {
-  finalBtn.innerText = "Generating...";
-  await fetch("/api/video/final", { method: "POST" });
-  finalBtn.innerText = "Done!";
-};
+async function finalize() {
+  document.getElementById("preview").innerText = "Rendering final video...";
+  await fetch("/api/video", { method: "POST" });
+  document.getElementById("preview").innerText = "Video complete (mock)";
+}
 </script>
 
 </body>
