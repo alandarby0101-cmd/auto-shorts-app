@@ -6,13 +6,29 @@
 <body style="background:#0b0f2a;color:white;text-align:center;padding:80px;">
   <h1>Unlock Pro 🚀</h1>
   <p>Generate unlimited AI Shorts</p>
+
   <button id="pay">Upgrade Now</button>
 
   <script>
     document.getElementById("pay").onclick = async () => {
-      const res = await fetch("/api/billing/checkout", { method: "POST" });
-      const data = await res.json();
-      window.location.href = data.url;
+      try {
+        const res = await fetch(
+          "https://auto-shorts-app-h3lw.onrender.com/billing/checkout",
+          { method: "POST" }
+        );
+
+        const data = await res.json();
+
+        if (!data.url) {
+          alert("Stripe checkout URL missing");
+          return;
+        }
+
+        window.location.href = data.url;
+      } catch (err) {
+        console.error(err);
+        alert("Checkout failed. Check server logs.");
+      }
     };
   </script>
 </body>
