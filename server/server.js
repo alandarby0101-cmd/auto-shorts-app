@@ -109,6 +109,18 @@ app.get("/stripe/success-login", (req, res) => {
 
   res.redirect("/create-account.html");
 });
+// CREATE ACCOUNT (after Stripe success)
+app.post("/api/create-account", (req, res) => {
+  const { email, password } = req.body;
+
+  // TEMP user creation (DB later)
+  req.session.user = {
+    email,
+    isPro: true
+  };
+
+  res.json({ success: true });
+});
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 })
