@@ -1,35 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Upgrade to Pro</title>
-</head>
-<body style="background:#0b0f2a;color:white;text-align:center;padding:80px;">
-  <h1>Unlock Pro 🚀</h1>
-  <p>Generate unlimited AI Shorts</p>
+  <meta charset="UTF-8" />
+  <title>Upgrade to Pro – Auto Shorts AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <button id="pay">Upgrade Now</button>
+  <!-- Font (same SaaS feel as homepage) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at top, #2b2f77 0%, #090b2a 60%);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 48px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      opacity: 0.85;
+      margin-bottom: 32px;
+      font-size: 1.05rem;
+    }
+
+    .features {
+      text-align: left;
+      margin: 32px 0;
+    }
+
+    .features li {
+      list-style: none;
+      margin: 14px 0;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .features li::before {
+      content: "✓";
+      color: #6cf2c2;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 30px 0 10px;
+    }
+
+    .price span {
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+
+    button {
+      background: linear-gradient(135deg, #6c7cff, #4adede);
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 16px 32px;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 10px 30px rgba(74, 222, 222, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(74, 222, 222, 0.45);
+    }
+
+    .secure {
+      margin-top: 18px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Unlock Pro 🚀</h1>
+    <p class="subtitle">Everything you need to generate unlimited viral AI Shorts</p>
+
+    <ul class="features">
+      <li>Unlimited script generations</li>
+      <li>Longer, higher-retention videos</li>
+      <li>Priority AI processing</li>
+      <li>Advanced hooks & storytelling</li>
+      <li>Early access to new features</li>
+    </ul>
+
+    <div class="price">
+      €19 <span>/ month</span>
+    </div>
+
+    <button id="pay">Upgrade Now</button>
+
+    <div class="secure">Secure payment via Stripe • Cancel anytime</div>
+  </div>
 
   <script>
     document.getElementById("pay").onclick = async () => {
       try {
-        const res = await fetch(
-          "https://auto-shorts-app-h3lw.onrender.com/billing/checkout",
-          { method: "POST" }
-        );
+        const res = await fetch("/api/billing/checkout", {
+          method: "POST",
+        });
 
-        const data = await res.json();
-
-        if (!data.url) {
-          alert("Stripe checkout URL missing");
-          return;
+        if (!res.ok) {
+          throw new Error("Checkout failed");
         }
 
+        const data = await res.json();
         window.location.href = data.url;
       } catch (err) {
-        console.error(err);
         alert("Checkout failed. Check server logs.");
+        console.error(err);
       }
     };
   </script>
+
 </body>
 </html>
