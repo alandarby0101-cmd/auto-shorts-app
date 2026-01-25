@@ -15,8 +15,8 @@ router.post("/checkout", async (req, res) => {
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [{ price: process.env.STRIPE_PRICE_ID, quantity: 1 }],
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/upgrade.html",
+success_url: `${process.env.BASE_URL}/success.html`,
+cancel_url: `${process.env.BASE_URL}/cancel.html`,
     });
 
     res.json({ url: session.url });
