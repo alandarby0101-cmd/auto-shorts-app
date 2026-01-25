@@ -121,6 +121,23 @@ app.post("/api/create-account", (req, res) => {
 
   res.json({ success: true });
 });
+// server.js (ADD BELOW YOUR OTHER ROUTES)
+app.get("/api/me", (req, res) => {
+  res.json({
+    name: req.session.user?.email || "Pro User",
+    videos: 1
+  });
+});
+
+app.post("/api/generate-script", (req, res) => {
+  res.json({
+    script: `HOOK: Stop scrolling.\n\nSTORY: ${req.body.prompt}\n\nCTA: Follow for more.`
+  });
+});
+
+app.post("/api/generate-video", (req, res) => {
+  res.json({ url: "/downloads/final.mp4" });
+});
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`)
 })
