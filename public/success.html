@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Payment Successful</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       margin: 0;
@@ -16,13 +18,18 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(12px);
-      border-radius: 20px;
+      border-radius: 24px;
       padding: 60px;
       text-align: center;
-      max-width: 500px;
+      max-width: 520px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .check {
+      font-size: 64px;
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -32,31 +39,37 @@
 
     p {
       opacity: 0.85;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
+      line-height: 1.5;
     }
 
     a {
       display: inline-block;
       padding: 14px 28px;
-      border-radius: 10px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #6cf0ff, #8a7bff);
       color: #000;
       text-decoration: none;
       font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .check {
-      font-size: 64px;
-      margin-bottom: 20px;
+    a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
+
   <div class="card">
     <div class="check">✅</div>
-    <h1>You're Pro Now!</h1>
+    <h1>You’re Pro Now!</h1>
     <p>Your subscription is active. Unlimited AI Shorts are unlocked.</p>
-    <a href="/pro">Go to Dashboard</a>
+
+    <!-- IMPORTANT: auto-login + redirect -->
+    <a href="/stripe/success-login">Go to Dashboard</a>
   </div>
+
 </body>
 </html>
