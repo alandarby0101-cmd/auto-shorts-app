@@ -101,14 +101,13 @@ app.get("/pro", requireLogin, requirePro, (req, res) => {
 });
 
 app.get("/stripe/success-login", (req, res) => {
-  // auto-login user after successful payment
   req.session.user = {
     email: "stripe-user@temp.com",
-    isPro: true
+    isPro: true,
+    needsAccount: true
   };
 
-  // send them to pro dashboard
-  res.redirect("/pro");
+  res.redirect("/create-account.html");
 });
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`)
