@@ -41,6 +41,17 @@ function requirePro(req, res, next) {
   }
   next();
 }
+app.post("/signup", (req, res) => {
+  const { email, password } = req.body;
+
+  // TEMP user (replace with DB later)
+  req.session.user = {
+    email,
+    isPro: true
+  };
+
+  res.json({ ok: true });
+});
 app.post("/login", (req, res) => {
   const { email } = req.body;
 
