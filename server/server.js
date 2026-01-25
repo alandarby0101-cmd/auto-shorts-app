@@ -23,7 +23,6 @@ app.use(session({
   saveUninitialized: false
 }))
 
-app.use(express.static(path.join(__dirname, "../public")))
 /* ============================
    AUTH MIDDLEWARE
 ============================ */
