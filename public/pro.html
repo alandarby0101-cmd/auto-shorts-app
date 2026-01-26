@@ -1,234 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Pro Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <title>Auto Shorts Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: radial-gradient(circle at top, #1a2a6c, #000);
+      color: white;
+    }
 
-<style>
-:root {
-  --glass: rgba(255,255,255,0.08);
-  --border: rgba(255,255,255,0.15);
-  --glow: 0 0 40px rgba(120,140,255,.35);
-  --blue: #6aa8ff;
-  --bg: #050b2e;
-}
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,.6);
+    }
 
-* { box-sizing: border-box; font-family: Inter, system-ui; }
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #1a2cff, #020417 60%);
-  color: white;
-}
+    .top {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
 
-.container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  border-radius: 25px;
-  background: var(--glass);
-  backdrop-filter: blur(20px);
-  box-shadow: var(--glow);
-}
+    .card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 15px;
+      padding: 20px;
+      flex: 1;
+      min-height: 120px;
+    }
 
-.top {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 25px;
-}
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+    }
 
-.profile {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-}
+    button {
+      background: linear-gradient(90deg,#4facfe,#00f2fe);
+      border: none;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      color: black;
+      font-weight: bold;
+    }
 
-.profile img {
-  width: 100%;
-  border-radius: 14px;
-  margin-bottom: 10px;
-}
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+    }
 
-.profile h3 { margin: 5px 0; }
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.describe {
-  display: flex;
-  gap: 15px;
-}
-
-.describe input {
-  flex: 1;
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,.3);
-  color: white;
-  font-size: 16px;
-}
-
-.describe button {
-  padding: 0 25px;
-  border-radius: 14px;
-  border: none;
-  background: var(--blue);
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-}
-
-.card {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  min-height: 240px;
-}
-
-.card h4 {
-  margin-top: 0;
-}
-
-.footer {
-  margin-top: 30px;
-  text-align: center;
-}
-
-.footer button {
-  padding: 18px 40px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #6aa8ff, #9b7bff);
-  border: none;
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-}
-</style>
+    video {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
-
   <div class="top">
-    <div class="profile">
-      <img src="/logo.png" />
-      <h3 id="username">Pro User</h3>
-      <p>✔ Pro Active</p>
-      <p id="stats">Videos: 0</p>
+    <div class="card" style="max-width:300px">
+      <h3>Pro User</h3>
+      <p id="me">Loading...</p>
     </div>
 
-    <div class="main">
-      <div class="describe">
-        <input id="prompt" placeholder="Topic, style, vibe, description..." />
-        <button onclick="generate()">Generate</button>
-      </div>
+    <div class="card">
+      <input id="prompt" placeholder="Describe your short..." />
+      <button onclick="generate()">Generate</button>
+    </div>
+  </div>
 
-      <div class="cards">
-        <div class="card">
-          <h4>Script / Hooks / Captions</h4>
-          <div id="script">Waiting...</div>
-        </div>
-
-        <div class="card">
-          <h4>Voice & Music</h4>
-          <div id="music">Auto-selecting…</div>
-        </div>
-
-        <div class="card">
-          <h4>Video Preview</h4>
-          <div id="preview">No preview yet</div>
-        </div>
-      </div>
+  <div class="top">
+    <div class="card">
+      <h3>Script / Hooks</h3>
+      <pre id="script">—</pre>
+    </div>
+    <div class="card">
+      <h3>Images</h3>
+      <pre id="images">—</pre>
+    </div>
+    <div class="card">
+      <h3>Video</h3>
+      <div id="preview">—</div>
     </div>
   </div>
 
   <div class="footer">
     <button onclick="finalize()">Generate Final Short</button>
   </div>
-
 </div>
 
 <script>
-  async function generate() {
-    const prompt = document.getElementById("prompt").value;
-  
-    if (!prompt) {
-      alert("Enter a description first");
-      return;
-    }
-  
-    // UI loading states
-    document.getElementById("script").innerText = "Generating script...";
-    document.getElementById("music").innerText = "Choosing music...";
-    document.getElementById("preview").innerText = "Preparing preview...";
-  
-    try {
-      const res = await fetch("/api/generate-script", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-  
-      if (!res.ok) throw new Error("Server error");
-  
-      const data = await res.json();
-  
-      // Fill sections
-      document.getElementById("script").innerText = data.script;
-      document.getElementById("music").innerText = data.music || "Epic Journey";
-      document.getElementById("preview").innerText = "Preview ready (mock)";
-  
-    } catch (err) {
-      document.getElementById("script").innerText = "Error generating script";
-      console.error(err);
-    }
-  }
-  
-  async function finalize() {
-    document.getElementById("preview").innerText = "Rendering final video...";
-  
-    const res = await fetch("/api/generate-video", { method: "POST" });
-    const data = await res.json();
-  
-    document.getElementById("preview").innerText = "Video ready: " + data.url;
-  }
 async function generate() {
   const prompt = document.getElementById("prompt").value;
-  document.getElementById("script").innerText = "Generating...";
-  document.getElementById("music").innerText = "Choosing music...";
-  document.getElementById("preview").innerText = "Preparing preview...";
 
-  const res = await fetch("/api/scripts", {
+  document.getElementById("script").innerText = "Generating script...";
+  document.getElementById("images").innerText = "Waiting...";
+  document.getElementById("preview").innerText = "Waiting...";
+
+  const s = await fetch("/api/generate-script", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt })
-  });
+  }).then(r => r.json());
 
-  const data = await res.json();
-  document.getElementById("script").innerText = data.script || "Script ready";
-  document.getElementById("music").innerText = data.music || "Epic Journey";
-  document.getElementById("preview").innerText = "Preview ready";
+  document.getElementById("script").innerText = s.script;
+
+  await fetch("/api/generate-scenes", { method: "POST" });
+  document.getElementById("images").innerText = "Scenes ready";
+
+  await fetch("/api/generate-images", { method: "POST" });
+  document.getElementById("images").innerText = "Images generated";
 }
 
 async function finalize() {
-  document.getElementById("preview").innerText = "Rendering final video...";
-  await fetch("/api/video", { method: "POST" });
-  document.getElementById("preview").innerText = "Video complete (mock)";
+  document.getElementById("preview").innerText = "Rendering video...";
+
+  const r = await fetch("/api/render-video", { method: "POST" }).then(r => r.json());
+
+  document.getElementById("preview").innerHTML = `
+    <video controls src="${r.url}"></video>
+    <br><a href="${r.url}" download>⬇ Download MP4</a>
+  `;
 }
+
+fetch("/api/me").then(r=>r.json()).then(d=>{
+  document.getElementById("me").innerText = d.name;
+});
 </script>
 
 </body>

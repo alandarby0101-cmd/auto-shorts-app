@@ -1,197 +1,125 @@
-import 'dotenv/config'
-import express from "express"
-import cors from "cors"
-import path from "path"
-import session from "express-session"
-import { fileURLToPath } from "url"
-import billingRoute from "./routes/billing.js";
+import express from "express";
+import session from "express-session";
+import fetch from "node-fetch";
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
+import dotenv from "dotenv";
 
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+app.use(express.static("public"));
+app.use("/downloads", express.static("downloads"));
 
-const app = express()
-const PORT = process.env.PORT || 3000
+app.use(
+  session({
+    secret: "supersecret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// serve public folder (RENDER SAFE)
-app.use(express.static(path.resolve(__dirname, "../public")));
-app.use(cors())
-app.use(express.json())
-
-app.use(session({
-  secret: "super-secret-key",
-  resave: false,
-  saveUninitialized: false
-}))
-
-/* ============================
-   AUTH MIDDLEWARE
-============================ */
-function requireLogin(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect("/");
-  }
-  next();
-}
-
-function requirePro(req, res, next) {
-  if (!req.session.user?.isPro) {
-    return res.redirect("/upgrade.html");
-  }
-  next();
-}
-app.post("/signup", (req, res) => {
-  const { email, password } = req.body;
-
-  // TEMP user (replace with DB later)
-  req.session.user = {
-    email,
-    isPro: true
-  };
-
-  res.json({ ok: true });
-});
-app.post("/login", (req, res) => {
-  const { email } = req.body;
-
-  // TEMP user (replace with DB later)
-  req.session.user = {
-    email,
-    isPro: true // toggle false to test lock
-  };
-
-  res.json({ ok: true });
-});
-
-app.post("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.json({ ok: true });
-  });
-});
-
-/* ROUTES */
-import scriptsRoute from "./routes/scripts.js"
-import scenesRoute from "./routes/scenes.js"
-import imagesRoute from "./routes/images.js"
-import voiceRoute from "./routes/voice.js"
-import videoRoute from "./routes/video.js"
-
-/* DEV PRO UNLOCK (TEMP) */
-app.get("/dev/pro", (req, res) => {
-  req.session.user = { isPro: true };
-  res.json({ pro: true });
-});
-/* DEV PRO UNLOCK (TEMP) */
-app.get("/dev/pro", (req, res) => {
-  req.session.user = { isPro: true };
-  res.json({ pro: true });
-});
-
-app.use("/api/billing", billingRoute);
-app.use("/api/scripts", scriptsRoute)
-app.use("/api/scenes", scenesRoute)
-app.use("/api/images", imagesRoute)
-app.use("/api/voice", voiceRoute)
-app.use("/api/video", videoRoute)
-
-/* PRO PAGE */
-app.get("/pro", requireLogin, requirePro, (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/pro.html"));
-});
-
-app.get("/stripe/success-login", (req, res) => {
-  req.session.user = {
-    email: "stripe-user@temp.com",
-    isPro: true,
-    needsAccount: true
-  };
-
-  res.redirect("/create-account.html");
-});
-// CREATE ACCOUNT (after Stripe success)
-app.post("/api/create-account", (req, res) => {
-  const { email, password } = req.body;
-
-  // TEMP user creation (DB later)
-  req.session.user = {
-    email,
-    isPro: true
-  };
-
-  res.json({ success: true });
-});
-// GENERATE SCRIPT (mock AI)
-app.post("/api/generate-script", async (req, res) => {
-  const { prompt } = req.body;
-
-  if (!prompt) {
-    return res.status(400).json({ error: "No prompt provided" });
-  }
-
-  // MOCK AI RESPONSE (for now)
-  const script = `
-HOOK: You won't believe this…
-STORY: ${prompt}
-CTA: Follow for more insane facts.
-`;
-
-  res.json({
-    script,
-    music: "Epic Journey",
-    voice: "Ryan (US Male)",
-    previewReady: true
-  });
-});
-// GENERATE SCRIPT (mock AI – working)
-app.post("/api/generate", async (req, res) => {
-  const { prompt } = req.body;
-
-  if (!prompt) {
-    return res.status(400).json({ error: "No prompt provided" });
-  }
-
-  const script = `
-HOOK:
-Did you know this will change how you see ${prompt} forever?
-
-SCRIPT:
-Here are 5 insane facts about ${prompt} that most people don’t know.
-
-1. It’s way more powerful than you think
-2. It’s been misunderstood for years
-3. One mistake can change everything
-4. Experts still argue about it
-5. Once you know this, you can’t unsee it
-
-CAPTION:
-You won’t believe #3 🤯
-`;
-
-  res.json({
-    script,
-    voice: "Ryan (US Male)",
-    music: "Epic Journey",
-    preview: true
-  });
-});
-// server.js (ADD BELOW YOUR OTHER ROUTES)
+/* ===============================
+   USER
+================================*/
 app.get("/api/me", (req, res) => {
   res.json({
     name: req.session.user?.email || "Pro User",
-    videos: 1
+    videos: 0,
   });
 });
 
-app.post("/api/generate-script", (req, res) => {
-  res.json({
-    script: `HOOK: Stop scrolling.\n\nSTORY: ${req.body.prompt}\n\nCTA: Follow for more.`
+/* ===============================
+   SCRIPT (OPENAI REAL)
+================================*/
+app.post("/api/generate-script", async (req, res) => {
+  const { prompt } = req.body;
+
+  const r = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You write viral short-form scripts." },
+        { role: "user", content: prompt }
+      ]
+    })
   });
+
+  const data = await r.json();
+  const script = data.choices[0].message.content;
+
+  fs.writeFileSync("script.txt", script);
+  res.json({ script });
 });
 
-app.post("/api/generate-video", (req, res) => {
+/* ===============================
+   SCENES
+================================*/
+app.post("/api/generate-scenes", (req, res) => {
+  const scenes = fs.readFileSync("script.txt", "utf8")
+    .split("\n")
+    .filter(Boolean)
+    .slice(0, 5);
+
+  fs.writeFileSync("scenes.txt", scenes.join("\n"));
+  res.json({ scenes });
+});
+
+/* ===============================
+   IMAGES (DALL·E)
+================================*/
+app.post("/api/generate-images", async (req, res) => {
+  const scenes = fs.readFileSync("scenes.txt", "utf8").split("\n");
+  if (!fs.existsSync("images")) fs.mkdirSync("images");
+
+  for (let i = 0; i < scenes.length; i++) {
+    const r = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-image-1",
+        prompt: scenes[i],
+        size: "1024x1024"
+      })
+    });
+
+    const img = await r.json();
+    const b64 = img.data[0].b64_json;
+    fs.writeFileSync(`images/${i}.png`, Buffer.from(b64, "base64"));
+  }
+
+  res.json({ success: true });
+});
+
+/* ===============================
+   VIDEO (FFMPEG REAL)
+================================*/
+app.post("/api/render-video", (req, res) => {
+  if (!fs.existsSync("downloads")) fs.mkdirSync("downloads");
+
+  execSync(`
+    ffmpeg -y -r 1 -i images/%d.png \
+    -c:v libx264 -vf fps=30 -pix_fmt yuv420p \
+    downloads/final.mp4
+  `);
+
   res.json({ url: "/downloads/final.mp4" });
 });
+
+/* ===============================
+   START
+================================*/
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
-})
+  console.log("🚀 Server running on http://localhost:" + PORT);
+});
