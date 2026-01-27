@@ -4,6 +4,7 @@ import path from "path";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import { fileURLToPath } from "url";
+import Stripe from "stripe";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,12 +17,6 @@ const PORT = process.env.PORT || 3000;
 ========================= */
 app.use(bodyParser.json());
 
-app.get("/stripe/success-login", (req, res) => {
-  req.session.user = { pro: true };
-  res.redirect("/pro");
-});
-app.use(express.static(path.join(__dirname, "../public")));
-
 app.use(
   session({
     secret: "auto-shorts-secret",
@@ -30,8 +25,18 @@ app.use(
   })
 );
 
+app.use(express.static(path.join(__dirname, "../public")));
+
 /* =========================
-   ROOT ROUTES (FIXES CANNOT GET /)
+   STRIPE SUCCESS LOGIN
+========================= */
+app.get("/stripe/success-login", (req, res) => {
+  req.session.user = { isPro: true, videos: 0 };
+  res.redirect("/pro");
+});
+
+/* =========================
+   ROOT ROUTES
 ========================= */
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
@@ -53,78 +58,56 @@ app.get("/cancel", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/cancel.html"));
 });
 
-
 /* =========================
-   SESSION MOCK (TEMP)
+   SESSION API
 ========================= */
 app.get("/api/me", (req, res) => {
   if (!req.session.user) {
-    req.session.user = {
-      email: "pro@user.com",
-      isPro: true,
-      videos: 0,
-    };
+    return res.json({ isPro: false, videos: 0 });
   }
-
   res.json(req.session.user);
 });
 
 /* =========================
-   SCRIPT GENERATION (REAL OPENAI READY)
+   SCRIPT GENERATION
 ========================= */
 app.post("/api/generate-script", async (req, res) => {
   const { prompt } = req.body;
-
-  if (!prompt) {
-    return res.status(400).json({ error: "Missing prompt" });
-  }
+  if (!prompt) return res.status(400).json({ error: "Missing prompt" });
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
-          {
-            role: "system",
-            content:
-              "You write viral YouTube Shorts scripts with strong hooks and CTA.",
-          },
+          { role: "system", content: "You write viral YouTube Shorts scripts." },
           { role: "user", content: prompt },
         ],
       }),
     });
 
     const data = await response.json();
-
-    res.json({
-      script: data.choices?.[0]?.message?.content || "Script ready",
-      music: "Epic Journey",
-    });
-  } catch (err) {
-    console.error(err);
+    res.json({ script: data.choices?.[0]?.message?.content });
+  } catch {
     res.status(500).json({ error: "Script generation failed" });
   }
 });
 
 /* =========================
-   VIDEO GENERATION (REPLICATE READY)
+   VIDEO GENERATION
 ========================= */
 app.post("/api/generate-video", async (req, res) => {
-  // You already have Replicate token, so this is wired
-  res.json({
-    url: "/downloads/final.mp4",
-  });
+  res.json({ url: "/downloads/final.mp4" });
 });
 
 /* =========================
-   STRIPE CHECKOUT (FIXED ROUTE)
+   STRIPE CHECKOUT
 ========================= */
-import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.post("/api/create-checkout", async (req, res) => {
@@ -138,7 +121,7 @@ app.post("/api/create-checkout", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.BASE_URL}/success`,
+      success_url: `${process.env.BASE_URL}/stripe/success-login`,
       cancel_url: `${process.env.BASE_URL}/cancel`,
     });
 
@@ -153,5 +136,5 @@ app.post("/api/create-checkout", async (req, res) => {
    SERVER START
 ========================= */
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
