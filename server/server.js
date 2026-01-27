@@ -15,6 +15,11 @@ const PORT = process.env.PORT || 3000;
    MIDDLEWARE
 ========================= */
 app.use(bodyParser.json());
+
+app.get("/stripe/success-login", (req, res) => {
+  req.session.user = { pro: true };
+  res.redirect("/pro");
+});
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(
@@ -47,6 +52,7 @@ app.get("/success", (req, res) => {
 app.get("/cancel", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/cancel.html"));
 });
+
 
 /* =========================
    SESSION MOCK (TEMP)
