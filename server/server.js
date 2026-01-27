@@ -118,10 +118,27 @@ app.post("/api/generate-video", async (req, res) => {
 /* =========================
    STRIPE CHECKOUT (FIXED ROUTE)
 ========================= */
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 app.post("/api/create-checkout", async (req, res) => {
   try {
-    res.json({ url: "/success" });
-  } catch (e) {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: process.env.STRIPE_PRICE_ID,
+          quantity: 1,
+        },
+      ],
+      success_url: `${process.env.BASE_URL}/success`,
+      cancel_url: `${process.env.BASE_URL}/cancel`,
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Checkout failed" });
   }
 });
