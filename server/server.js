@@ -31,9 +31,14 @@ app.use(express.static(path.join(__dirname, "../public")));
    STRIPE SUCCESS LOGIN
 ========================= */
 app.get("/stripe/success-login", (req, res) => {
-  req.session.user = { isPro: true, videos: 0 };
+  req.session.user = {
+    email: "pro@user.com",
+    isPro: true,
+    videos: 0,
+  };
   res.redirect("/pro");
 });
+
 
 /* =========================
    ROOT ROUTES

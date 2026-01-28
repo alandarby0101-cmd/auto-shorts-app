@@ -1,97 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Pro Dashboard</title>
-<style>
-body {
-  margin: 0;
-  background: #0b1020;
-  font-family: Arial, sans-serif;
-  color: white;
-}
-.container {
-  max-width: 1100px;
-  margin: 40px auto;
-}
-input {
-  width: 80%;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-}
-button {
-  padding: 12px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-.card {
-  background: rgba(255,255,255,0.05);
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 20px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Pro Dashboard</title>
+  <link rel="stylesheet" href="/pro.css" />
 </head>
 <body>
 
-<div class="container">
+<div class="app">
 
-<h2>Describe your short</h2>
-<input id="prompt" placeholder="Topic, style, vibe..." />
-<button onclick="generate()">Generate</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="user">
+      <img src="https://i.pravatar.cc/150?img=12" />
+      <h3 id="username">Pro User</h3>
+      <span class="badge">PRO ACTIVE</span>
+    </div>
 
-<div class="card">
-<h3>Script / Hooks / Captions</h3>
-<div id="script">—</div>
+    <div class="stats">
+      <div><strong id="videos">0</strong><span>Videos</span></div>
+      <div><strong>280k</strong><span>Views</span></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- INPUT -->
+    <div class="input-bar">
+      <input id="prompt" placeholder="Describe your short (topic, style, vibe...)" />
+      <button id="generate">Generate</button>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+      <div class="card">
+        <h2>Script / Hooks / Captions</h2>
+        <pre id="script">Waiting...</pre>
+      </div>
+
+      <div class="card">
+        <h2>Voice & Music</h2>
+        <p id="voice">Epic Journey</p>
+        <button disabled>Change (locked)</button>
+      </div>
+
+      <div class="card">
+        <h2>Video Preview</h2>
+        <div class="preview">Preview ready</div>
+      </div>
+
+    </div>
+
+    <button class="final" id="final">Generate Final Short</button>
+
+  </main>
+
 </div>
 
-<div class="card">
-<h3>Voice & Music</h3>
-<div id="music">—</div>
-</div>
-
-<div class="card">
-<h3>Video Preview</h3>
-<div id="preview">—</div>
-</div>
-
-<br />
-<button onclick="finalize()">Generate Final Short</button>
-
-</div>
-
-<script>
-async function generate() {
-  const prompt = document.getElementById("prompt").value;
-  document.getElementById("script").innerText = "Generating...";
-  document.getElementById("music").innerText = "Choosing music...";
-  document.getElementById("preview").innerText = "Preparing preview...";
-
-  const res = await fetch("/api/generate-script", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt })
-  });
-
-  const data = await res.json();
-
-  document.getElementById("script").innerText = data.script;
-  document.getElementById("music").innerText = data.music;
-  document.getElementById("preview").innerText = "Preview ready";
-}
-
-async function finalize() {
-  document.getElementById("preview").innerText = "Rendering final video...";
-
-  const res = await fetch("/api/generate-video", { method: "POST" });
-  const data = await res.json();
-
-  document.getElementById("preview").innerHTML =
-    `<a href="${data.url}" target="_blank">Download final video</a>`;
-}
-</script>
-
+<script src="/pro.js"></script>
 </body>
 </html>
