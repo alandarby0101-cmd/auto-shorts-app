@@ -1,11 +1,13 @@
-async function loadUser() {
-  const res = await fetch("/api/me");
-  const data = await res.json();
-  document.getElementById("videos").innerText = data.videos || 0;
-}
+const promptInput = document.getElementById("prompt");
+const generateBtn = document.getElementById("generate");
+const scriptBox = document.getElementById("script");
+const finalBtn = document.getElementById("finalBtn");
 
-document.getElementById("generate").onclick = async () => {
-  const prompt = document.getElementById("prompt").value;
+generateBtn.onclick = async () => {
+  const prompt = promptInput.value;
+  if (!prompt) return alert("Enter a prompt");
+
+  scriptBox.innerText = "Generating...";
 
   const res = await fetch("/api/generate-script", {
     method: "POST",
@@ -14,12 +16,9 @@ document.getElementById("generate").onclick = async () => {
   });
 
   const data = await res.json();
-  document.getElementById("script").innerText = data.script;
+  scriptBox.innerText = data.script;
 };
 
-document.getElementById("final").onclick = async () => {
-  await fetch("/api/generate-video", { method: "POST" });
-  alert("Final video generation started");
+finalBtn.onclick = () => {
+  alert("Final video generation started (stub)");
 };
-
-loadUser();

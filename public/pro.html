@@ -6,59 +6,42 @@
   <link rel="stylesheet" href="/pro.css" />
 </head>
 <body>
+  <div class="app">
+    <div class="dashboard">
 
-<div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="profile">
+          <div class="avatar"></div>
+          <h3>Pro User</h3>
+          <span class="badge">Pro Active</span>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="user">
-      <img src="https://i.pravatar.cc/150?img=12" />
-      <h3 id="username">Pro User</h3>
-      <span class="badge">PRO ACTIVE</span>
-    </div>
+          <div class="stats">
+            <div><strong>1</strong> video</div>
+            <div><strong>280k</strong> views</div>
+          </div>
+        </div>
+      </aside>
 
-    <div class="stats">
-      <div><strong id="videos">0</strong><span>Videos</span></div>
-      <div><strong>280k</strong><span>Views</span></div>
-    </div>
-  </aside>
+      <!-- MAIN -->
+      <main class="main">
+        <div class="top">
+          <input id="prompt" placeholder="Describe your short..." />
+          <button id="generate">Generate</button>
+        </div>
 
-  <!-- MAIN -->
-  <main class="main">
+        <div class="cards">
+          <div class="card" id="script">Waiting for script...</div>
+          <div class="card" id="voice">Epic Journey</div>
+          <div class="card" id="preview">Preview ready</div>
+        </div>
 
-    <!-- INPUT -->
-    <div class="input-bar">
-      <input id="prompt" placeholder="Describe your short (topic, style, vibe...)" />
-      <button id="generate">Generate</button>
-    </div>
-
-    <!-- CARDS -->
-    <div class="cards">
-
-      <div class="card">
-        <h2>Script / Hooks / Captions</h2>
-        <pre id="script">Waiting...</pre>
-      </div>
-
-      <div class="card">
-        <h2>Voice & Music</h2>
-        <p id="voice">Epic Journey</p>
-        <button disabled>Change (locked)</button>
-      </div>
-
-      <div class="card">
-        <h2>Video Preview</h2>
-        <div class="preview">Preview ready</div>
-      </div>
+        <button class="final" id="finalBtn">Generate Final Short</button>
+      </main>
 
     </div>
+  </div>
 
-    <button class="final" id="final">Generate Final Short</button>
-
-  </main>
-
-</div>
-
-<script src="/pro.js"></script>
+  <script src="/pro.js"></script>
 </body>
 </html>
