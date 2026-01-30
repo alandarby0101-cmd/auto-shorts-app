@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import session from "express-session";
 import path from "path";
@@ -76,33 +79,40 @@ app.get("/api/me", (req, res) => {
 /* =========================
    SCRIPT GENERATION
 ========================= */
-app.post("/api/generate-script", async (req, res) => {
-  const { prompt } = req.body;
-  if (!prompt) return res.status(400).json({ error: "Missing prompt" });
-
+app.post("/api/generate", async (req, res) => {
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages: [
-          { role: "system", content: "You write viral YouTube Shorts scripts." },
-          { role: "user", content: prompt },
-        ],
-      }),
+    const { prompt } = req.body;
+    if (!prompt) {
+      return res.status(400).json({ error: "Missing prompt" });
+    }
+
+    let music = "Neutral cinematic background";
+    const p = prompt.toLowerCase();
+
+    if (p.includes("crime") || p.includes("dark")) {
+      music = "Dark suspense cinematic";
+    } else if (p.includes("sad") || p.includes("depression")) {
+      music = "Slow emotional piano";
+    } else if (p.includes("motivation")) {
+      music = "Uplifting epic cinematic";
+    } else if (p.includes("facts") || p.includes("history")) {
+      music = "Subtle documentary background";
+    }
+
+    res.json({
+      script: "SCRIPT GOES HERE (stub)",
+      hook: "HOOK GOES HERE (stub)",
+      captions: "CAPTIONS GO HERE (stub)",
+      music
     });
 
-    const data = await response.json();
-    res.json({ script: data.choices?.[0]?.message?.content });
-  } catch {
-    res.status(500).json({ error: "Script generation failed" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Generation failed" });
   }
 });
 
+ 
 /* =========================
    VIDEO GENERATION
 ========================= */

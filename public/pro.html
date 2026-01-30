@@ -1,47 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Pro Dashboard</title>
-  <link rel="stylesheet" href="/pro.css" />
-</head>
 <body>
   <div class="app">
-    <div class="dashboard">
 
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-        <div class="profile">
-          <div class="avatar"></div>
-          <h3>Pro User</h3>
-          <span class="badge">Pro Active</span>
+    <!-- PROFILE SECTION -->
+    <aside class="profile-card">
+      <div class="profile-top">
+        <button id="settingsBtn" class="settings-btn">⚙</button>
+        <div class="avatar"></div>
+        <h3 id="username">Pro User</h3>
+        <span class="status">Pro Active</span>
+        <p id="videoCount">0 videos</p>
+      </div>
 
-          <div class="stats">
-            <div><strong>1</strong> video</div>
-            <div><strong>280k</strong> views</div>
+      <div class="profile-logo">
+        <img src="/logo.png" alt="Auto Shorts AI" />
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- PROMPT BAR -->
+      <div class="prompt-bar">
+        <input id="promptInput" placeholder="Describe your short..." />
+        <button id="generateBtn">Generate</button>
+      </div>
+
+      <!-- CARDS ROW -->
+      <div class="cards">
+
+        <!-- SCRIPT / HOOK / CAPTIONS -->
+        <div class="card">
+          <div class="tabs">
+            <button class="tab active" data-tab="script">S</button>
+            <button class="tab" data-tab="hook">H</button>
+            <button class="tab" data-tab="captions">C</button>
+          </div>
+
+          <div id="textBox" class="scroll-box">
+            Waiting for script...
+          </div>
+
+          <button id="copyBtn" class="copy-btn">Copy</button>
+        </div>
+
+        <!-- MUSIC -->
+        <div class="card">
+          <h3>Music</h3>
+          <div id="musicBox" class="scroll-box">
+            Waiting for music...
           </div>
         </div>
-      </aside>
 
-      <!-- MAIN -->
-      <main class="main">
-        <div class="top">
-          <input id="prompt" placeholder="Describe your short..." />
-          <button id="generate">Generate</button>
+        <!-- VIDEO PREVIEW -->
+        <div class="card">
+          <h3>Video</h3>
+          <div id="videoBox" class="video-box">
+            Preview ready
+          </div>
+          <button id="previewBtn">Preview</button>
         </div>
 
-        <div class="cards">
-          <div class="card" id="script">Waiting for script...</div>
-          <div class="card" id="voice">Epic Journey</div>
-          <div class="card" id="preview">Preview ready</div>
-        </div>
+      </div>
 
-        <button class="final" id="finalBtn">Generate Final Short</button>
-      </main>
+      <!-- FINAL BUTTON -->
+      <button id="finalBtn" class="final-btn">
+        Generate Final Short
+      </button>
 
-    </div>
+    </main>
   </div>
 
   <script src="/pro.js"></script>
 </body>
-</html>
