@@ -1,74 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Shorts – Pro</title>
+  <link rel="stylesheet" href="pro.css" />
+</head>
 <body>
-  <div class="app">
 
-    <!-- PROFILE SECTION -->
-    <aside class="profile-card">
-      <div class="profile-top">
-        <button id="settingsBtn" class="settings-btn">⚙</button>
-        <div class="avatar"></div>
-        <h3 id="username">Pro User</h3>
-        <span class="status">Pro Active</span>
-        <p id="videoCount">0 videos</p>
-      </div>
+<div id="pro-page">
 
-      <div class="profile-logo">
-        <img src="/logo.png" alt="Auto Shorts AI" />
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main">
-
-      <!-- PROMPT BAR -->
-      <div class="prompt-bar">
-        <input id="promptInput" placeholder="Describe your short..." />
-        <button id="generateBtn">Generate</button>
-      </div>
-
-      <!-- CARDS ROW -->
-      <div class="cards">
-
-        <!-- SCRIPT / HOOK / CAPTIONS -->
-        <div class="card">
-          <div class="tabs">
-            <button class="tab active" data-tab="script">S</button>
-            <button class="tab" data-tab="hook">H</button>
-            <button class="tab" data-tab="captions">C</button>
-          </div>
-
-          <div id="textBox" class="scroll-box">
-            Waiting for script...
-          </div>
-
-          <button id="copyBtn" class="copy-btn">Copy</button>
-        </div>
-
-        <!-- MUSIC -->
-        <div class="card">
-          <h3>Music</h3>
-          <div id="musicBox" class="scroll-box">
-            Waiting for music...
-          </div>
-        </div>
-
-        <!-- VIDEO PREVIEW -->
-        <div class="card">
-          <h3>Video</h3>
-          <div id="videoBox" class="video-box">
-            Preview ready
-          </div>
-          <button id="previewBtn">Preview</button>
-        </div>
-
-      </div>
-
-      <!-- FINAL BUTTON -->
-      <button id="finalBtn" class="final-btn">
-        Generate Final Short
-      </button>
-
-    </main>
+  <!-- LEFT SIDEBAR -->
+  <div id="sidebar">
+    <div id="profileCard">
+      <img src="logo.png" class="avatar" />
+      <h2>Alex Summers</h2>
+      <p class="active">✔ Pro Active</p>
+      <p>Videos: 0</p>
+      <p>Virality: --</p>
+    </div>
   </div>
 
-  <script src="/pro.js"></script>
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- TOP BAR -->
+    <div id="topBar">
+      <h1>Describe your short</h1>
+      <div class="topInputRow">
+        <input id="promptInput" placeholder="Topic, style, vibe, description..." />
+        <button id="generateBtn">Generate</button>
+      </div>
+    </div>
+
+    <!-- MIDDLE ROW -->
+    <div id="middle-row">
+
+      <!-- SCRIPT CARD -->
+      <div class="card" id="scriptCard">
+        <h3>Script / Hooks / Captions</h3>
+        <div class="tabs">
+          <button id="tabScript">Script</button>
+          <button id="tabHook">Hook</button>
+          <button id="tabCaptions">Captions</button>
+        </div>
+        <div id="outputBox">Waiting for input...</div>
+        <button id="copyBtn">Copy</button>
+      </div>
+
+      <!-- VOICE CARD -->
+      <div class="card" id="musicCard">
+        <h3>Voice & Music</h3>
+        <div id="musicBox">Voice: Ryan (US Male)</div>
+        <div id="musicBox">Track: Synthwave Dreams</div>
+        <button id="changeMusicBtn">Change Voice / Music</button>
+      </div>
+
+      <!-- PREVIEW CARD -->
+      <div class="card" id="previewCard">
+        <h3>Video Preview</h3>
+        <div id="previewBox">
+          <video id="previewVideo" controls></video>
+        </div>
+        <button id="previewBtn">Preview Video</button>
+      </div>
+
+    </div>
+
+    <!-- FINAL BUTTON -->
+    <div id="finalRow">
+      <button id="finalGenerateBtn">Generate Final Short</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="pro.js"></script>
 </body>
+</html>

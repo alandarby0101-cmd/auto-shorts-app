@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname, "../public")))
 /* =========================
    MIDDLEWARE
 ========================= */
@@ -117,7 +118,17 @@ app.post("/api/generate", async (req, res) => {
    VIDEO GENERATION
 ========================= */
 app.post("/api/generate-video", async (req, res) => {
-  res.json({ url: "/downloads/final.mp4" });
+  try {
+    // this is where Replicate will plug in later
+    // for now it returns a real downloadable file path
+
+    const videoUrl = "/videos/sample.mp4";
+
+    res.json({ url: videoUrl });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Video generation failed" });
+  }
 });
 
 /* =========================

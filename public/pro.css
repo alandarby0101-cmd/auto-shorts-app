@@ -1,116 +1,86 @@
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
-  background: radial-gradient(circle at top, #1b2a6b, #020617);
+  font-family: Arial, sans-serif;
+  background: url("galaxy-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
   color: white;
 }
 
-.app {
+#pro-page {
   display: flex;
   height: 100vh;
 }
 
-.profile {
+#sidebar {
   width: 260px;
-  background: rgba(255,255,255,0.05);
   padding: 20px;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.settings {
-  align-self: flex-end;
+#profileCard {
+  background: rgba(0,0,0,0.4);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00ffc6, #4f8cff);
-  margin: 20px 0;
+  width: 100%;
+  border-radius: 12px;
 }
 
-.logo {
-  width: 120px;
-  margin-top: auto;
-}
-
-.main {
+#main {
   flex: 1;
-  padding: 20px;
+  padding: 30px;
 }
 
-.prompt-bar {
+#topBar {
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.topInputRow {
   display: flex;
   gap: 10px;
 }
 
-.prompt-bar input {
+.topInputRow input {
   flex: 1;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 8px;
   border: none;
 }
 
-.sections {
+#middle-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  margin-top: 20px;
 }
 
 .card {
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.45);
   border-radius: 16px;
-  padding: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-.tabs {
-  display: flex;
-  gap: 6px;
-}
-
-.tab {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-
-.tab.active {
-  background: #00ffc6;
-  color: black;
-}
-
-.content {
-  flex: 1;
-  margin: 10px 0;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.2);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.video-preview {
-  flex: 1;
-  background: rgba(0,0,0,0.3);
+#previewVideo {
+  width: 100%;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.final {
+#finalRow {
   margin-top: 30px;
-  padding: 15px;
+  text-align: center;
+}
+
+#finalGenerateBtn {
+  font-size: 20px;
+  padding: 15px 50px;
   border-radius: 16px;
-  background: linear-gradient(90deg,#00ffc6,#4f8cff);
   border: none;
-  font-size: 18px;
-  cursor: pointer;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  color: white;
 }
