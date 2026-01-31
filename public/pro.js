@@ -1,13 +1,23 @@
-// ===============================
+// ======================
+// ELEMENTS
+// ======================
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const previewBtn = document.getElementById("previewBtn");
+const inputBox = document.getElementById("promptInput");
+const outputBox = document.getElementById("outputBox");
+const previewVideo = document.getElementById("previewVideo");
+
+// ======================
 // STATE
-// ===============================
+// ======================
 let currentTab = "script";
 let generatedText = "";
 let videoUrl = "/videos/sample.mp4";
 
-// ===============================
+// ======================
 // TABS
-// ===============================
+// ======================
 document.querySelectorAll(".tab").forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -16,63 +26,58 @@ document.querySelectorAll(".tab").forEach(tab => {
   };
 });
 
-// ===============================
-// GENERATE SCRIPT / HOOK / CAPTION
-// ===============================
-document.getElementById("generateBtn").onclick = async () => {
-  const prompt = document.getElementById("promptInput").value.trim();
-  if (!prompt) return alert("Enter a prompt first");
+// ======================
+// GENERATE
+// ======================
+generateBtn.onclick = async () => {
+  const prompt = inputBox.value.trim();
 
-  const res = await fetch("/api/generate-script", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      prompt,
-      type: currentTab
-    })
-  });
-
-  const data = await res.json();
-  generatedText = data.text || data.script || "No output";
-
-  document.getElementById("outputBox").innerText = generatedText;
-  document.getElementById("musicBox").innerText =
-    data.music || "Music selected automatically";
-};
-
-// ===============================
-// COPY
-// ===============================
-document.getElementById("copyBtn").onclick = () => {
-  if (!generatedText) return;
-  navigator.clipboard.writeText(generatedText);
-};
-
-// ===============================
-// PREVIEW VIDEO
-// ===============================
-document.getElementById("previewBtn").onclick = () => {
-  const videoBox = document.getElementById("videoPreview");
-
-  videoBox.innerHTML = `
-    <video controls style="width:100%;border-radius:14px">
-      <source src="${videoUrl}" type="video/mp4" />
-    </video>
-  `;
-};
-
-// ===============================
-// FINAL GENERATE
-// ===============================
-document.getElementById("finalBtn").onclick = async () => {
-  const res = await fetch("/api/generate-video", {
-    method: "POST"
-  });
-
-  const data = await res.json();
-  if (data.url) {
-    window.location.href = data.url;
-  } else {
-    alert("Video generation failed");
+  if (!prompt) {
+    alert("Enter something first");
+    return;
   }
+
+  generateBtn.innerText = "Generating...";
+  generateBtn.disabled = true;
+
+  try {
+    const res = await fetch("/api/generate-script", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt,
+        type: currentTab
+      })
+    });
+
+    const data = await res.json();
+
+    generatedText = data.text || "No response returned";
+    outputBox.value = generatedText;
+  } catch (err) {
+    outputBox.value = "Error generating text";
+    console.error(err);
+  }
+
+  generateBtn.innerText = "Generate";
+  generateBtn.disabled = false;
+};
+
+// ======================
+// COPY
+// ======================
+copyBtn.onclick = () => {
+  if (!outputBox.value) return;
+  navigator.clipboard.writeText(outputBox.value);
+  copyBtn.innerText = "Copied!";
+  setTimeout(() => (copyBtn.innerText = "Copy"), 1000);
+};
+
+// ======================
+// PREVIEW VIDEO
+// ======================
+previewBtn.onclick = () => {
+  previewVideo.src = videoUrl;
+  previewVideo.load();
+  previewVideo.play();
 };
