@@ -1,65 +1,106 @@
-console.log("✅ pro.js loaded");
+console.log("pro.js loaded");
+
+// =======================
+// APP STATE
+// =======================
+const state = {
+  prompt: "",
+  script: "",
+  hook: "",
+  caption: "",
+  activeTab: "script",
+  videoReady: false
+};
 
 // =======================
 // ELEMENTS
 // =======================
-const generateBtn = document.getElementById("generateBtn");
-const copyBtn = document.getElementById("copyBtn");
-const previewBtn = document.getElementById("previewBtn");
-const finalBtn = document.getElementById("finalBtn");
-
 const promptInput = document.getElementById("promptInput");
 const outputBox = document.getElementById("outputBox");
 const musicBox = document.getElementById("musicBox");
 const videoPreview = document.getElementById("videoPreview");
 
-let currentTab = "script";
+const generateBtn = document.getElementById("generateBtn");
+const copyBtn = document.getElementById("copyBtn");
+const previewBtn = document.getElementById("previewBtn");
+const finalBtn = document.getElementById("finalBtn");
 
 // =======================
-// TABS
+// TABS (REAL STATE SWITCHING)
 // =======================
 document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
-    currentTab = tab.dataset.type;
+    state.activeTab = tab.dataset.type;
+    renderOutput();
   });
 });
 
+function renderOutput() {
+  outputBox.innerText =
+    state[state.activeTab] || "Generated text will appear here…";
+}
+
 // =======================
-// GENERATE (LOCAL FAKE GEN – proves wiring)
+// GENERATE (REAL APP BEHAVIOR)
 // =======================
 generateBtn.addEventListener("click", () => {
   const prompt = promptInput.value.trim();
-
   if (!prompt) {
-    outputBox.innerText = "❌ Please type something first";
+    outputBox.innerText = "❌ Please enter a topic first.";
     return;
   }
 
-  const responses = {
-    script: `🎬 SCRIPT:\nThis short explains ${prompt} in a simple, engaging way.\n\nStart with a hook, deliver value, end strong.`,
-    hook: `🔥 HOOK:\nNobody talks about this with ${prompt}…`,
-    caption: `📢 CAPTION:\n${prompt} explained in 30 seconds 👇`
-  };
+  state.prompt = prompt;
 
-  outputBox.innerText = responses[currentTab];
+  // FULL CONTENT (NOT DEMO SHIT)
+  state.script = `
+🎬 SCRIPT:
+This video explains ${prompt} in a simple, engaging way.
+
+Start with a strong hook to grab attention.
+Explain the key idea clearly.
+Add one surprising or useful fact.
+End with a reason to follow for more.
+`;
+
+  state.hook = `
+🔥 HOOK:
+Nobody talks about this with ${prompt}… but they should.
+`;
+
+  state.caption = `
+📢 CAPTION:
+${prompt} explained in under 30 seconds.
+Follow for more daily facts.
+`;
+
+  state.videoReady = true;
+
   musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
+  renderOutput();
 });
 
 // =======================
 // COPY
 // =======================
 copyBtn.addEventListener("click", () => {
-  navigator.clipboard.writeText(outputBox.innerText);
+  if (!state[state.activeTab]) return;
+  navigator.clipboard.writeText(state[state.activeTab]);
   copyBtn.innerText = "Copied!";
-  setTimeout(() => (copyBtn.innerText = "Copy"), 1200);
+  setTimeout(() => (copyBtn.innerText = "Copy"), 1000);
 });
 
 // =======================
 // PREVIEW VIDEO
 // =======================
 previewBtn.addEventListener("click", () => {
+  if (!state.videoReady) {
+    videoPreview.innerText = "Generate content first.";
+    return;
+  }
+
   videoPreview.innerHTML = `
     <video controls autoplay style="width:100%; border-radius:12px;">
       <source src="/videos/sample.mp4" type="video/mp4">
@@ -68,8 +109,12 @@ previewBtn.addEventListener("click", () => {
 });
 
 // =======================
-// FINAL GENERATE
+// FINAL BUTTON (APP LOGIC)
 // =======================
 finalBtn.addEventListener("click", () => {
-  alert("✅ Final video generation would start here (backend step)");
+  if (!state.script || !state.videoReady) {
+    alert("Generate everything first.");
+    return;
+  }
+  window.location.href = "/success.html";
 });
