@@ -1,5 +1,8 @@
-console.log("pro.js loaded");
+console.log("✅ pro.js loaded");
 
+// =======================
+// ELEMENTS
+// =======================
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
 const previewBtn = document.getElementById("previewBtn");
@@ -12,52 +15,61 @@ const videoPreview = document.getElementById("videoPreview");
 
 let currentTab = "script";
 
+// =======================
+// TABS
+// =======================
 document.querySelectorAll(".tab").forEach(tab => {
-  tab.onclick = () => {
+  tab.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
     currentTab = tab.dataset.type;
-  };
+  });
 });
 
-// GENERATE
-generateBtn.onclick = async () => {
+// =======================
+// GENERATE (LOCAL FAKE GEN – proves wiring)
+// =======================
+generateBtn.addEventListener("click", () => {
   const prompt = promptInput.value.trim();
+
   if (!prompt) {
-    outputBox.innerText = "Enter something first.";
+    outputBox.innerText = "❌ Please type something first";
     return;
   }
 
   const responses = {
-    script: `SCRIPT:\nA short story about ${prompt}`,
-    hook: `HOOK:\nYou won't believe this about ${prompt}`,
-    caption: `CAPTION:\nThis changes everything about ${prompt}`
+    script: `🎬 SCRIPT:\nThis short explains ${prompt} in a simple, engaging way.\n\nStart with a hook, deliver value, end strong.`,
+    hook: `🔥 HOOK:\nNobody talks about this with ${prompt}…`,
+    caption: `📢 CAPTION:\n${prompt} explained in 30 seconds 👇`
   };
 
   outputBox.innerText = responses[currentTab];
-  musicBox.innerText =
-    prompt.toLowerCase().includes("crime") ? "Dark Cinematic" :
-    prompt.toLowerCase().includes("sad") ? "Slow Emotional" :
-    "Epic Journey";
-};
+  musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
+});
 
+// =======================
 // COPY
-copyBtn.onclick = () => {
+// =======================
+copyBtn.addEventListener("click", () => {
   navigator.clipboard.writeText(outputBox.innerText);
   copyBtn.innerText = "Copied!";
-  setTimeout(() => copyBtn.innerText = "Copy", 1000);
-};
+  setTimeout(() => (copyBtn.innerText = "Copy"), 1200);
+});
 
-// PREVIEW
-previewBtn.onclick = () => {
+// =======================
+// PREVIEW VIDEO
+// =======================
+previewBtn.addEventListener("click", () => {
   videoPreview.innerHTML = `
-    <video controls autoplay style="width:100%;border-radius:12px">
+    <video controls autoplay style="width:100%; border-radius:12px;">
       <source src="/videos/sample.mp4" type="video/mp4">
     </video>
   `;
-};
+});
 
-// FINAL
-finalBtn.onclick = () => {
-  window.location.href = "/videos/sample.mp4";
-};
+// =======================
+// FINAL GENERATE
+// =======================
+finalBtn.addEventListener("click", () => {
+  alert("✅ Final video generation would start here (backend step)");
+});
