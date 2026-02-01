@@ -1,23 +1,17 @@
-// =======================================
-// ELEMENTS
-// =======================================
+console.log("pro.js loaded");
+
 const generateBtn = document.getElementById("generateBtn");
-const inputBox = document.getElementById("promptInput");
-const outputBox = document.getElementById("outputBox");
 const copyBtn = document.getElementById("copyBtn");
 const previewBtn = document.getElementById("previewBtn");
-const previewVideo = document.getElementById("previewVideo");
+const finalBtn = document.getElementById("finalBtn");
 
-// =======================================
-// STATE
-// =======================================
+const promptInput = document.getElementById("promptInput");
+const outputBox = document.getElementById("outputBox");
+const musicBox = document.getElementById("musicBox");
+const videoPreview = document.getElementById("videoPreview");
+
 let currentTab = "script";
-let generatedText = "";
-let videoUrl = "/videos/sample.mp4";
 
-// =======================================
-// TABS (Script / Hook / Caption)
-// =======================================
 document.querySelectorAll(".tab").forEach(tab => {
   tab.onclick = () => {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -26,64 +20,44 @@ document.querySelectorAll(".tab").forEach(tab => {
   };
 });
 
-// =======================================
-// GENERATE SCRIPT
-// =======================================
+// GENERATE
 generateBtn.onclick = async () => {
-  const prompt = inputBox.value.trim();
-
+  const prompt = promptInput.value.trim();
   if (!prompt) {
-    outputBox.innerText = "Enter a prompt first.";
+    outputBox.innerText = "Enter something first.";
     return;
   }
 
-  outputBox.innerText = "Generating...";
+  const responses = {
+    script: `SCRIPT:\nA short story about ${prompt}`,
+    hook: `HOOK:\nYou won't believe this about ${prompt}`,
+    caption: `CAPTION:\nThis changes everything about ${prompt}`
+  };
 
-  try {
-    const res = await fetch("/api/generate-script", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt,
-        type: currentTab
-      })
-    });
-
-    const data = await res.json();
-
-    if (!data.text) {
-      outputBox.innerText = "No response from server.";
-      return;
-    }
-
-    generatedText = data.text;
-    outputBox.innerText = generatedText;
-  } catch (err) {
-    console.error(err);
-    outputBox.innerText = "Error generating text.";
-  }
+  outputBox.innerText = responses[currentTab];
+  musicBox.innerText =
+    prompt.toLowerCase().includes("crime") ? "Dark Cinematic" :
+    prompt.toLowerCase().includes("sad") ? "Slow Emotional" :
+    "Epic Journey";
 };
 
-// =======================================
-// COPY BUTTON
-// =======================================
+// COPY
 copyBtn.onclick = () => {
-  if (!generatedText) return;
-  navigator.clipboard.writeText(generatedText);
+  navigator.clipboard.writeText(outputBox.innerText);
   copyBtn.innerText = "Copied!";
-  setTimeout(() => (copyBtn.innerText = "Copy"), 1200);
+  setTimeout(() => copyBtn.innerText = "Copy", 1000);
 };
 
-// =======================================
-// PREVIEW VIDEO
-// =======================================
+// PREVIEW
 previewBtn.onclick = () => {
-  previewVideo.src = videoUrl;
-  previewVideo.load();
-  previewVideo.play();
+  videoPreview.innerHTML = `
+    <video controls autoplay style="width:100%;border-radius:12px">
+      <source src="/videos/sample.mp4" type="video/mp4">
+    </video>
+  `;
 };
 
-// =======================================
-// SAFETY LOG (optional but useful)
-// =======================================
-console.log("pro.js loaded OK");
+// FINAL
+finalBtn.onclick = () => {
+  window.location.href = "/videos/sample.mp4";
+};
