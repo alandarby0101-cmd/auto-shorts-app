@@ -1,130 +1,140 @@
-console.log("pro.js loaded");
+console.log("✅ pro.js loaded");
 
-// ==============================
-// APP STATE
-// ==============================
+/* =========================
+   STATE
+========================= */
 const state = {
-  prompt: "",
   script: "",
   hook: "",
   caption: "",
-  activeTab: "script",
-  videoReady: false,
+  music: "",
+  activeTab: "script"
 };
 
-// ==============================
-// ELEMENTS
-// ==============================
-const promptInput = document.getElementById("promptInput");
-const outputBox = document.getElementById("outputBox");
-const musicBox = document.getElementById("musicBox");
-const videoPreview = document.getElementById("videoPreview");
+/* =========================
+   ELEMENTS
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const generateBtn = document.getElementById("generateBtn");
+  const copyBtn = document.getElementById("copyBtn");
+  const previewBtn = document.getElementById("previewBtn");
+  const finalBtn = document.getElementById("finalBtn");
 
-const generateBtn = document.getElementById("generateBtn");
-const copyBtn = document.getElementById("copyBtn");
-const previewBtn = document.getElementById("previewBtn");
+  const promptInput = document.getElementById("promptInput");
+  const outputBox = document.getElementById("outputBox");
+  const musicBox = document.getElementById("musicBox");
+  const videoPreview = document.getElementById("videoPreview");
 
-const scriptTab = document.getElementById("scriptTab");
-const hookTab = document.getElementById("hookTab");
-const captionTab = document.getElementById("captionTab");
+  const tabs = document.querySelectorAll(".tab");
 
-// ==============================
-// RENDER OUTPUT
-// ==============================
-function renderOutput() {
-  outputBox.innerText =
-    state[state.activeTab] || "Generated text will appear here...";
-}
-
-// ==============================
-// TAB HANDLERS
-// ==============================
-function setActiveTab(tab) {
-  state.activeTab = tab;
-
-  scriptTab.classList.remove("active");
-  hookTab.classList.remove("active");
-  captionTab.classList.remove("active");
-
-  if (tab === "script") scriptTab.classList.add("active");
-  if (tab === "hook") hookTab.classList.add("active");
-  if (tab === "caption") captionTab.classList.add("active");
-
-  renderOutput();
-}
-
-scriptTab.addEventListener("click", () => setActiveTab("script"));
-hookTab.addEventListener("click", () => setActiveTab("hook"));
-captionTab.addEventListener("click", () => setActiveTab("caption"));
-
-// ==============================
-// GENERATE
-// ==============================
-generateBtn.addEventListener("click", async () => {
-  const prompt = promptInput.value.trim();
-
-  if (!prompt) {
-    outputBox.innerText = "❌ Please enter a topic first.";
+  /* =========================
+     SAFETY CHECK
+  ========================= */
+  if (!generateBtn || !outputBox || !promptInput) {
+    console.error("❌ Required elements missing in pro.html");
     return;
   }
 
-  state.prompt = prompt;
-  outputBox.innerText = "⏳ Generating...";
+  /* =========================
+     TAB SWITCHING
+  ========================= */
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
 
-  try {
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt,
-      }),
+      state.activeTab = tab.dataset.type;
+      renderOutput();
     });
+  });
 
-    if (!res.ok) {
-      throw new Error("API request failed");
+  function renderOutput() {
+    if (state.activeTab === "script") outputBox.innerText = state.script || "No script yet";
+    if (state.activeTab === "hook") outputBox.innerText = state.hook || "No hook yet";
+    if (state.activeTab === "caption") outputBox.innerText = state.caption || "No caption yet";
+  }
+
+  /* =========================
+     GENERATE (REAL AI)
+  ========================= */
+  generateBtn.addEventListener("click", async () => {
+    const prompt = promptInput.value.trim();
+
+    if (!prompt) {
+      outputBox.innerText = "❌ Please enter a prompt.";
+      return;
     }
 
-    const data = await res.json();
+    outputBox.innerText = "⏳ Generating...";
+    musicBox.innerText = "🎵 Selecting music...";
 
-    state.script = data.script || "";
-    state.hook = data.hook || "";
-    state.caption = data.captions || "";
+    try {
+      const res = await fetch("/api/generate-script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
 
-    state.videoReady = true;
+      if (!res.ok) throw new Error("AI request failed");
 
-    musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
+      const data = await res.json();
 
-    renderOutput();
-  } catch (err) {
-    console.error(err);
-    outputBox.innerText = "❌ Error generating content.";
-  }
-});
+      state.script = data.script || "";
+      state.hook = data.hook || "";
+      state.caption = data.caption || "";
+      state.music = data.music || "";
 
-// ==============================
-// COPY
-// ==============================
-copyBtn.addEventListener("click", () => {
-  const text = state[state.activeTab];
-  if (!text) return;
+      musicBox.innerText = state.music || "No music selected";
+      renderOutput();
 
-  navigator.clipboard.writeText(text);
-});
+    } catch (err) {
+      console.error(err);
+      outputBox.innerText = "❌ Generation failed";
+    }
+  });
 
-// ==============================
-// PREVIEW VIDEO
-// ==============================
-previewBtn.addEventListener("click", () => {
-  if (!state.videoReady) {
-    alert("Generate content first.");
-    return;
-  }
+  /* =========================
+     COPY
+  ========================= */
+  copyBtn.addEventListener("click", () => {
+    let text = "";
 
-  videoPreview.innerHTML = `
-    <video controls autoplay style="width:100%; border-radius:12px;">
-      <source src="/videos/sample.mp4" type="video/mp4" />
-    </video>
-  `;
+    if (state.activeTab === "script") text = state.script;
+    if (state.activeTab === "hook") text = state.hook;
+    if (state.activeTab === "caption") text = state.caption;
+
+    if (!text) return;
+
+    navigator.clipboard.writeText(text);
+    copyBtn.innerText = "Copied!";
+    setTimeout(() => (copyBtn.innerText = "Copy"), 1200);
+  });
+
+  /* =========================
+     PREVIEW VIDEO
+  ========================= */
+  previewBtn.addEventListener("click", () => {
+    videoPreview.innerHTML = `
+      <video controls autoplay style="width:100%; border-radius:12px;">
+        <source src="/videos/sample.mp4" type="video/mp4">
+      </video>
+    `;
+  });
+
+  /* =========================
+     FINAL GENERATION
+  ========================= */
+  finalBtn.addEventListener("click", async () => {
+    try {
+      const res = await fetch("/api/generate-video", { method: "POST" });
+      const data = await res.json();
+
+      if (!data.url) throw new Error("No video URL");
+
+      window.location.href = data.url;
+
+    } catch (err) {
+      alert("❌ Final video generation failed");
+    }
+  });
 });
