@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import generateRoute from "./routes/generate.js";
 import express from "express";
 import session from "express-session";
 import path from "path";
@@ -15,12 +16,11 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, "../public")))
 /* =========================
    MIDDLEWARE
 ========================= */
 app.use(bodyParser.json());
-
+app.use("/api", generateRoute);
 app.use(
   session({
     secret: "auto-shorts-secret",
