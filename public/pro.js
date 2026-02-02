@@ -1,20 +1,19 @@
 console.log("pro.js loaded");
 
-// =======================
+// ============================
 // APP STATE
-// =======================
+// ============================
 const state = {
   prompt: "",
   script: "",
   hook: "",
-  captions: "",
-  activeTab: "script",
-  videoReady: false
+  caption: "",
+  activeTab: "script"
 };
 
-// =======================
+// ============================
 // ELEMENTS
-// =======================
+// ============================
 const promptInput = document.getElementById("promptInput");
 const outputBox = document.getElementById("outputBox");
 const musicBox = document.getElementById("musicBox");
@@ -22,115 +21,77 @@ const videoPreview = document.getElementById("videoPreview");
 
 const generateBtn = document.getElementById("generateBtn");
 const copyBtn = document.getElementById("copyBtn");
-const previewBtn = document.getElementById("previewBtn");
-const finalBtn = document.getElementById("finalBtn");
 
-// =======================
-// TABS (REAL STATE SWITCHING)
-// =======================
-document.querySelectorAll(".tab").forEach(tab => {
+const tabs = document.querySelectorAll("[data-tab]");
+
+// ============================
+// RENDER OUTPUT
+// ============================
+function renderOutput() {
+  const value = state[state.activeTab];
+  outputBox.innerText = value || "Generated text will appear here...";
+}
+
+// ============================
+// TAB SWITCHING
+// ============================
+tabs.forEach(tab => {
   tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    state.activeTab = tab.dataset.type;
+    state.activeTab = tab.dataset.tab;
     renderOutput();
   });
 });
 
-function renderOutput() {
-  if (state.activeTab === "caption") {
-    outputBox.innerText =
-      state.captions || "Generated text will appear here...";
-  } else {
-    outputBox.innerText =
-      state[state.activeTab] || "Generated text will appear here...";
-  }
-}
-
-// =======================
-// GENERATE (REAL APP BEHAVIOR)
-// =======================
-generateBtn.addEventListener("click", () => {
+// ============================
+// GENERATE BUTTON
+// ============================
+generateBtn.addEventListener("click", async () => {
   const prompt = promptInput.value.trim();
+
   if (!prompt) {
     outputBox.innerText = "❌ Please enter a topic first.";
     return;
   }
 
   state.prompt = prompt;
-
-// REAL AI GENERATION
-fetch("/api/generate", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    prompt,
-    type: state.activeTab
-  })
-})
-.then(res => {
-  if (!res.ok) throw new Error("AI request failed");
-  return res.json();
-})
-.then(data => {
-  state.script = data.script || "";
-  state.hook = data.hook || "";
-  state.captions = data.captions || "";
-  renderOutput();
-})
-.then(data => {
-  state.script = data.script;
-  state.hook = data.hook;
-  state.caption = data.caption;
-
-  state.videoReady = true;
+  outputBox.innerText = "⏳ Generating...";
   musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
-  renderOutput();
-})
-.catch(err => {
-  console.error(err);
-  outputBox.innerText = "❌ AI generation failed. Check server logs.";
+
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        prompt: prompt
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error("API request failed");
+    }
+
+    const data = await res.json();
+
+    state.script = data.script || "";
+    state.hook = data.hook || "";
+    state.caption = data.captions || "";
+
+    renderOutput();
+
+  } catch (err) {
+    console.error(err);
+    outputBox.innerText = "❌ AI generation failed. Check server logs.";
+  }
 });
 
-  musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
-  renderOutput();
-});
-
-// =======================
-// COPY
-// =======================
+// ============================
+// COPY BUTTON
+// ============================
 copyBtn.addEventListener("click", () => {
-  if (!state[state.activeTab]) return;
-  navigator.clipboard.writeText(state[state.activeTab]);
-  copyBtn.innerText = "Copied!";
-  setTimeout(() => (copyBtn.innerText = "Copy"), 1000);
-});
+  const text = state[state.activeTab];
+  if (!text) return;
 
-// =======================
-// PREVIEW VIDEO
-// =======================
-previewBtn.addEventListener("click", () => {
-  if (!state.videoReady) {
-    videoPreview.innerText = "Generate content first.";
-    return;
-  }
-
-  videoPreview.innerHTML = `
-    <video controls autoplay style="width:100%; border-radius:12px;">
-      <source src="/videos/sample.mp4" type="video/mp4">
-    </video>
-  `;
-});
-
-// =======================
-// FINAL BUTTON (APP LOGIC)
-// =======================
-finalBtn.addEventListener("click", () => {
-  if (!state.script || !state.videoReady) {
-    alert("Generate everything first.");
-    return;
-  }
-  window.location.href = "/success.html";
+  navigator.clipboard.writeText(text);
 });
