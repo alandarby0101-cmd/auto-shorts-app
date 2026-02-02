@@ -3,35 +3,62 @@ import OpenAI from "openai";
 
 const router = express.Router();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-router.post("/generate-script", async (req, res) => {
+router.post("/generate", async (req, res) => {
   try {
     const { prompt, type } = req.body;
 
-    const systemPrompts = {
-      script: "Write a full YouTube Shorts script with hook, body, and CTA. 60–90 words.",
-      hook: "Write 3 viral hooks for a YouTube Shorts video.",
-      caption: "Write 3 short viral captions for TikTok / YouTube Shorts."
-    };
+    if (!prompt) {
+      return res.status(400).json({ error: "Prompt is required" });
+    }
 
-    const completion = await openai.chat.completions.create({
+    // SYSTEM PROMPT — THIS IS THE IMPORTANT PART
+    const systemPrompt = `
+You are an AI that ONLY responds in valid JSON.
+Do NOT include explanations.
+Do NOT include markdown.
+Do NOT include labels outside JSON.
+
+Return this exact structure:
+
+{
+  "hook": "",
+  "script": "",
+  "captions": ""
+}
+`;
+
+    const userPrompt = `
+Topic: ${prompt}
+
+Create content suitable for a YouTube Short.
+Hook must be punchy (1 line).
+Script should be ~30 seconds.
+Captions should be hashtags only.
+`;
+
+    const completion = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: systemPrompts[type] },
-        { role: "user", content: prompt }
-      ]
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+      ],
+      temperature: 0.7,
     });
 
-    res.json({
-      text: completion.choices[0].message.content
-    });
+    const raw = completion.choices[0].message.content;
+
+    // Parse AI JSON safely
+    const parsed = JSON.parse(raw);
+
+    res.json(parsed);
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "AI generation failed" });
+    console.error("GENERATE ERROR:", err);
+    res.status(500).json({ error: "Generation failed" });
   }
 });
 
