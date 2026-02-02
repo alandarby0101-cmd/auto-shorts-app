@@ -54,29 +54,34 @@ generateBtn.addEventListener("click", () => {
 
   state.prompt = prompt;
 
-  // FULL CONTENT (NOT DEMO SHIT)
-  state.script = `
-🎬 SCRIPT:
-This video explains ${prompt} in a simple, engaging way.
-
-Start with a strong hook to grab attention.
-Explain the key idea clearly.
-Add one surprising or useful fact.
-End with a reason to follow for more.
-`;
-
-  state.hook = `
-🔥 HOOK:
-Nobody talks about this with ${prompt}… but they should.
-`;
-
-  state.caption = `
-📢 CAPTION:
-${prompt} explained in under 30 seconds.
-Follow for more daily facts.
-`;
+// REAL AI GENERATION
+fetch("/api/generate", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    prompt,
+    type: state.activeTab
+  })
+})
+.then(res => {
+  if (!res.ok) throw new Error("AI request failed");
+  return res.json();
+})
+.then(data => {
+  state.script = data.script;
+  state.hook = data.hook;
+  state.caption = data.caption;
 
   state.videoReady = true;
+  musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
+  renderOutput();
+})
+.catch(err => {
+  console.error(err);
+  outputBox.innerText = "❌ AI generation failed. Check server logs.";
+});
 
   musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
   renderOutput();
