@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import generateRoute from "./routes/generate.js";
 import express from "express";
@@ -9,6 +8,8 @@ import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import { fileURLToPath } from "url";
 import Stripe from "stripe";
+
+console.log("OPENAI KEY LOADED:", !!process.env.OPENAI_API_KEY);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
