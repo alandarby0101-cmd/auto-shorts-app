@@ -7,7 +7,7 @@ const state = {
   prompt: "",
   script: "",
   hook: "",
-  caption: "",
+  captions: "",
   activeTab: "script",
   videoReady: false
 };
@@ -38,8 +38,13 @@ document.querySelectorAll(".tab").forEach(tab => {
 });
 
 function renderOutput() {
-  outputBox.innerText =
-    state[state.activeTab] || "Generated text will appear here…";
+  if (state.activeTab === "caption") {
+    outputBox.innerText =
+      state.captions || "Generated text will appear here...";
+  } else {
+    outputBox.innerText =
+      state[state.activeTab] || "Generated text will appear here...";
+  }
 }
 
 // =======================
@@ -68,6 +73,12 @@ fetch("/api/generate", {
 .then(res => {
   if (!res.ok) throw new Error("AI request failed");
   return res.json();
+})
+.then(data => {
+  state.script = data.script || "";
+  state.hook = data.hook || "";
+  state.captions = data.captions || "";
+  renderOutput();
 })
 .then(data => {
   state.script = data.script;
