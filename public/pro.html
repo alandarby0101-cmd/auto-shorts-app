@@ -116,13 +116,13 @@ textarea {
       <h2>Scripts / Hooks / Captions</h2>
 
       <div class="tabs">
-        <div class="tab active" data-type="script">Script</div>
-        <div class="tab" data-type="hook">Hook</div>
-        <div class="tab" data-type="caption">Caption</div>
+      <div id="scriptTab" class="tab active" data-type="script">Script</div>
+      <div id="hookTab" class="tab" data-type="hook">Hook</div>
+      <div id="captionTab" class="tab" data-type="caption">Caption</div>
       </div>
 
       <textarea id="promptInput" placeholder="Describe your video..."></textarea>
-      <div class="output" id="outputBox">Generated text appears here</div>
+      <div class="output" id="outputBox"></div>
 
       <button class="btn" id="generateBtn">Generate</button>
       <button class="btn" id="copyBtn">Copy</button>
