@@ -8,9 +8,11 @@
    ✔ Fixes "DOM elements missing"
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+
 
   console.log("pro.js loaded");
+
+document.addEventListener("DOMContentLoaded", () => {
 
   /* =========================
      DOM ELEMENTS
@@ -163,5 +165,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     state.videoReady = true;
   });
-
 });
