@@ -77,5 +77,30 @@ router.post(
     res.json({ received: true });
   }
 );
+/*
+====================================
+STRIPE SUCCESS AUTO LOGIN + REDIRECT
+====================================
+*/
+router.get("/stripe/success-login", (req, res) => {
+
+  // create session if missing
+  if (!req.session) {
+    return res.redirect("/login.html");
+  }
+
+  // upgrade user to pro
+  req.session.user = {
+    ...(req.session.user || {}),
+    plan: "pro",
+    usage: 0,
+    limit: 999
+  };
+
+  console.log("✅ Auto-login after Stripe success");
+
+  // redirect to create account page
+  res.redirect("/create-account.html");
+});
 
 export default router;
