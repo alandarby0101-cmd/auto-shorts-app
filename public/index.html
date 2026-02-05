@@ -4,294 +4,66 @@
   <meta charset="UTF-8" />
   <title>Auto Shorts AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</script>
 
-  <style>
-    :root {
-      --bg-main: radial-gradient(1200px 600px at 10% 10%, #1a3cff 0%, #0a1a4f 40%, #050b2e 100%);
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.12);
-      --text-main: #ffffff;
-      --text-muted: rgba(255,255,255,0.7);
-      --primary: #4da3ff;
-      --glow: 0 0 40px rgba(77,163,255,0.25);
-    }
-
-    * { box-sizing: border-box; }
-
-
-
-/* === Galaxy / Wavy Animated Background (CLEAN FIX) === */
-
-body {
-  background: linear-gradient(180deg, #0b1026 0%, #120c3b 50%, #070b1f 100%);
-  color: #ffffff;
-  overflow-x: hidden;
+<style>
+/* ---------- PRO / SECTION CARD STYLE (paste into <head>) ---------- */
+.section-card {
+  background: rgba(255,255,255,0.06);        /* translucent white */
+  backdrop-filter: blur(12px);               /* frosted glass effect */
+  -webkit-backdrop-filter: blur(12px);       /* safari */
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.06);  /* subtle border */
 }
 
-/* galaxy background image */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("/galaxy-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  animation: galaxyMove 20s ease-in-out infinite alternate;
-  z-index: -1;
-  pointer-events: none;
+/* variant for smaller cards */
+.section-card.small {
+  padding: 18px;
+  border-radius: 14px;
 }
 
-
-@keyframes floatBg {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-40px, 30px);
-  }
-}
-
-
-@keyframes floatGlow {
-  from { transform: translate(-40px, -20px); }
-  to   { transform: translate(40px, 20px); }
-}
-
-
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 48px;
-    }
-
-    nav a {
-      color: var(--text-muted);
-      margin-right: 24px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .pro-btn {
-      background: var(--primary);
-      padding: 10px 18px;
-      border-radius: 8px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 48px;
-      padding: 64px 48px;
-      align-items: center;
-    }
-
-    h1 {
-      font-size: 48px;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      max-width: 520px;
-      margin-bottom: 28px;
-    }
-
-    .input-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .input-row input {
-      flex: 1;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      color: #fff;
-      outline: none;
-    }
-
-    .input-row button {
-      padding: 14px 22px;
-      border-radius: 10px;
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--glow);
-    }
-
-    /* PREVIEW IMAGE BOX (STATIC) */
-    .preview {
-      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 0 40px rgba(120,120,255,0.08);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .preview::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.12), transparent);
-      animation: shimmer 4s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .preview span {
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* RESULTS */
-    .results-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      padding: 0 48px 64px;
-    }
-
-    .result-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .result-box h3 {
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .result-box pre {
-      white-space: pre-wrap;
-      color: var(--text-muted);
-      min-height: 120px;
-    }
-
-    .result-box button {
-      margin-top: 12px;
-      background: transparent;
-      border: 1px solid var(--card-border);
-      color: #fff;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* INFO SECTIONS */
-    .info-sections {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      padding: 0 48px 80px;
-    }
-
-    .info-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .info-card h3 {
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .info-card p {
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    footer {
-      padding: 32px;
-      text-align: center;
-      color: var(--text-muted);
-    }
-/* ===== PRO LOCK / BLUR LOGIC (STEP 1) ===== */
-
-.locked {
-  position: relative;
-  filter: blur(6px);
-  pointer-events: none;
-  user-select: none;
-}
-
-.locked::after {
-  content: "🔒 Pro Feature — Upgrade to Unlock";
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 20, 60, 0.75);
-  color: #ffffff;
+/* nav/login button */
+.nav-login-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
   font-weight: 600;
-  font-size: 16px;
-  border-radius: 18px;
-  backdrop-filter: blur(4px);
-}
-@keyframes backgroundFloat {
-  0% {
-    transform: translateY(0px) translateX(0px);
-  }
-  50% {
-    transform: translateY(-40px) translateX(30px);
-  }
-  100% {
-    transform: translateY(0px) translateX(0px);
-  }
+  background: linear-gradient(135deg, #6cf0ff 0%, #8a7bff 100%);
+  color: #000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  margin-left: 14px;
 }
 
-body::before {
-  animation: backgroundFloat 30s ease-in-out infinite;
-}
-/* === NAVBAR LOGO (BIG VERSION) === */
-.nav-logo {
-  height: 160px;       /* desktop (2x size) */
-  width: auto;
-  display: block;
-  margin-top: 12px;
+/* small visual helpers for hero wrapper */
+.hero-wrap {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 36px;
+  align-items: start;
 }
 
 @media (max-width: 900px) {
-  .nav-logo {
-    height: 120px;     /* tablet */
-  }
+  .hero-wrap { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 600px) {
-  .nav-logo {
-    height: 90px;      /* mobile */
-  }
+/* add some spacing to sections */
+.page-section {
+  margin: 36px 0;
 }
-@media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .results-container,
-      .info-sections { grid-template-columns: 1fr; }
-    }
-
-
-  </style>
+/* PRO STYLE GLASS CARDS */
+.result-box,
+.info-card,
+.preview {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+</style>
 </head>
 
 <body>
@@ -306,12 +78,13 @@ body::before {
     <a href="#">Pro Version</a>
     <a href="#">Pricing</a>
     <a href="#">FAQ</a>
+    <a href="/login.html">Login</a>
  <a class="pro-btn" href="/upgrade.html">Upgrade to Pro</a>
 
   </nav>
 </header>
 
-<section class="hero">
+<section class="hero page-section"></section>
   <div>
     <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
     <p class="subtitle">
