@@ -148,7 +148,7 @@ app.post("/api/create-checkout", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.BASE_URL}/stripe/success-login`,
+      success_url: `${process.env.BASE_URL}/success.html`,
       cancel_url: `${process.env.BASE_URL}/cancel`,
     });
 
