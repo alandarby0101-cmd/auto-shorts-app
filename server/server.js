@@ -158,7 +158,20 @@ app.post("/api/create-checkout", async (req, res) => {
     res.status(500).json({ error: "Checkout failed" });
   }
 });
+app.post("/api/create-account", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    console.log("Creating account for:", email);
+
+    // temporary success response
+    res.json({ success: true });
+
+  } catch (err) {
+    console.error("Create account error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 /* =========================
    SERVER START
 ========================= */
