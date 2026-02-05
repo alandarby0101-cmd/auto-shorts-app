@@ -7,53 +7,60 @@
 </script>
 
 <style>
-/* ---------- PRO / SECTION CARD STYLE (paste into <head>) ---------- */
-.section-card {
-  background: rgba(255,255,255,0.06);        /* translucent white */
-  backdrop-filter: blur(12px);               /* frosted glass effect */
-  -webkit-backdrop-filter: blur(12px);       /* safari */
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.06);  /* subtle border */
-}
+/* ===== restore hero + nav layout (paste before </style>) ===== */
 
-/* variant for smaller cards */
-.section-card.small {
-  padding: 18px;
-  border-radius: 14px;
-}
-
-/* nav/login button */
-.nav-login-btn {
+/* make navbar logo a normal size so it doesn't dominate the page */
+.nav-left .nav-logo,
+.nav-left img.nav-logo {
+  width: 72px;
+  height: auto;
   display: inline-block;
-  padding: 10px 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  background: linear-gradient(135deg, #6cf0ff 0%, #8a7bff 100%);
-  color: #000;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
-  margin-left: 14px;
+  vertical-align: middle;
 }
 
-/* small visual helpers for hero wrapper */
-.hero-wrap {
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 36px;
-  align-items: start;
+/* hero section - make sure the hero content displays and doesn't get hidden */
+section.hero {
+  display: block !important;
+  padding: 36px 24px;
+  min-height: 360px;
+  box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
-  .hero-wrap { grid-template-columns: 1fr; }
+/* constrain the left column (text / input) so it doesn't collapse */
+section.hero > div:first-child {
+  max-width: 680px;
+  margin: 0;
 }
 
-/* add some spacing to sections */
-.page-section {
-  margin: 36px 0;
+/* preview box (right column) — a small card, not full-page */
+.preview {
+  width: 420px;
+  height: 260px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-sizing: border-box;
+  padding: 16px;
+  overflow: hidden;
 }
-/* PRO STYLE GLASS CARDS */
+
+/* make input row and generate button visible and usable */
+.input-row,
+.generate-btn,
+#topicInput,
+button.generate-btn {
+  display: block;
+}
+
+/* make sure global body background remains and content is visible */
+body {
+  min-height: 100vh;
+  color: white;
+}
+
+/* keep result/info cards styled (same as Pro cards) */
 .result-box,
 .info-card {
   background: rgba(255,255,255,0.06);
@@ -61,6 +68,8 @@
   border-radius: 20px;
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  padding: 18px;
+  box-sizing: border-box;
 }
 </style>
 </head>
