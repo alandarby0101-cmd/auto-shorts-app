@@ -2,101 +2,45 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Auto Shorts AI</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* ===== GLOBAL PAGE STYLE ===== */
-body{
+/* ===== RESET (THIS WAS MISSING AND CAUSED CSS TO RENDER AS TEXT) ===== */
+body {
   margin:0;
-  font-family:system-ui, sans-serif;
+  font-family: Inter, sans-serif;
   color:white;
-  background:url('/bg-stars.png') center/cover no-repeat fixed;
 }
 
 /* ===== NAVBAR ===== */
-.navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px 36px;
-}
-
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.nav-left img.nav-logo{
-  width:42px;
+.nav-left img.nav-logo {
+  width:72px;
   height:auto;
+  display:inline-block;
+  vertical-align:middle;
 }
 
-.navbar a{
-  color:white;
-  text-decoration:none;
-  margin-left:18px;
-  font-weight:500;
-}
-
-/* ===== HERO SECTION ===== */
-section.hero{
+/* ===== HERO GRID ===== */
+section.hero {
   display:grid;
-  grid-template-columns:1fr 420px;
+  grid-template-columns: 1fr 420px;
   gap:36px;
-  align-items:center;
-  padding:60px 48px;
-  min-height:420px;
+  align-items:start;
+  padding:36px 24px;
 }
 
-/* left text column */
-section.hero > div:first-child{
+section.hero > div:first-child {
   max-width:680px;
 }
 
-/* ===== INPUT ROW ===== */
-.input-row{
-  margin-top:20px;
-  display:flex;
-  gap:12px;
-}
-
-#topicInput{
-  padding:12px 14px;
-  border-radius:10px;
-  border:none;
-  width:260px;
-}
-
-.generate-btn{
-  padding:12px 18px;
-  border:none;
-  border-radius:12px;
-  background:#5eead4;
-  color:#000;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* ===== PREVIEW BOX (RIGHT CARD) ===== */
-.preview{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(12px);
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 20px 60px rgba(0,0,0,0.25);
-  padding:16px;
-  height:260px;
-}
-
-/* ===== RESULT / INFO CARDS ===== */
+/* ===== RESULT CARDS ===== */
 .result-box,
-.info-card{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(12px);
+.info-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
   border-radius:20px;
   border:1px solid rgba(255,255,255,0.08);
   box-shadow:0 20px 60px rgba(0,0,0,0.4);
