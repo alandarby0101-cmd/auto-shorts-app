@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-You said:
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +9,31 @@ You said:
 
 <style>
 
-/* ===== GLOBAL ===== */
-body{
+/* ===== RESET ===== */
+* {
   margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
   color:white;
-  background:#070b1f url("assets/bg.jpg") center/cover no-repeat fixed;
+  background:#0b0f2a;
+  min-height:100vh;
 }
 
 /* ===== NAVBAR ===== */
 .nav-left .nav-logo,
-.nav-left img.nav-logo{
+.nav-left img.nav-logo {
   width:72px;
   height:auto;
   display:inline-block;
   vertical-align:middle;
+  max-width:72px;
 }
 
-/* ===== HERO ===== */
+/* ===== HERO GRID ===== */
 section.hero{
   display:grid;
   grid-template-columns:1fr 420px;
@@ -35,11 +42,24 @@ section.hero{
   padding:36px 24px;
 }
 
+/* left column */
 section.hero > div:first-child{
   max-width:680px;
 }
 
-/* ===== INPUT ROW ===== */
+/* preview box */
+.preview{
+  width:420px;
+  height:260px;
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  padding:16px;
+}
+
+/* input + button */
 .input-row,
 .generate-btn,
 #topicInput,
@@ -47,10 +67,9 @@ button.generate-btn{
   display:block;
 }
 
-/* ===== GLASS CARDS ===== */
+/* result cards */
 .result-box,
-.info-card,
-.preview{
+.info-card{
   background:rgba(255,255,255,0.06);
   backdrop-filter:blur(12px);
   border-radius:20px;
