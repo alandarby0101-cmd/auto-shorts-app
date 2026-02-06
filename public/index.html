@@ -1,112 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auto Shorts AI</title>
 
 <!-- ✅ FAVICON -->
 <link rel="icon" type="image/png" href="/favicon.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
-/* ===============================
-   GLOBAL
-================================ */
 body{
   margin:0;
-  font-family:Inter, sans-serif;
+  font-family:Arial, sans-serif;
   color:white;
-  background:url("/galaxy-bg.jpg") center/cover no-repeat fixed;
+  background:url("/galaxy-bg.jpg") no-repeat center center fixed;
+  background-size:cover;
 }
 
-.container{
-  width:1200px;
-  margin:auto;
-}
+/* NAVBAR */
 
-/* ===============================
-   NAVBAR
-================================ */
-.nav{
+.navbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:28px 0;
+  padding:25px 60px;
 }
 
-.logo{
+.nav-left{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:15px;
 }
 
-.logo img{
-  width:56px; /* BIGGER LOGO */
+/* ✅ BIG LOGO */
+.nav-logo{
+  width:72px;
+  height:auto;
+  filter:drop-shadow(0 0 12px rgba(120,140,255,.5));
 }
 
-.logo span{
-  font-size:20px;
-  font-weight:600;
+.nav-title{
+  font-size:22px;
+  font-weight:bold;
 }
 
-.nav-right{
-  display:flex;
-  gap:12px;
-}
-
-.btn{
+.nav-buttons a{
   padding:10px 22px;
-  border-radius:14px;
-  border:none;
+  border-radius:12px;
+  text-decoration:none;
+  margin-left:12px;
+  font-weight:bold;
   color:white;
-  cursor:pointer;
-  font-weight:500;
 }
 
 .login{
-  background:linear-gradient(90deg,#59c7ff,#6aa5ff);
+  background:linear-gradient(90deg,#4fd1ff,#7ae3ff);
 }
 
 .upgrade{
-  background:linear-gradient(90deg,#8a6cff,#ff7bd5);
+  background:linear-gradient(90deg,#a36dff,#ff79f2);
 }
 
-/* ===============================
-   HERO
-================================ */
+/* HERO */
+
 .hero{
   display:flex;
+  padding:40px 80px;
+  gap:40px;
   align-items:center;
-  gap:60px;
-  margin-top:30px;
 }
 
-.hero-left{
-  flex:1;
-}
-
-.hero-right{
-  flex:1;
-  text-align:right;
-}
-
-.hero-right img{
-  width:520px;
-}
+.hero-left{ flex:1; }
 
 .hero h1{
-  font-family:Merriweather;
   font-size:60px;
   line-height:1.1;
   margin:0 0 18px 0;
 
-  background:linear-gradient(90deg,#fff,#bcd3ff);
-background-clip:text;
--webkit-background-clip:text;
+  background:linear-gradient(90deg,#ffffff,#b8c4ff);
+  -webkit-background-clip:text;
+  background-clip:text;
   color:transparent;
 }
 
@@ -116,72 +91,79 @@ background-clip:text;
 }
 
 .input-row{
-  margin-top:20px;
   display:flex;
-  gap:14px;
+  margin-top:20px;
+  gap:10px;
 }
 
-.topic-input{
+.input-row input{
   flex:1;
   padding:16px;
-  border-radius:12px;
+  border-radius:10px;
   border:1px solid rgba(255,255,255,.2);
   background:rgba(255,255,255,.05);
   color:white;
 }
 
-.generate{
-  background:linear-gradient(90deg,#59ffd4,#59c7ff);
+.input-row button{
+  padding:14px 24px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#7efcff,#8affb7);
+  font-weight:bold;
 }
 
-/* ===============================
-   CARDS
-================================ */
+/* ✅ LAPTOP SIDE */
+
+.hero-right{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.hero-right img{
+  width:520px;
+  max-width:100%;
+  display:block;
+  background:none;
+}
+
+/* CARDS SECTION */
+
 .cards{
   display:flex;
-  gap:26px;
-  margin-top:60px;
+  gap:30px;
+  padding:40px 80px;
 }
 
 .card{
   flex:1;
-  padding:24px;
-  border-radius:18px;
-  background:rgba(255,255,255,.05);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.15);
-  box-shadow:0 0 30px rgba(120,150,255,.2);
+  background:rgba(255,255,255,.06);
+  border-radius:20px;
+  padding:30px;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);
 }
 
 .card h3{
   margin-top:0;
 }
 
-.output-box{
-  margin-top:14px;
-  height:120px;
+.generate-btn{
+  margin-top:20px;
+  width:100%;
+  padding:14px;
   border-radius:12px;
-  background:rgba(0,0,0,.25);
-  padding:12px;
-  color:#ccc;
+  border:none;
+  background:linear-gradient(90deg,#59dfff,#8bffda);
+  font-weight:bold;
+  color:black;
 }
 
-.card-buttons{
-  margin-top:14px;
-  display:flex;
-  gap:10px;
-}
-
-.copy{
-  background:linear-gradient(90deg,#8a6cff,#ff7bd5);
-}
-
-/* ===============================
-   FOOTER
-================================ */
-.footer{
+footer{
   text-align:center;
-  margin:40px 0;
+  padding:40px;
   opacity:.7;
 }
 
@@ -190,18 +172,16 @@ background-clip:text;
 
 <body>
 
-<div class="container">
-
-<!-- NAV -->
-<div class="nav">
-  <div class="logo">
-    <img src="/logo-navbar.png">
-    <span>Auto Shorts AI</span>
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-left">
+    <img src="/logo-navbar.png" class="nav-logo">
+    <div class="nav-title">Auto Shorts AI</div>
   </div>
 
-  <div class="nav-right">
-    <button class="btn login">Login</button>
-    <button class="btn upgrade">Upgrade</button>
+  <div class="nav-buttons">
+    <a href="/login" class="login">Login</a>
+    <a href="/pro" class="upgrade">Upgrade</a>
   </div>
 </div>
 
@@ -213,18 +193,18 @@ background-clip:text;
 
     <p>
       Let our advanced AI craft high-retention short-form video scripts
-      designed to hook viewers in the first 3 seconds and keep them watching.
+      designed to hook viewers in the first 3 seconds.
     </p>
 
     <div class="input-row">
-      <input class="topic-input" placeholder="Enter a topic...">
-      <button class="btn generate">Generate</button>
+      <input placeholder="Enter a topic...">
+      <button>Generate</button>
     </div>
   </div>
 
+  <!-- ✅ LAPTOP IMAGE -->
   <div class="hero-right">
-    <!-- ✅ REAL LAPTOP IMAGE -->
-    <img src="/laptop.png">
+    <img src="/laptop.png" alt="Laptop Preview">
   </div>
 
 </div>
@@ -233,21 +213,15 @@ background-clip:text;
 <div class="cards">
 
   <div class="card">
-    <h3>Scripts / Hook / Captions</h3>
-    <div class="output-box">
-      Generated text will appear here...
-    </div>
-
-    <div class="card-buttons">
-      <button class="btn generate">Generate</button>
-      <button class="btn copy">Copy</button>
-    </div>
+    <h3>Scripts / Hooks / Captions</h3>
+    <p>Generated text will appear here...</p>
+    <button class="generate-btn">Generate</button>
   </div>
 
   <div class="card">
     <h3>Why Creators Use Auto Shorts AI</h3>
     <ul>
-      <li>High-retention AI-written scripts</li>
+      <li>High-retention AI written scripts</li>
       <li>Instant hook + caption generation</li>
       <li>Built for viral short-form content</li>
     </ul>
@@ -258,17 +232,15 @@ background-clip:text;
     <ul>
       <li>Unlimited script ideas</li>
       <li>Optimized viral hooks</li>
-      <li>Fast creator workflow</li>
+      <li>Faster creator workflow</li>
     </ul>
   </div>
 
 </div>
 
-<div class="footer">
+<footer>
 © Auto Shorts AI — Built for creators who want speed.
-</div>
-
-</div>
+</footer>
 
 </body>
 </html>
