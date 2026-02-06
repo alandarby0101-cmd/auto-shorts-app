@@ -1,46 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 
+You said:
 <head>
 <meta charset="UTF-8">
-<title>Auto Shorts AI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Shorts AI</title>
 
 <style>
 
-/* ===== RESET (THIS WAS MISSING AND CAUSED CSS TO RENDER AS TEXT) ===== */
-body {
+/* ===== GLOBAL ===== */
+body{
   margin:0;
-  font-family: Inter, sans-serif;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
   color:white;
+  background:#070b1f url("assets/bg.jpg") center/cover no-repeat fixed;
 }
 
 /* ===== NAVBAR ===== */
-.nav-left img.nav-logo {
+.nav-left .nav-logo,
+.nav-left img.nav-logo{
   width:72px;
   height:auto;
   display:inline-block;
   vertical-align:middle;
 }
 
-/* ===== HERO GRID ===== */
-section.hero {
+/* ===== HERO ===== */
+section.hero{
   display:grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns:1fr 420px;
   gap:36px;
   align-items:start;
   padding:36px 24px;
 }
 
-section.hero > div:first-child {
+section.hero > div:first-child{
   max-width:680px;
 }
 
-/* ===== RESULT CARDS ===== */
+/* ===== INPUT ROW ===== */
+.input-row,
+.generate-btn,
+#topicInput,
+button.generate-btn{
+  display:block;
+}
+
+/* ===== GLASS CARDS ===== */
 .result-box,
-.info-card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(12px);
+.info-card,
+.preview{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(12px);
   border-radius:20px;
   border:1px solid rgba(255,255,255,0.08);
   box-shadow:0 20px 60px rgba(0,0,0,0.4);
