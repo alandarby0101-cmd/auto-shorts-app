@@ -1,250 +1,266 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Auto Shorts AI — Home</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<title>Auto Shorts AI</title>
 
-  <style>
-    /* Reset + helper */
-    :root{
-      --bg-color: #0b1020;
-      --glass: rgba(255,255,255,0.06);
-      --glass-2: rgba(255,255,255,0.04);
-      --accent-a: #6fe7ff;
-      --accent-b: #8a54ff;
-      --btn-grad: linear-gradient(90deg,var(--accent-a),#57d3ff 45%, #9b6bff 100%);
-      --rounded: 18px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family:Inter,system-ui,Arial,sans-serif;
-      color: #e9f0ff;
-      background: url('galaxy-bg.jpg') center/cover no-repeat fixed;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      overflow-x:hidden;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
-    /* page container */
-    .page{
-      max-width:1400px;
-      margin:0 auto;
-      padding:36px 28px 80px;
-    }
+<style>
 
-    /* NAV */
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:24px;
-    }
-    .nav-left{
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-    .nav-left img{width:56px;height:56px;object-fit:contain}
-    .brand{
-      font-weight:700;color:#fff;font-size:18px;line-height:1;
-      text-shadow: 0 3px 12px rgba(0,0,0,0.5);
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
 
-    .nav-right{
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
-    .btn{
-      padding:12px 18px;border-radius:12px;border:0;cursor:pointer;
-      font-weight:600;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
-    }
-    .btn-login{
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      color:#fff;border:1px solid rgba(255,255,255,0.06);
-    }
-    .btn-upgrade{
-      background: linear-gradient(90deg,#6dd9ff,#7b53ff 70%);
-      color:#fff;
-    }
+body{
+background:url("/galaxy-bg.jpg") center/cover no-repeat fixed;
+color:white;
+}
 
-    /* HERO */
-    .hero{
-      display:flex;
-      gap:36px;
-      align-items:flex-start;
-      margin-top:32px;
-    }
-    .hero-left{
-      flex:1;
-      max-width:760px;
-    }
-    .hero h1{
-      font-family:Merriweather,serif;
-      font-size:56px;
-      line-height:1.02;
-      margin-bottom:18px;
-      /* gradient text */
-      background: linear-gradient(90deg,#ffffff 0%, #cbe6ff 30%, #b9a9ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color:transparent;
-      text-shadow: 0 6px 24px rgba(0,0,0,0.45);
-    }
-    .hero p.lead{
-      margin-bottom:28px;
-      max-width:760px;
-      opacity:0.95;
-      color:rgba(240,245,255,0.9);
-    }
+/* NAVBAR */
 
-    .hero-row{
-      display:flex;
-      gap:18px;
-      align-items:center;
-    }
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:30px 60px;
+}
 
-    .input-wrap{
-      flex:1;
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .topic-input{
-      flex:1;
-      padding:16px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      color:#fff;outline:none;font-size:15px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-    .generate-btn{
-      padding:12px 18px;border-radius:12px;border:0;background:var(--btn-grad);color:#012;
-      font-weight:700;cursor:pointer;min-width:120px;
-      box-shadow: 0 8px 28px rgba(88,125,255,0.18);
-    }
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:14px;
+}
 
-    .hero-right{
-      width:420px;flex:0 0 420px;
-      display:flex;justify-content:center;align-items:flex-start;
-    }
-    .laptop{
-      width:420px;height:auto;border-radius:10px;box-shadow: 0 16px 40px rgba(0,0,0,0.55);
-      transform: translateY(8px);
-    }
+.logo-wrap img{
+width:44px;
+}
 
-    /* CARD ROW */
-    .cards{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:24px;
-      margin-top:48px;
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius:14px;
-      padding:18px;
-      min-height:220px;
-      border:1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
-      position:relative;
-    }
-    .card h3{font-weight:700;margin-bottom:12px}
-    .card p{opacity:0.95}
+.logo-wrap span{
+font-weight:600;
+font-size:20px;
+}
 
-    /* Scripts card style (left) */
-    .scripts-card .generated{
-      height:140px;border-radius:10px;background:rgba(0,0,0,0.12);padding:14px;color:rgba(245,250,255,0.8);
-      border:1px solid rgba(255,255,255,0.03);overflow:auto;margin-bottom:12px;
-    }
-    .scripts-card .controls{display:flex;gap:12px;}
-    .small-btn{padding:10px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,#6fe7ff,#9b6bff);color:#001;font-weight:700;cursor:pointer;flex:0 0 140px}
+.nav-buttons{
+display:flex;
+gap:12px;
+}
 
-    /* footer */
-    footer{margin-top:56px;text-align:center;color:rgba(255,255,255,0.7);font-size:14px}
+.btn{
+padding:10px 20px;
+border-radius:12px;
+border:none;
+cursor:pointer;
+font-weight:600;
+color:white;
+}
 
-    /* responsive */
-    @media (max-width:1100px){
-      .hero{flex-direction:column}
-      .hero-right{width:100%;flex:0 0 auto;order:2}
-      .hero-left{order:1}
-      .cards{grid-template-columns:1fr}
-      .nav-right{gap:8px}
-    }
-  </style>
+.login{
+background:linear-gradient(90deg,#6bc5ff,#6a7bff);
+}
+
+.upgrade{
+background:linear-gradient(90deg,#7a8cff,#d15cff);
+}
+
+/* HERO */
+
+.hero{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:60px;
+gap:40px;
+}
+
+.hero-left{
+max-width:700px;
+}
+
+.hero h1{
+font-family:Merriweather;
+font-size:56px;
+line-height:1.1;
+background:linear-gradient(90deg,#fff,#b9cfff);
+background-clip:text;
+-webkit-background-clip:text;
+color:transparent;
+margin-bottom:20px;
+}
+
+.hero p{
+opacity:.9;
+margin-bottom:24px;
+}
+
+.input-row{
+display:flex;
+gap:14px;
+}
+
+.topic-input{
+flex:1;
+padding:16px 20px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.05);
+color:white;
+}
+
+.generate{
+background:linear-gradient(90deg,#5fdcff,#76ffa7);
+}
+
+.hero-right img{
+width:360px;
+}
+
+/* CARDS SECTION */
+
+.section{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:24px;
+padding:20px 60px 60px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:18px;
+padding:24px;
+backdrop-filter:blur(14px);
+box-shadow:0 0 30px rgba(0,0,0,0.2);
+}
+
+.card h3{
+margin-bottom:14px;
+}
+
+textarea{
+width:100%;
+height:120px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(0,0,0,0.3);
+color:white;
+padding:12px;
+margin-bottom:12px;
+}
+
+.btn-row{
+display:flex;
+gap:10px;
+}
+
+.footer{
+text-align:center;
+opacity:.7;
+padding:20px;
+}
+
+@media(max-width:1000px){
+
+.hero{
+flex-direction:column;
+text-align:center;
+}
+
+.section{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <header class="nav">
-      <div class="nav-left">
-        <img src="logo-nav.png" alt="Auto Shorts AI logo">
-        <div class="brand">Auto Shorts AI</div>
-      </div>
 
-      <div class="nav-right">
-        <button class="btn btn-login">Login</button>
-        <button class="btn btn-upgrade">Upgrade</button>
-      </div>
-    </header>
+<!-- NAVBAR -->
 
-    <main>
-      <section class="hero">
-        <div class="hero-left">
-          <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
-          <p class="lead">Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds and keep them watching.</p>
+<div class="navbar">
 
-          <div class="hero-row">
-            <div class="input-wrap">
-              <input class="topic-input" placeholder="Enter a topic..." />
-              <button class="generate-btn">Generate</button>
-            </div>
-          </div>
-        </div>
+<div class="logo-wrap">
+<img src="/logo-navbar.png">
+<span>Auto Shorts AI</span>
+</div>
 
-        <div class="hero-right">
-          <img class="laptop" src="laptop.png" alt="laptop preview">
-        </div>
-      </section>
+<div class="nav-buttons">
+<button class="btn login">Login</button>
+<button class="btn upgrade">Upgrade</button>
+</div>
 
-      <section class="cards">
-        <div class="card scripts-card">
-          <h3>Scripts / Hooks / Captions</h3>
-          <div class="generated">Generated text will appear here...</div>
-          <div class="controls">
-            <button class="small-btn">Generate</button>
-            <button class="small-btn" style="background:#2b2f45;color:#fff">Copy</button>
-          </div>
-        </div>
+</div>
 
-        <div class="card">
-          <h3>What Pro Unlocks</h3>
-          <ul style="margin-top:8px;line-height:1.9;color:rgba(235,240,255,0.92)">
-            <li>Unlimited generations.</li>
-            <li>Longer, higher-retention scripts.</li>
-            <li>Future video automation tools.</li>
-          </ul>
-        </div>
+<!-- HERO -->
 
-        <div class="card">
-          <h3>What's Coming Next</h3>
-          <ul style="margin-top:8px;line-height:1.9;color:rgba(235,240,255,0.92)">
-            <li>Polished preview animations</li>
-            <li>Pro-only blur logic</li>
-            <li>Stripe-powered gating</li>
-          </ul>
-        </div>
-      </section>
+<div class="hero">
 
-    </main>
+<div class="hero-left">
 
-    <footer>© Auto Shorts AI — Built for creators who want speed.</footer>
-  </div>
+<h1>Generate Viral Shorts Scripts in Seconds</h1>
+
+<p>
+Let our advanced AI craft high-retention short-form video scripts
+designed to hook viewers in the first 3 seconds and keep them watching.
+</p>
+
+<div class="input-row">
+<input class="topic-input" placeholder="Enter a topic...">
+<button class="btn generate">Generate</button>
+</div>
+
+</div>
+
+<div class="hero-right">
+<img src="/laptop.png" alt="laptop preview">
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="section">
+
+<div class="card">
+<h3>Scripts / Hooks / Captions</h3>
+<textarea placeholder="Generated text will appear here..."></textarea>
+
+<div class="btn-row">
+<button class="btn generate">Generate</button>
+<button class="btn login">Copy</button>
+</div>
+</div>
+
+<div class="card">
+<h3>What Pro Unlocks</h3>
+<ul>
+<li>Unlimited generations</li>
+<li>Longer, higher-retention scripts</li>
+<li>Future video automation tools</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>What’s Coming Next</h3>
+<ul>
+<li>Polished preview animations</li>
+<li>Pro-only blur logic</li>
+<li>Stripe-powered gating</li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer">
+© Auto Shorts AI — Built for creators who want speed.
+</div>
+
 </body>
 </html>
