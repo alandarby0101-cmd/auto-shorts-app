@@ -165,4 +165,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     state.videoReady = true;
   });
-});
+  });

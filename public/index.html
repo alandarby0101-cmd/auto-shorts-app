@@ -1,180 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Auto Shorts AI</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<!-- ✅ FAVICON -->
+<link rel="icon" type="image/png" href="/favicon.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,sans-serif;
-}
-
+/* ===============================
+   GLOBAL
+================================ */
 body{
-background:url("/galaxy-bg.jpg") center/cover no-repeat fixed;
-color:white;
+  margin:0;
+  font-family:Inter, sans-serif;
+  color:white;
+  background:url("/galaxy-bg.jpg") center/cover no-repeat fixed;
 }
 
-/* NAVBAR */
-
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:30px 60px;
+.container{
+  width:1200px;
+  margin:auto;
 }
 
-.logo-wrap{
-display:flex;
-align-items:center;
-gap:14px;
+/* ===============================
+   NAVBAR
+================================ */
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:28px 0;
 }
 
-.logo-wrap img{
-width:44px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-.logo-wrap span{
-font-weight:600;
-font-size:20px;
+.logo img{
+  width:56px; /* BIGGER LOGO */
 }
 
-.nav-buttons{
-display:flex;
-gap:12px;
+.logo span{
+  font-size:20px;
+  font-weight:600;
+}
+
+.nav-right{
+  display:flex;
+  gap:12px;
 }
 
 .btn{
-padding:10px 20px;
-border-radius:12px;
-border:none;
-cursor:pointer;
-font-weight:600;
-color:white;
+  padding:10px 22px;
+  border-radius:14px;
+  border:none;
+  color:white;
+  cursor:pointer;
+  font-weight:500;
 }
 
 .login{
-background:linear-gradient(90deg,#6bc5ff,#6a7bff);
+  background:linear-gradient(90deg,#59c7ff,#6aa5ff);
 }
 
 .upgrade{
-background:linear-gradient(90deg,#7a8cff,#d15cff);
+  background:linear-gradient(90deg,#8a6cff,#ff7bd5);
 }
 
-/* HERO */
-
+/* ===============================
+   HERO
+================================ */
 .hero{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:60px;
-gap:40px;
+  display:flex;
+  align-items:center;
+  gap:60px;
+  margin-top:30px;
 }
 
 .hero-left{
-max-width:700px;
+  flex:1;
 }
 
-.hero h1{
-font-family:Merriweather;
-font-size:56px;
-line-height:1.1;
-background:linear-gradient(90deg,#fff,#b9cfff);
-background-clip:text;
--webkit-background-clip:text;
-color:transparent;
-margin-bottom:20px;
-}
-
-.hero p{
-opacity:.9;
-margin-bottom:24px;
-}
-
-.input-row{
-display:flex;
-gap:14px;
-}
-
-.topic-input{
-flex:1;
-padding:16px 20px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.2);
-background:rgba(255,255,255,0.05);
-color:white;
-}
-
-.generate{
-background:linear-gradient(90deg,#5fdcff,#76ffa7);
+.hero-right{
+  flex:1;
+  text-align:right;
 }
 
 .hero-right img{
-width:360px;
+  width:520px;
 }
 
-/* CARDS SECTION */
+.hero h1{
+  font-family:Merriweather;
+  font-size:60px;
+  line-height:1.1;
+  margin:0 0 18px 0;
 
-.section{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:24px;
-padding:20px 60px 60px;
+  background:linear-gradient(90deg,#fff,#bcd3ff);
+background-clip:text;
+-webkit-background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  opacity:.85;
+  max-width:600px;
+}
+
+.input-row{
+  margin-top:20px;
+  display:flex;
+  gap:14px;
+}
+
+.topic-input{
+  flex:1;
+  padding:16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.05);
+  color:white;
+}
+
+.generate{
+  background:linear-gradient(90deg,#59ffd4,#59c7ff);
+}
+
+/* ===============================
+   CARDS
+================================ */
+.cards{
+  display:flex;
+  gap:26px;
+  margin-top:60px;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.15);
-border-radius:18px;
-padding:24px;
-backdrop-filter:blur(14px);
-box-shadow:0 0 30px rgba(0,0,0,0.2);
+  flex:1;
+  padding:24px;
+  border-radius:18px;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 0 30px rgba(120,150,255,.2);
 }
 
 .card h3{
-margin-bottom:14px;
+  margin-top:0;
 }
 
-textarea{
-width:100%;
-height:120px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,0.2);
-background:rgba(0,0,0,0.3);
-color:white;
-padding:12px;
-margin-bottom:12px;
+.output-box{
+  margin-top:14px;
+  height:120px;
+  border-radius:12px;
+  background:rgba(0,0,0,.25);
+  padding:12px;
+  color:#ccc;
 }
 
-.btn-row{
-display:flex;
-gap:10px;
+.card-buttons{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
 }
 
+.copy{
+  background:linear-gradient(90deg,#8a6cff,#ff7bd5);
+}
+
+/* ===============================
+   FOOTER
+================================ */
 .footer{
-text-align:center;
-opacity:.7;
-padding:20px;
-}
-
-@media(max-width:1000px){
-
-.hero{
-flex-direction:column;
-text-align:center;
-}
-
-.section{
-grid-template-columns:1fr;
-}
-
+  text-align:center;
+  margin:40px 0;
+  opacity:.7;
 }
 
 </style>
@@ -182,84 +190,84 @@ grid-template-columns:1fr;
 
 <body>
 
-<!-- NAVBAR -->
+<div class="container">
 
-<div class="navbar">
+<!-- NAV -->
+<div class="nav">
+  <div class="logo">
+    <img src="/logo-navbar.png">
+    <span>Auto Shorts AI</span>
+  </div>
 
-<div class="logo-wrap">
-<img src="/logo-navbar.png">
-<span>Auto Shorts AI</span>
-</div>
-
-<div class="nav-buttons">
-<button class="btn login">Login</button>
-<button class="btn upgrade">Upgrade</button>
-</div>
-
+  <div class="nav-right">
+    <button class="btn login">Login</button>
+    <button class="btn upgrade">Upgrade</button>
+  </div>
 </div>
 
 <!-- HERO -->
-
 <div class="hero">
 
-<div class="hero-left">
+  <div class="hero-left">
+    <h1>Generate Viral Shorts Scripts in Seconds</h1>
 
-<h1>Generate Viral Shorts Scripts in Seconds</h1>
+    <p>
+      Let our advanced AI craft high-retention short-form video scripts
+      designed to hook viewers in the first 3 seconds and keep them watching.
+    </p>
 
-<p>
-Let our advanced AI craft high-retention short-form video scripts
-designed to hook viewers in the first 3 seconds and keep them watching.
-</p>
+    <div class="input-row">
+      <input class="topic-input" placeholder="Enter a topic...">
+      <button class="btn generate">Generate</button>
+    </div>
+  </div>
 
-<div class="input-row">
-<input class="topic-input" placeholder="Enter a topic...">
-<button class="btn generate">Generate</button>
-</div>
-
-</div>
-
-<div class="hero-right">
-<img src="/laptop.png" alt="laptop preview">
-</div>
+  <div class="hero-right">
+    <!-- ✅ REAL LAPTOP IMAGE -->
+    <img src="/laptop.png">
+  </div>
 
 </div>
 
 <!-- CARDS -->
+<div class="cards">
 
-<div class="section">
+  <div class="card">
+    <h3>Scripts / Hook / Captions</h3>
+    <div class="output-box">
+      Generated text will appear here...
+    </div>
 
-<div class="card">
-<h3>Scripts / Hooks / Captions</h3>
-<textarea placeholder="Generated text will appear here..."></textarea>
+    <div class="card-buttons">
+      <button class="btn generate">Generate</button>
+      <button class="btn copy">Copy</button>
+    </div>
+  </div>
 
-<div class="btn-row">
-<button class="btn generate">Generate</button>
-<button class="btn login">Copy</button>
-</div>
-</div>
+  <div class="card">
+    <h3>Why Creators Use Auto Shorts AI</h3>
+    <ul>
+      <li>High-retention AI-written scripts</li>
+      <li>Instant hook + caption generation</li>
+      <li>Built for viral short-form content</li>
+    </ul>
+  </div>
 
-<div class="card">
-<h3>What Pro Unlocks</h3>
-<ul>
-<li>Unlimited generations</li>
-<li>Longer, higher-retention scripts</li>
-<li>Future video automation tools</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>What’s Coming Next</h3>
-<ul>
-<li>Polished preview animations</li>
-<li>Pro-only blur logic</li>
-<li>Stripe-powered gating</li>
-</ul>
-</div>
+  <div class="card">
+    <h3>What You Get</h3>
+    <ul>
+      <li>Unlimited script ideas</li>
+      <li>Optimized viral hooks</li>
+      <li>Fast creator workflow</li>
+    </ul>
+  </div>
 
 </div>
 
 <div class="footer">
 © Auto Shorts AI — Built for creators who want speed.
+</div>
+
 </div>
 
 </body>
