@@ -1,234 +1,258 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Auto Shorts AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- favicon (make sure public/favicon.png exists) -->
-  <link rel="icon" type="image/png" href="/favicon.png">
+<title>Auto Shorts AI</title>
 
-  <!-- fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+<!-- ✅ PROPER FAVICON SIZE -->
+<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
+<link rel="shortcut icon" href="favicon.png">
 
-  <style>
-    :root{
-      --glass-bg: rgba(255,255,255,0.06);
-      --glass-border: rgba(255,255,255,0.08);
-      --accent-a: #6fe0ff;
-      --accent-b: #7b6bff;
-      --btn-gradient: linear-gradient(90deg,var(--accent-a), #6ad1ff 50%, #81a7ff);
-      --card-radius: 14px;
-      --text-soft: rgba(255,255,255,0.9);
-    }
+<style>
 
-    /* Reset */
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, sans-serif;color:var(--text-soft);-webkit-font-smoothing:antialiased}
-    a{color:inherit}
+/* ================= BASE ================= */
 
-    /* Background - galaxy */
-    body{
-      /* galaxy image (put galaxy-bg.jpg in public/) */
-      background-image:
-        linear-gradient(180deg, rgba(6,12,37,0.55), rgba(6,12,37,0.45)),
-        url('/galaxy-bg.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      min-height:100%;
-    }
+body{
+margin:0;
+font-family:Inter, Arial, sans-serif;
+background:url("galaxy-bg.jpg") center/cover no-repeat fixed;
+color:white;
+}
 
-    /* Navbar */
-    .navbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:22px 48px;
-      gap:16px;
-    }
-    .navbar-left{display:flex;align-items:center;gap:14px}
-    .logo img{
-      width:56px;            /* logo size - adjust if needed */
-      height:56px;
-      object-fit:contain;
-      display:block;
-    }
-    .logo-text{font-weight:700;font-size:20px;margin-left:6px;color:#fff;opacity:.95}
+/* ================= NAVBAR PRO ================= */
 
-    .nav-actions{display:flex;gap:12px;align-items:center}
-    .btn{
-      padding:10px 18px;border-radius:12px;border:0;font-weight:600;cursor:pointer;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-    }
-    .btn-login{
-      background: linear-gradient(90deg,#6ad1ff,#6bb7ff);
-      color:#05304A;
-    }
-    .btn-upgrade{
-      background: linear-gradient(90deg,#8f6bff,#d86cff);
-      color:#fff;
-    }
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:22px 70px;
+backdrop-filter:blur(12px);
+}
 
-    /* Hero */
-    .hero{
-      display:flex;
-      gap:48px;
-      align-items:flex-start;
-      padding:48px 80px;
-      max-width:1300px;
-      margin:0 auto;
-    }
-    .hero-left{flex:1;min-width:420px}
-    .hero-right{width:460px;display:flex;align-items:center;justify-content:center}
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:16px;
+}
 
-    .hero h1{
-      font-family:Merriweather, serif;
-      font-size:64px;
-      line-height:1.02;
-      margin:0 0 18px 0;
-      /* gradient clipped text */
-      background: linear-gradient(90deg,#ffffff 0%, #cfeeff 40%, #b0a6ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent; /* important */
-      color: transparent;
-      font-weight:700;
-      letter-spacing:-1px;
-    }
+.logo-img{
+height:64px; /* 🔥 Bigger SaaS logo */
+width:auto;
+object-fit:contain;
+}
 
-    .hero p.lead{
-      opacity:.9;
-      max-width:720px;
-      margin:0 0 24px 0;
-      font-size:16px;
-    }
+.logo-text{
+font-size:24px;
+font-weight:700;
+letter-spacing:.3px;
+}
 
-    .input-row{display:flex;gap:12px;align-items:center;margin-bottom:28px}
-    .topic-input{
-      flex:1;padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      color: #fff; outline:none;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
-    }
-    .generate-btn{
-      padding:12px 18px;border-radius:12px;border:0;background:var(--btn-gradient);color:#00223a;font-weight:700;cursor:pointer;
-      box-shadow: 0 10px 30px rgba(70,120,200,0.18);
-    }
+.nav-actions{
+display:flex;
+align-items:center;
+gap:16px;
+}
 
-    /* Laptop */
-    .laptop-wrap img{
-      max-width:420px;
-      width:100%;
-      display:block;
-      border-radius:6px;
-      box-shadow: 0 20px 50px rgba(3,9,28,0.6);
-    }
+.btn{
+padding:12px 26px;
+border-radius:999px;
+border:none;
+font-weight:600;
+cursor:pointer;
+font-size:15px;
+}
 
-    /* Cards row */
-    .cards{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:28px;
-      padding:36px 80px 80px;
-      max-width:1300px;margin:0 auto;
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius: var(--card-radius);
-      border:1px solid var(--glass-border);
-      padding:20px;
-      min-height:180px;
-      box-shadow: 0 6px 40px rgba(3,8,20,0.5);
-      backdrop-filter: blur(6px);
-    }
-    .card h3{margin:0 0 12px 0;font-size:20px;font-weight:700}
-    .card p, .card li{color:rgba(255,255,255,0.9);line-height:1.6;font-size:15px}
+.login-btn{
+background:linear-gradient(90deg,#4fd1c5,#4299e1);
+color:white;
+}
 
-    /* Footer */
-    .footer{
-      text-align:center;color:rgba(255,255,255,0.8);padding:30px 10px 80px;font-size:14px;
-    }
+.upgrade-btn{
+background:linear-gradient(90deg,#805ad5,#d53f8c);
+color:white;
+}
 
-    /* Responsive */
-    @media (max-width:1000px){
-      .hero{flex-direction:column;padding:28px 24px}
-      .hero-right{width:100%}
-      .cards{grid-template-columns:1fr; padding:24px}
-      .hero h1{font-size:44px}
-      .logo img{width:48px;height:48px}
-    }
-  </style>
+/* ================= HERO ================= */
+
+.hero{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:80px 70px 40px;
+gap:60px;
+}
+
+.hero-left{
+max-width:640px;
+}
+
+.hero h1{
+font-family:Merriweather, serif;
+font-size:72px;
+line-height:1.05;
+margin:0 0 20px 0;
+
+background:linear-gradient(90deg,#ffffff,#cbd5e0);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+
+.hero p{
+opacity:.9;
+font-size:17px;
+line-height:1.6;
+}
+
+.input-row{
+margin-top:26px;
+display:flex;
+gap:14px;
+}
+
+.input-row input{
+flex:1;
+padding:16px;
+border-radius:14px;
+border:none;
+background:rgba(255,255,255,0.1);
+color:white;
+font-size:15px;
+}
+
+.generate-btn{
+background:linear-gradient(90deg,#68d391,#63b3ed);
+border:none;
+padding:14px 30px;
+border-radius:999px;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* ================= LAPTOP ================= */
+
+.hero-right{
+flex:1;
+display:flex;
+justify-content:center;
+}
+
+.laptop-img{
+width:560px;
+max-width:100%;
+background:transparent;
+filter:drop-shadow(0 40px 60px rgba(0,0,0,.45));
+}
+
+/* ================= CARDS ================= */
+
+.cards{
+display:flex;
+gap:28px;
+padding:40px 70px 70px;
+}
+
+.card{
+flex:1;
+background:rgba(255,255,255,0.06);
+border-radius:20px;
+padding:28px;
+backdrop-filter:blur(14px);
+}
+
+.card h3{
+margin-top:0;
+}
+
+.footer{
+text-align:center;
+opacity:.6;
+padding:30px;
+font-size:14px;
+}
+
+</style>
 </head>
+
 <body>
-  <!-- NAV -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <div class="logo">
-        <!-- Use the correct logo file -- replace with your correct, transparent logo -->
-        <img src="/logo-nav.png" alt="Auto Shorts AI logo">
-      </div>
-      <div class="logo-text">Auto Shorts AI</div>
-    </div>
 
-    <div class="nav-actions">
-      <button class="btn btn-login">Login</button>
-      <button class="btn btn-upgrade">Upgrade</button>
-    </div>
-  </header>
+<!-- ================= NAVBAR ================= -->
 
-  <!-- HERO -->
-  <main>
-    <section class="hero" aria-label="hero">
-      <div class="hero-left">
-        <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
-        <p class="lead">Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds and keep them watching.</p>
+<div class="navbar">
 
-        <div class="input-row">
-          <input class="topic-input" placeholder="Enter a topic..." aria-label="topic">
-          <button class="generate-btn">Generate</button>
-        </div>
-      </div>
+<div class="logo-wrap">
+<img src="logo-navbar.png" class="logo-img">
+<div class="logo-text">Auto Shorts AI</div>
+</div>
 
-      <div class="hero-right">
-        <div class="laptop-wrap">
-          <!-- laptop.png should be a transparent PNG that shows the homepage inside -->
-          <img src="/laptop.png" alt="Laptop preview">
-        </div>
-      </div>
-    </section>
+<div class="nav-actions">
+<button class="btn login-btn">Login</button>
+<button class="btn upgrade-btn">Upgrade</button>
+</div>
 
-    <!-- CARDS -->
-    <section class="cards" aria-label="cards">
-      <div class="card">
-        <h3>Scripts / Hooks / Captions</h3>
-        <p>Generated text will appear here...</p>
-        <div style="margin-top:18px;">
-          <button class="btn" style="background:var(--btn-gradient);color:#00223a;padding:10px 20px;border-radius:10px;">Generate</button>
-          <button class="btn" style="background:rgba(255,255,255,0.06);color:#fff;margin-left:10px;padding:10px 16px;border-radius:10px;">Copy</button>
-        </div>
-      </div>
+</div>
 
-      <div class="card">
-        <h3>What You Get</h3>
-        <ul style="padding-left:18px;margin:0">
-          <li>Unlimited script ideas</li>
-          <li>Optimized viral hooks</li>
-          <li>Auto-selected music and pacing</li>
-        </ul>
-      </div>
+<!-- ================= HERO ================= -->
 
-      <div class="card">
-        <h3>Why Creators Use Auto Shorts AI</h3>
-        <ul style="padding-left:18px;margin:0">
-          <li>High-retention AI-written scripts</li>
-          <li>Instant hook + caption generation</li>
-          <li>Built for viral short-form content</li>
-        </ul>
-      </div>
-    </section>
+<section class="hero">
 
-    <div class="footer">© Auto Shorts AI — Built for creators who want speed.</div>
-  </main>
+<div class="hero-left">
+
+<h1>Generate Viral Shorts Scripts in Seconds</h1>
+
+<p>
+Let our advanced AI craft high-retention short-form video scripts designed
+to hook viewers in the first 3 seconds and keep them watching.
+</p>
+
+<div class="input-row">
+<input placeholder="Enter a topic...">
+<button class="generate-btn">Generate</button>
+</div>
+
+</div>
+
+<div class="hero-right">
+<img src="laptop.png" class="laptop-img">
+</div>
+
+</section>
+
+<!-- ================= CARDS ================= -->
+
+<section class="cards">
+
+<div class="card">
+<h3>Scripts / Hooks / Captions</h3>
+<p>Generated text will appear here...</p>
+</div>
+
+<div class="card">
+<h3>What You Get</h3>
+<ul>
+<li>Unlimited script ideas</li>
+<li>Optimized viral hooks</li>
+<li>Fast creator workflow</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Why Creators Use Auto Shorts AI</h3>
+<ul>
+<li>High-retention AI scripts</li>
+<li>Instant hook + caption generation</li>
+<li>Built for short-form growth</li>
+</ul>
+</div>
+
+</section>
+
+<div class="footer">
+© Auto Shorts AI — Built for creators
+</div>
+
 </body>
 </html>
