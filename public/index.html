@@ -2,169 +2,182 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Auto Shorts AI</title>
 
-<!-- ✅ FAVICON -->
-<link rel="icon" type="image/png" href="/favicon.png">
+<!-- ✅ BIGGER FAVICON -->
+<link rel="icon" type="image/png" href="favicon.png">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  color:white;
-  background:url("/galaxy-bg.jpg") no-repeat center center fixed;
-  background-size:cover;
+font-family:Inter, sans-serif;
+color:white;
+background:url("background.jpg") center/cover no-repeat fixed;
 }
 
-/* NAVBAR */
+.container{
+max-width:1200px;
+margin:auto;
+padding:30px;
+}
+
+/* ================= NAVBAR ================= */
 
 .navbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:25px 60px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
 }
 
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:15px;
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:14px;
 }
 
-/* ✅ BIG LOGO */
-.nav-logo{
-  width:72px;
-  height:auto;
-  filter:drop-shadow(0 0 12px rgba(120,140,255,.5));
+/* ✅ MUCH BIGGER LOGO */
+.logo-wrap img{
+width:64px;
+height:auto;
 }
 
-.nav-title{
-  font-size:22px;
-  font-weight:bold;
+.logo-text{
+font-size:26px;
+font-weight:600;
 }
 
-.nav-buttons a{
-  padding:10px 22px;
-  border-radius:12px;
-  text-decoration:none;
-  margin-left:12px;
-  font-weight:bold;
-  color:white;
+.nav-buttons{
+display:flex;
+gap:12px;
 }
 
-.login{
-  background:linear-gradient(90deg,#4fd1ff,#7ae3ff);
+.btn{
+padding:12px 24px;
+border-radius:12px;
+border:none;
+font-weight:500;
+cursor:pointer;
 }
 
-.upgrade{
-  background:linear-gradient(90deg,#a36dff,#ff79f2);
+.btn-login{
+background:linear-gradient(90deg,#59c7ff,#7d8dff);
+color:white;
 }
 
-/* HERO */
+.btn-upgrade{
+background:linear-gradient(90deg,#a978ff,#ff8ecf);
+color:white;
+}
+
+/* ================= HERO ================= */
 
 .hero{
-  display:flex;
-  padding:40px 80px;
-  gap:40px;
-  align-items:center;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:60px;
 }
 
-.hero-left{ flex:1; }
+.hero-left{flex:1;}
 
 .hero h1{
-  font-size:60px;
-  line-height:1.1;
-  margin:0 0 18px 0;
+font-family:Merriweather;
+font-size:60px;
+line-height:1.1;
+margin-bottom:18px;
 
-  background:linear-gradient(90deg,#ffffff,#b8c4ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+background:linear-gradient(90deg,#ffffff,#cdd6ff);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
 }
 
 .hero p{
-  opacity:.85;
-  max-width:600px;
+opacity:.85;
+max-width:600px;
+margin-bottom:22px;
 }
 
+/* INPUT */
 .input-row{
-  display:flex;
-  margin-top:20px;
-  gap:10px;
+display:flex;
+gap:10px;
 }
 
 .input-row input{
-  flex:1;
-  padding:16px;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(255,255,255,.05);
-  color:white;
+flex:1;
+padding:16px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.15);
+background:rgba(255,255,255,0.05);
+color:white;
 }
 
 .input-row button{
-  padding:14px 24px;
-  border:none;
-  border-radius:12px;
-  background:linear-gradient(90deg,#7efcff,#8affb7);
-  font-weight:bold;
+padding:16px 26px;
+border-radius:12px;
+border:none;
+background:linear-gradient(90deg,#5ee7df,#b490ff);
+color:white;
+font-weight:500;
 }
 
-/* ✅ LAPTOP SIDE */
+/* ================= LAPTOP ================= */
 
 .hero-right{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+flex:1;
+display:flex;
+justify-content:center;
 }
 
+/* ✅ NO WHITE BOX */
 .hero-right img{
-  width:520px;
-  max-width:100%;
-  display:block;
-  background:none;
+width:520px;
+max-width:100%;
+background:none;
 }
 
-/* CARDS SECTION */
+/* ================= CARDS ================= */
 
 .cards{
-  display:flex;
-  gap:30px;
-  padding:40px 80px;
+margin-top:50px;
+display:flex;
+gap:20px;
 }
 
 .card{
-  flex:1;
-  background:rgba(255,255,255,.06);
-  border-radius:20px;
-  padding:30px;
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.1);
+flex:1;
+padding:22px;
+border-radius:18px;
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.12);
 }
 
 .card h3{
-  margin-top:0;
+margin-bottom:12px;
+}
+
+.card ul{
+padding-left:18px;
+line-height:1.8;
 }
 
 .generate-btn{
-  margin-top:20px;
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  background:linear-gradient(90deg,#59dfff,#8bffda);
-  font-weight:bold;
-  color:black;
-}
-
-footer{
-  text-align:center;
-  padding:40px;
-  opacity:.7;
+margin-top:16px;
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+background:linear-gradient(90deg,#5ee7df,#b490ff);
+color:white;
 }
 
 </style>
@@ -172,75 +185,79 @@ footer{
 
 <body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <div class="nav-left">
-    <img src="/logo-navbar.png" class="nav-logo">
-    <div class="nav-title">Auto Shorts AI</div>
-  </div>
+<div class="container">
 
-  <div class="nav-buttons">
-    <a href="/login" class="login">Login</a>
-    <a href="/pro" class="upgrade">Upgrade</a>
-  </div>
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+
+<div class="logo-wrap">
+<img src="logo-navbar.png">
+<div class="logo-text">Auto Shorts AI</div>
 </div>
 
-<!-- HERO -->
+<div class="nav-buttons">
+<button class="btn btn-login">Login</button>
+<button class="btn btn-upgrade">Upgrade</button>
+</div>
+
+</div>
+
+<!-- ================= HERO ================= -->
 <div class="hero">
 
-  <div class="hero-left">
-    <h1>Generate Viral Shorts Scripts in Seconds</h1>
+<div class="hero-left">
 
-    <p>
-      Let our advanced AI craft high-retention short-form video scripts
-      designed to hook viewers in the first 3 seconds.
-    </p>
+<h1>Generate Viral Shorts Scripts in Seconds</h1>
 
-    <div class="input-row">
-      <input placeholder="Enter a topic...">
-      <button>Generate</button>
-    </div>
-  </div>
+<p>
+Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds and keep them watching.
+</p>
 
-  <!-- ✅ LAPTOP IMAGE -->
-  <div class="hero-right">
-    <img src="/laptop.png" alt="Laptop Preview">
-  </div>
+<div class="input-row">
+<input placeholder="Enter a topic...">
+<button>Generate</button>
+</div>
 
 </div>
 
-<!-- CARDS -->
+<!-- ✅ CLEAN LAPTOP IMAGE -->
+<div class="hero-right">
+<img src="laptop.png">
+</div>
+
+</div>
+
+<!-- ================= CARDS ================= -->
 <div class="cards">
 
-  <div class="card">
-    <h3>Scripts / Hooks / Captions</h3>
-    <p>Generated text will appear here...</p>
-    <button class="generate-btn">Generate</button>
-  </div>
+<div class="card">
+<h3>Scripts / Hooks / Captions</h3>
+<p>Generated text will appear here...</p>
+<button class="generate-btn">Generate</button>
+</div>
 
-  <div class="card">
-    <h3>Why Creators Use Auto Shorts AI</h3>
-    <ul>
-      <li>High-retention AI written scripts</li>
-      <li>Instant hook + caption generation</li>
-      <li>Built for viral short-form content</li>
-    </ul>
-  </div>
+<div class="card">
+<h3>What Pro Unlocks</h3>
+<ul>
+<li>Unlimited generations</li>
+<li>Longer, higher-retention scripts</li>
+<li>Future video automation tools</li>
+</ul>
+</div>
 
-  <div class="card">
-    <h3>What You Get</h3>
-    <ul>
-      <li>Unlimited script ideas</li>
-      <li>Optimized viral hooks</li>
-      <li>Faster creator workflow</li>
-    </ul>
-  </div>
+<!-- ✅ REPLACED BOX -->
+<div class="card">
+<h3>What You Get</h3>
+<ul>
+<li>Unlimited script ideas</li>
+<li>Optimized viral hooks</li>
+<li>Fast creator workflow</li>
+</ul>
+</div>
 
 </div>
 
-<footer>
-© Auto Shorts AI — Built for creators who want speed.
-</footer>
+</div>
 
 </body>
 </html>
