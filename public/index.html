@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Auto Shorts AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</script>
 
 <style>
 /* ===== restore hero + nav layout (paste before </style>) ===== */
@@ -19,6 +18,12 @@
 }
 
 /* hero section - make sure the hero content displays and doesn't get hidden */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 36px;
+  align-items: start;
+}
 section.hero {
   display: block !important;
   padding: 36px 24px;
