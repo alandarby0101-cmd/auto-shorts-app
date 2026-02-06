@@ -1,254 +1,281 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Shorts AI</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Auto Shorts AI — Home</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===== RESET ===== */
-* {
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+:root{
+  --accent-1:#6fe6ff;
+  --accent-2:#9b5dff;
+  --glass-bg:rgba(255,255,255,0.06);
+  --glass-border:rgba(255,255,255,0.08);
+  --card-radius:18px;
+  --container-padding:48px;
 }
 
-body {
-  font-family: system-ui, sans-serif;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Poppins,system-ui;
   color:white;
-  background:#0b0f2a;
+  background:
+  url('https://images.unsplash.com/photo-1470123808288-5f2b0d3b9f9c?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat,
+  linear-gradient(180deg,rgba(12,13,26,0.75),rgba(6,6,25,0.72));
+  background-blend-mode:overlay;
   min-height:100vh;
 }
 
-/* ===== NAVBAR ===== */
-.nav-left .nav-logo,
-.nav-left img.nav-logo {
-  width:72px;
-  height:auto;
-  display:inline-block;
-  vertical-align:middle;
-  max-width:72px;
+/* header */
+.site-header{
+display:flex;justify-content:space-between;align-items:center;
+padding:22px var(--container-padding);
+}
+.logo{display:flex;gap:14px;align-items:center;}
+.logo .mark{
+width:64px;height:64px;border-radius:14px;
+background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+display:grid;place-items:center;font-weight:700;
+font-family:Merriweather;color:#fff;
+}
+.btn{
+padding:12px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:600;
+}
+.btn-login{background:linear-gradient(90deg,var(--accent-1),#58c6ff);color:#06203a;}
+.btn-upgrade{background:linear-gradient(90deg,var(--accent-2),#7a53ff);color:white;}
+
+/* hero */
+.hero{display:flex;gap:48px;padding:36px var(--container-padding) 64px;}
+.hero-left{flex:1;}
+h1{
+font-family:Merriweather;
+font-size:56px;
+background:linear-gradient(90deg,#fff,#cdb6ff);
+-webkit-background-clip:text; background-clip:text;
+color:transparent;
+}
+p.lead{margin:20px 0;opacity:0.9;max-width:700px;}
+
+.topic-input{
+flex:1;padding:18px 20px;border-radius:14px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.06);
+color:white;
+}
+.topic-btn{
+padding:14px 20px;border-radius:14px;border:none;
+background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+font-weight:700;cursor:pointer;color:#032034;
 }
 
-/* ===== HERO GRID ===== */
-section.hero{
-  display:grid;
-  grid-template-columns:1fr 420px;
-  gap:36px;
-  align-items:start;
-  padding:36px 24px;
+.search-row{display:flex;gap:14px;}
+
+.hero-right{width:420px;display:flex;justify-content:center;align-items:center;}
+.laptop-wrap{
+width:380px;height:240px;border-radius:10px;
+background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+box-shadow:0 12px 40px rgba(0,0,0,0.6);
+display:flex;justify-content:center;align-items:center;
+}
+.laptop-screen{
+width:86%;height:75%;border-radius:6px;
+background:linear-gradient(180deg,rgba(40,10,70,0.6),rgba(0,0,0,0.2));
+animation:pulse 3s infinite ease-in-out;
+}
+@keyframes pulse{
+0%,100%{opacity:0.7}
+50%{opacity:1}
 }
 
-/* left column */
-section.hero > div:first-child{
-  max-width:680px;
+/* cards */
+.cards-row{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:22px;
+padding:28px var(--container-padding) 80px;
+}
+.card{
+background:var(--glass-bg);
+border-radius:var(--card-radius);
+padding:18px;
+border:1px solid var(--glass-border);
+backdrop-filter:blur(8px);
+}
+.glass-box{
+background:rgba(5,8,20,0.25);
+border-radius:10px;
+padding:14px;
 }
 
-/* preview box */
-.preview{
-  width:420px;
-  height:260px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(12px);
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 20px 60px rgba(0,0,0,0.25);
-  padding:16px;
+/* tabs */
+.tab-btn{
+background:transparent;
+border:1px solid rgba(255,255,255,0.05);
+color:white;
+padding:8px 12px;
+border-radius:14px;
+cursor:pointer;
+}
+.tab-btn.active{
+background:rgba(255,255,255,0.08);
 }
 
-/* input + button */
-.input-row,
-.generate-btn,
-#topicInput,
-button.generate-btn{
-  display:block;
+/* responsive */
+@media(max-width:1000px){
+.hero{flex-direction:column;}
+.cards-row{grid-template-columns:1fr;}
+h1{font-size:38px;}
 }
-
-/* result cards */
-.result-box,
-.info-card{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(12px);
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.08);
-  box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  padding:18px;
-  box-sizing:border-box;
-}
-
 </style>
 </head>
 
 <body>
 
-<header class="navbar">
-  <div class="nav-left">
-    <img src="/logo-navbar.png" alt="Auto Shorts AI" class="nav-logo">
-  </div>
-  <nav class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">Features</a>
-    <a href="#">Pro Version</a>
-    <a href="#">Pricing</a>
-    <a href="#">FAQ</a>
-    <a href="/login.html">Login</a>
- <a class="pro-btn" href="/upgrade.html">Upgrade to Pro</a>
+<header class="site-header">
+<div class="logo">
+<div class="mark">AS</div>
+<div>Auto Shorts AI</div>
+</div>
 
-  </nav>
+<div>
+<button class="btn btn-login" id="loginBtn">Login</button>
+<button class="btn btn-upgrade" id="upgradeBtn">Upgrade</button>
+</div>
 </header>
 
-<section class="hero"></section>
-  <div>
-    <h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
-    <p class="subtitle">
-      Let our advanced AI craft high-retention short-form video scripts
-      designed to hook viewers in the first 3 seconds and keep them watching.
-    </p>
+<main>
 
-    <div class="input-row">
-<input
-  id="topicInput"
-  type="text"
-  placeholder="Enter a topic..."
-/>
+<section class="hero">
+<div class="hero-left">
+<h1>Generate Viral Shorts Scripts<br>in Seconds</h1>
+<p class="lead">Let AI craft high-retention short-form video scripts designed to hook viewers instantly.</p>
 
-<button
-  id="generateBtn"
-  class="generate-btn"
->
-  Generate Content
-</button>
-    </div>
-  </div>
+<div class="search-row">
+<input class="topic-input" placeholder="Enter a topic..." id="topic"/>
+<button class="topic-btn" id="generateTop">Generate</button>
+</div>
+</div>
 
-  <div class="preview">
-    <span>Animated Shorts Preview (visual only)</span>
-  </div>
+<div class="hero-right">
+<div class="laptop-wrap">
+<div class="laptop-screen"></div>
+</div>
+</div>
 </section>
 
-<section class="results-container">
-  <div class="result-box">
-    <h3>Hook</h3>
-    <pre id="hooksBox">Your hook will appear here…</pre>
-    <button>Copy</button>
-  </div>
+<section class="cards-row">
 
-  <div class="result-box lockable">
-    <h3>Script</h3>
-    <pre id="scriptBox">Your script will appear here…</pre>
-    <button>Copy</button>
-  </div>
+<div class="card">
+<h3>Scripts / Hook / Captions</h3>
 
-  <div class="result-box lockable">
-    <h3>Captions</h3>
-    <pre id="captionsBox">Your captions will appear here…</pre>
-    <button>Copy</button>
-  </div>
+<div class="glass-box">
+
+<div style="display:flex;gap:8px;margin-bottom:10px;">
+<button class="tab-btn active" data-tab="script">Scripts</button>
+<button class="tab-btn" data-tab="hook">Hook</button>
+<button class="tab-btn" data-tab="caption">Caption</button>
+</div>
+
+<div id="generatedText" style="background:rgba(2,6,20,0.35);padding:12px;border-radius:10px;min-height:90px;">
+Generated text will appear here...
+</div>
+
+<div style="display:flex;gap:10px;margin-top:12px;">
+<button class="topic-btn" id="generateBtn" style="flex:1">Generate</button>
+<button class="btn" id="copyBtn" style="flex:1;background:transparent;border:1px solid rgba(255,255,255,0.06);color:white">Copy</button>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>What Pro Unlocks</h3>
+<div class="glass-box">
+<ul style="line-height:1.8;">
+<li>Unlimited generations</li>
+<li>Longer scripts</li>
+<li>Video automation tools</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h3>Preview</h3>
+<div class="glass-box" style="height:160px;"></div>
+</div>
+
 </section>
 
-<section class="info-sections">
-  <div class="info-card">
-    <h3>Why Use This App</h3>
-    <p>• Instantly generate high-retention Shorts scripts</p>
-    <p>• Built for TikTok, Reels, and YouTube Shorts</p>
-    <p>• No thinking, no writing fatigue</p>
-  </div>
+</main>
 
-  <div class="info-card">
-    <h3>What Pro Unlocks</h3>
-    <p>• Unlimited generations</p>
-    <p>• Longer, higher-retention scripts</p>
-    <p>• Future video automation tools</p>
-  </div>
-
-  <div class="info-card">
-    <h3>What’s Coming Next</h3>
-    <p>👉 Polished preview animations</p>
-    <p>👉 Pro-only blur logic</p>
-    <p>👉 Stripe-powered gating</p>
-  </div>
-</section>
-
-<footer>
-  © Auto Shorts AI — Built for creators who want speed.
-</footer>
 <script>
-function lockProContent() {
-  localStorage.setItem("isPro", "true");
-  window.location.href = "/pro.html";
+const genBtn=document.getElementById('generateBtn');
+const topGen=document.getElementById('generateTop');
+const out=document.getElementById('generatedText');
+const copyBtn=document.getElementById('copyBtn');
+const topic=document.getElementById('topic');
+
+let activeTab="script";
+
+const tabButtons=document.querySelectorAll('.tab-btn');
+
+tabButtons.forEach(btn=>{
+btn.addEventListener('click',()=>{
+tabButtons.forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+activeTab=btn.dataset.tab;
+renderOutput();
+});
+});
+
+const state={
+script:"",
+hook:"",
+caption:""
+};
+
+function renderOutput(){
+out.textContent=state[activeTab]||"Generated text will appear here...";
 }
 
-const FREE_LIMIT = 2;
-
-function getGenerationCount() {
-  return Number(localStorage.getItem("generationCount") || 0);
+function fakeGen(text){
+if(!text||text.trim().length<1){
+out.textContent="Type a topic and click Generate.";
+return;
 }
 
-function incrementGenerationCount() {
-  const count = getGenerationCount() + 1;
-  localStorage.setItem("generationCount", count);
-  return count;
+genBtn.disabled=true;
+topGen.disabled=true;
+
+out.textContent="Generating…";
+
+setTimeout(()=>{
+
+state.hook=`${text}: This one detail shocked everyone.`;
+state.script=`1) Hook viewer fast.\n2) Deliver 3 facts about ${text}.\n3) End with CTA.`;
+state.caption=`#shorts #viral #${text.replace(/\s+/g,'')}`;
+
+renderOutput();
+
+genBtn.disabled=false;
+topGen.disabled=false;
+
+},650);
 }
 
-function lockProContent() {
-  document.querySelectorAll(".lockable").forEach(el => {
-    el.classList.add("locked");
-  });
-}
+genBtn.addEventListener('click',()=>fakeGen(topic.value));
+topGen.addEventListener('click',()=>fakeGen(topic.value));
 
-function handleGenerationLimit() {
-  if (getGenerationCount() >= FREE_LIMIT) {
-    lockProContent();
-    alert("You've reached the free limit. Upgrade to Pro to continue.");
-    return false;
-  }
-  return true;
-}
+copyBtn.addEventListener('click',()=>{
+const text=state[activeTab]||'';
+if(!text)return;
 
-async function generateShorts() {
-const input = document.getElementById("topicInput");
-if (!input) {
-  alert("Topic input not found (check id)");
-  console.error("Missing #topicInput element");
-  return;
-}
-
-const topic = input.value.trim();
-
-  if (!topic) {
-    alert("Enter a topic first");
-    return;
-  }
-
-  const res = await fetch("/generate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: topic })
-  });
-
-  const data = await res.json();
-
-  document.getElementById("hooksBox").innerText = data.hook || "No hook returned";
-  document.getElementById("scriptBox").innerText = data.script || "No script returned";
-  document.getElementById("captionsBox").innerText = data.captions || "No captions returned";
-
-  incrementGenerationCount();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("generateBtn");
-  if (!btn) {
-    console.error("Generate button not found");
-    return;
-  }
-
-  btn.addEventListener("click", () => {
-    if (!handleGenerationLimit()) return;
-    generateShorts();
-  });
+navigator.clipboard.writeText(text).then(()=>{
+copyBtn.textContent="Copied ✓";
+setTimeout(()=>copyBtn.textContent="Copy",1200);
+});
 });
 </script>
 
