@@ -210,8 +210,20 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
 <section class="cards">
 
 <div class="card">
-<h3>Scripts / Hooks / Captions</h3>
-<p>Generated text will appear here...</p>
+
+  <div class="tabs">
+      <button class="tab active" onclick="setTab('scripts')">Scripts</button>
+      <button class="tab" onclick="setTab('hooks')">Hooks</button>
+      <button class="tab" onclick="setTab('captions')">Captions</button>
+  </div>
+
+  <textarea id="outputBox" placeholder="Generated text will appear here..."></textarea>
+
+  <div class="actions">
+      <button onclick="generateAI()">Generate</button>
+      <button onclick="copyOutput()">Copy</button>
+  </div>
+
 </div>
 
 <div class="card">
@@ -237,6 +249,43 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
 <div class="footer">
 © Auto Shorts AI — Built for creators who want speed.
 </div>
+<script>
 
+let currentTab = "scripts";
+
+function setTab(tab){
+    currentTab = tab;
+    document.querySelectorAll(".tab").forEach(btn=>{
+        btn.classList.remove("active");
+    });
+    event.target.classList.add("active");
+}
+
+async function generateAI(){
+    const topic = document.querySelector("input").value;
+    const output = document.getElementById("outputBox");
+
+    output.value = "Generating...";
+
+    const res = await fetch("/api/generate",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            topic:topic,
+            type:currentTab
+        })
+    });
+
+    const data = await res.json();
+    output.value = data.result;
+}
+
+function copyOutput(){
+    const box = document.getElementById("outputBox");
+    box.select();
+    document.execCommand("copy");
+}
+
+</script>
 </body>
 </html>
