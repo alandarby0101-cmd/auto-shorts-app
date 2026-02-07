@@ -2,175 +2,156 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Auto Shorts AI</title>
 
-<!-- ✅ PROPER FAVICON SIZE -->
-<link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
-<link rel="shortcut icon" href="favicon.png">
+<!-- ✅ NORMAL WEBSITE FAVICON SIZE -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 
 <style>
 
-/* ================= BASE ================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-margin:0;
-font-family:Inter, Arial, sans-serif;
-background:url("galaxy-bg.jpg") center/cover no-repeat fixed;
+font-family:Inter, sans-serif;
+background:url("galaxy-bg.jpg") center/cover fixed no-repeat;
 color:white;
 }
 
-/* ================= NAVBAR PRO ================= */
+/* ===== NAVBAR ===== */
 
 .navbar{
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:22px 70px;
-backdrop-filter:blur(12px);
+align-items:center;
+padding:24px 60px;
 }
 
 .logo-wrap{
 display:flex;
 align-items:center;
-gap:16px;
+gap:14px;
 }
 
-.logo-img{
-height:64px; /* 🔥 Bigger SaaS logo */
-width:auto;
-object-fit:contain;
+/* ✅ BIGGER LOGO */
+.logo-wrap img{
+width:48px;
+height:48px;
 }
 
 .logo-text{
-font-size:24px;
-font-weight:700;
-letter-spacing:.3px;
+font-size:22px;
+font-weight:600;
 }
 
-.nav-actions{
+.nav-buttons{
 display:flex;
-align-items:center;
-gap:16px;
+gap:14px;
 }
 
 .btn{
-padding:12px 26px;
-border-radius:999px;
+padding:10px 22px;
+border-radius:12px;
 border:none;
 font-weight:600;
 cursor:pointer;
-font-size:15px;
-}
-
-.login-btn{
-background:linear-gradient(90deg,#4fd1c5,#4299e1);
 color:white;
+background:linear-gradient(90deg,#5de0e6,#b490ff);
 }
 
-.upgrade-btn{
-background:linear-gradient(90deg,#805ad5,#d53f8c);
-color:white;
-}
-
-/* ================= HERO ================= */
+/* ===== HERO ===== */
 
 .hero{
 display:flex;
-align-items:center;
 justify-content:space-between;
-padding:80px 70px 40px;
-gap:60px;
+align-items:center;
+padding:40px 60px;
+gap:40px;
 }
 
 .hero-left{
-max-width:640px;
+max-width:620px;
 }
 
 .hero h1{
-font-family:Merriweather, serif;
-font-size:72px;
-line-height:1.05;
-margin:0 0 20px 0;
+font-family:Merriweather,serif;
+font-size:64px;
+line-height:1.1;
+margin-bottom:18px;
 
-background:linear-gradient(90deg,#ffffff,#cbd5e0);
+background:linear-gradient(90deg,#ffffff,#a9d6ff);
 -webkit-background-clip:text;
 background-clip:text;
 color:transparent;
 }
 
 .hero p{
-opacity:.9;
-font-size:17px;
-line-height:1.6;
+opacity:.85;
+margin-bottom:22px;
 }
 
 .input-row{
-margin-top:26px;
 display:flex;
-gap:14px;
+gap:12px;
 }
 
 .input-row input{
 flex:1;
-padding:16px;
-border-radius:14px;
+padding:14px;
+border-radius:12px;
 border:none;
-background:rgba(255,255,255,0.1);
+background:rgba(255,255,255,.08);
 color:white;
-font-size:15px;
 }
 
 .generate-btn{
-background:linear-gradient(90deg,#68d391,#63b3ed);
+padding:14px 26px;
+border-radius:12px;
 border:none;
-padding:14px 30px;
-border-radius:999px;
-color:white;
 font-weight:600;
+background:linear-gradient(90deg,#5de0e6,#b490ff);
+color:white;
 cursor:pointer;
 }
 
-/* ================= LAPTOP ================= */
+/* ===== LAPTOP IMAGE ===== */
 
-.hero-right{
-flex:1;
-display:flex;
-justify-content:center;
-}
-
-.laptop-img{
-width:560px;
+.hero-right img{
+width:520px;
 max-width:100%;
+display:block;
+
+/* ✅ REMOVES WHITE BOX LOOK */
 background:transparent;
-filter:drop-shadow(0 40px 60px rgba(0,0,0,.45));
 }
 
-/* ================= CARDS ================= */
+/* ===== CARDS ===== */
 
 .cards{
 display:flex;
-gap:28px;
-padding:40px 70px 70px;
+gap:30px;
+padding:60px;
 }
 
 .card{
 flex:1;
-background:rgba(255,255,255,0.06);
-border-radius:20px;
-padding:28px;
+background:rgba(255,255,255,.08);
 backdrop-filter:blur(14px);
-}
-
-.card h3{
-margin-top:0;
+padding:26px;
+border-radius:18px;
 }
 
 .footer{
 text-align:center;
-opacity:.6;
 padding:30px;
+opacity:.7;
 font-size:14px;
 }
 
@@ -179,24 +160,22 @@ font-size:14px;
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-
+<!-- ===== NAVBAR ===== -->
 <div class="navbar">
 
 <div class="logo-wrap">
-<img src="logo-navbar.png" class="logo-img">
+<img src="logo-navbar.png" alt="Auto Shorts AI logo">
 <div class="logo-text">Auto Shorts AI</div>
 </div>
 
-<div class="nav-actions">
-<button class="btn login-btn">Login</button>
-<button class="btn upgrade-btn">Upgrade</button>
+<div class="nav-buttons">
+<button class="btn">Login</button>
+<button class="btn">Upgrade</button>
 </div>
 
 </div>
 
-<!-- ================= HERO ================= -->
-
+<!-- ===== HERO ===== -->
 <section class="hero">
 
 <div class="hero-left">
@@ -204,8 +183,7 @@ font-size:14px;
 <h1>Generate Viral Shorts Scripts in Seconds</h1>
 
 <p>
-Let our advanced AI craft high-retention short-form video scripts designed
-to hook viewers in the first 3 seconds and keep them watching.
+Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds and keep them watching.
 </p>
 
 <div class="input-row">
@@ -215,14 +193,14 @@ to hook viewers in the first 3 seconds and keep them watching.
 
 </div>
 
+<!-- ✅ YOUR TRANSPARENT LAPTOP IMAGE -->
 <div class="hero-right">
-<img src="laptop.png" class="laptop-img">
+<img src="laptop.png" alt="Auto Shorts AI preview">
 </div>
 
 </section>
 
-<!-- ================= CARDS ================= -->
-
+<!-- ===== INFO CARDS ===== -->
 <section class="cards">
 
 <div class="card">
@@ -242,16 +220,16 @@ to hook viewers in the first 3 seconds and keep them watching.
 <div class="card">
 <h3>Why Creators Use Auto Shorts AI</h3>
 <ul>
-<li>High-retention AI scripts</li>
+<li>High-retention AI-written scripts</li>
 <li>Instant hook + caption generation</li>
-<li>Built for short-form growth</li>
+<li>Built for viral short-form content</li>
 </ul>
 </div>
 
 </section>
 
 <div class="footer">
-© Auto Shorts AI — Built for creators
+© Auto Shorts AI — Built for creators who want speed.
 </div>
 
 </body>
