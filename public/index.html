@@ -7,9 +7,9 @@
 <title>Auto Shorts AI</title>
 
 <!-- ✅ NORMAL WEBSITE FAVICON SIZE -->
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 
 <style>
 
@@ -41,11 +41,18 @@ gap:14px;
 }
 
 /* ✅ BIGGER LOGO */
+/* 🔥 SURGICAL NAV LOGO FIX */
 .logo-wrap img{
-width:48px;
-height:48px;
+    width:95px;
+    height:95px;
+    object-fit:contain;
 }
 
+/* Make title match real SaaS size */
+.logo-text{
+    font-size:28px;
+    font-weight:700;
+}
 .logo-text{
 font-size:22px;
 font-weight:600;
@@ -164,8 +171,8 @@ font-size:14px;
 <div class="navbar">
 
 <div class="logo-wrap">
-<img src="logo-navbar.png" alt="Auto Shorts AI logo">
-<div class="logo-text">Auto Shorts AI</div>
+    <img src="/logo-navbar.png" alt="Auto Shorts AI Logo">
+    <div class="logo-text">Auto Shorts AI</div>
 </div>
 
 <div class="nav-buttons">
