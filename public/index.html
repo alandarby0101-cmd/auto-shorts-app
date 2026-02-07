@@ -47,7 +47,49 @@ gap:14px;
     height:192px;
     object-fit:contain;
 }
+.ai-card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+padding:24px;
+border-radius:16px;
+max-width:520px;
+}
 
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+}
+
+.tab{
+background:rgba(255,255,255,0.12);
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+.tab.active{
+background:linear-gradient(90deg,#7cf,#c7f);
+color:#000;
+}
+
+#outputBox{
+width:100%;
+height:140px;
+background:rgba(0,0,0,0.2);
+border:none;
+color:white;
+padding:12px;
+border-radius:10px;
+}
+
+.ai-actions{
+margin-top:10px;
+display:flex;
+gap:10px;
+}
 /* Make title match real SaaS size */
 .logo-text{
     font-size:32px;
@@ -250,6 +292,48 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
 © Auto Shorts AI — Built for creators who want speed.
 </div>
 <script>
+
+let currentTab = "scripts";
+
+function setTab(tab){
+  currentTab = tab;
+
+  document.querySelectorAll(".tab").forEach(btn=>{
+    btn.classList.remove("active");
+  });
+
+  event.target.classList.add("active");
+}
+
+async function generateAI(){
+  const topic = document.querySelector('input').value;
+  const box = document.getElementById("outputBox");
+
+  box.value = "Generating...";
+
+  try{
+    const res = await fetch("/generate",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        topic: topic,
+        type: currentTab
+      })
+    });
+
+    const data = await res.json();
+    box.value = data.result || "No response";
+  }catch(e){
+    box.value = "Error connecting to AI";
+  }
+}
+
+function copyOutput(){
+  const box = document.getElementById("outputBox");
+  box.select();
+  document.execCommand("copy");
+}
+</script>
 
 let currentTab = "scripts";
 
