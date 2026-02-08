@@ -236,7 +236,7 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
 
 <div class="input-row">
 <input placeholder="Enter a topic...">
-<button class="generate-btn">Generate</button>
+<button class="generate-btn" onclick="generateAI()">Generate</button>
 </div>
 
 </div>
@@ -260,11 +260,9 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
   </div>
 
   <textarea id="outputBox" placeholder="Generated text will appear here..."></textarea>
-
-  <div class="actions">
-      <button onclick="generateAI()">Generate</button>
-      <button onclick="copyOutput()">Copy</button>
-  </div>
+<div class="actions">
+   <button onclick="copyOutput()">Copy</button>
+</div>
 
 </div>
 
@@ -294,6 +292,67 @@ Let our advanced AI craft high-retention short-form video scripts designed to ho
 <script>
 
 let currentTab = "scripts";
+
+function setTab(tab){
+  // update current tab state
+  currentTab = tab;
+
+  // remove active from all tab buttons
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.classList.remove('active');
+  });
+
+  // add active to the matching button (works with onclick="setTab('scripts')")
+  // try selector with single-quote (common) first; fallback to unquoted match
+  let selector = `.tab[onclick*="'${tab}'"]`;
+  let btn = document.querySelector(selector) || document.querySelector(`.tab[onclick*="${tab}"]`);
+  if(btn) btn.classList.add('active');
+}
+
+async function generateAI(){
+const topic = document.querySelector('.input-row input').value;
+  const box = document.getElementById("outputBox");
+  if(!box) return console.warn("outputBox not found");
+
+  box.value = "Generating...";
+
+  try{
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ type: currentTab, topic })
+    });
+
+    if(!res.ok){
+      box.value = "AI error: " + res.status;
+      return;
+    }
+
+    const json = await res.json();
+    box.value = json.text || "No response.";
+  }catch(err){
+    console.error(err);
+    box.value = "AI connection failed.";
+  }
+}
+
+function copyOutput(){
+  const box = document.getElementById("outputBox");
+  if(!box) return;
+  // modern clipboard if available
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(box.value).then(()=> {
+      /* optional: small UI feedback can go here */
+    }).catch(()=> {
+      // fallback
+      box.select();
+      document.execCommand('copy');
+    });
+  }else{
+    box.select();
+    document.execCommand('copy');
+  }
+}
 
 function setTab(tab){
   currentTab = tab;
