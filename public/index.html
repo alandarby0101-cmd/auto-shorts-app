@@ -320,7 +320,7 @@ const topic = document.querySelector('.input-row input').value;
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ type: currentTab, topic })
+body: JSON.stringify({ prompt: topic, type: currentTab })
     });
 
     if(!res.ok){
