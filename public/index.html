@@ -3,29 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+<!-- force redeploy -->
 <title>Auto Shorts AI</title>
 
-<!-- ✅ NORMAL WEBSITE FAVICON SIZE -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:Inter, sans-serif;
+font-family:Inter,sans-serif;
 background:url("galaxy-bg.jpg") center/cover fixed no-repeat;
 color:white;
 }
-
-/* ===== NAVBAR ===== */
 
 .navbar{
 display:flex;
@@ -34,76 +26,13 @@ align-items:center;
 padding:24px 60px;
 }
 
-.logo-wrap{
-display:flex;
-align-items:center;
-gap:14px;
-}
-
-/* ✅ BIGGER LOGO */
-/* 🔥 SURGICAL NAV LOGO FIX */
 .logo-wrap img{
-    width:245px;
-    height:192px;
-    object-fit:contain;
-}
-.ai-card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(20px);
-padding:24px;
-border-radius:16px;
-max-width:520px;
+width:245px;
+height:192px;
+object-fit:contain;
 }
 
-.tabs{
-display:flex;
-gap:10px;
-margin-bottom:10px;
-}
-
-.tab{
-background:rgba(255,255,255,0.12);
-border:none;
-padding:8px 14px;
-border-radius:8px;
-color:white;
-cursor:pointer;
-}
-
-.tab.active{
-background:linear-gradient(90deg,#7cf,#c7f);
-color:#000;
-}
-
-#outputBox{
-width:100%;
-height:140px;
-background:rgba(0,0,0,0.2);
-border:none;
-color:white;
-padding:12px;
-border-radius:10px;
-}
-
-.ai-actions{
-margin-top:10px;
-display:flex;
-gap:10px;
-}
-/* Make title match real SaaS size */
-.logo-text{
-    font-size:32px;
-    font-weight:700;
-}
-.logo-text{
-font-size:32px;
-font-weight:600;
-}
-
-.nav-buttons{
-display:flex;
-gap:14px;
-}
+.nav-buttons{display:flex;gap:14px;}
 
 .btn{
 padding:10px 22px;
@@ -115,8 +44,6 @@ color:white;
 background:linear-gradient(90deg,#5de0e6,#b490ff);
 }
 
-/* ===== HERO ===== */
-
 .hero{
 display:flex;
 justify-content:space-between;
@@ -125,31 +52,20 @@ padding:40px 60px;
 gap:40px;
 }
 
-.hero-left{
-max-width:620px;
-}
+.hero-left{max-width:620px;}
 
 .hero h1{
 font-family:Merriweather,serif;
 font-size:64px;
 line-height:1.1;
 margin-bottom:18px;
-
-background:linear-gradient(90deg,#ffffff,#a9d6ff);
+background:linear-gradient(90deg,#fff,#a9d6ff);
+background-clip: text;
 -webkit-background-clip:text;
-background-clip:text;
 color:transparent;
 }
 
-.hero p{
-opacity:.85;
-margin-bottom:22px;
-}
-
-.input-row{
-display:flex;
-gap:12px;
-}
+.input-row{display:flex;gap:12px;}
 
 .input-row input{
 flex:1;
@@ -170,24 +86,7 @@ color:white;
 cursor:pointer;
 }
 
-/* ===== LAPTOP IMAGE ===== */
-
-.hero-right img{
-width:520px;
-max-width:100%;
-display:block;
-
-/* ✅ REMOVES WHITE BOX LOOK */
-background:transparent;
-}
-
-/* ===== CARDS ===== */
-
-.cards{
-display:flex;
-gap:30px;
-padding:60px;
-}
+.cards{display:flex;gap:30px;padding:60px;}
 
 .card{
 flex:1;
@@ -197,131 +96,125 @@ padding:26px;
 border-radius:18px;
 }
 
-.footer{
-text-align:center;
-padding:30px;
-opacity:.7;
-font-size:14px;
+.tabs{display:flex;gap:10px;margin-bottom:10px;}
+
+.tab{
+background:rgba(255,255,255,.12);
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
 }
 
+.tab.active{
+background:linear-gradient(90deg,#7cf,#c7f);
+color:#000;
+}
+
+#outputBox{
+width:100%;
+height:140px;
+background:rgba(0,0,0,.2);
+border:none;
+color:white;
+padding:12px;
+border-radius:10px;
+}
+
+.footer{text-align:center;padding:30px;opacity:.7;font-size:14px;}
 </style>
 </head>
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <div class="navbar">
-
-<div class="logo-wrap">
+  <div class="logo-wrap">
     <img src="/logo-navbar.png" alt="Auto Shorts AI Logo">
+  </div>
+  <div class="nav-buttons">
+    <button class="btn">Login</button>
+    <button class="btn">Upgrade</button>
+  </div>
 </div>
 
-<div class="nav-buttons">
-<button class="btn">Login</button>
-<button class="btn">Upgrade</button>
-</div>
-
-</div>
-
-<!-- ===== HERO ===== -->
 <section class="hero">
+  <div class="hero-left">
+    <h1>Generate Viral Shorts Scripts in Seconds</h1>
+    <p>Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds.</p>
+    <div class="input-row">
+      <input placeholder="Enter a topic...">
+      <button class="generate-btn" onclick="generateAI()">Generate</button>
+    </div>
+  </div>
 
-<div class="hero-left">
-
-<h1>Generate Viral Shorts Scripts in Seconds</h1>
-
-<p>
-Let our advanced AI craft high-retention short-form video scripts designed to hook viewers in the first 3 seconds and keep them watching.
-</p>
-
-<div class="input-row">
-<input placeholder="Enter a topic...">
-<button class="generate-btn" onclick="generateAI()">Generate</button>
-</div>
-
-</div>
-
-<!-- ✅ YOUR TRANSPARENT LAPTOP IMAGE -->
-<div class="hero-right">
-<img src="laptop.png" alt="Auto Shorts AI preview">
-</div>
-
+  <div class="hero-right">
+    <img src="laptop.png" alt="Auto Shorts AI preview">
+  </div>
 </section>
 
-<!-- ===== INFO CARDS ===== -->
 <section class="cards">
-
-<div class="card">
-
-  <div class="tabs">
+  <div class="card">
+    <div class="tabs">
       <button class="tab active" onclick="setTab('scripts')">Scripts</button>
       <button class="tab" onclick="setTab('hooks')">Hooks</button>
       <button class="tab" onclick="setTab('captions')">Captions</button>
+    </div>
+
+    <textarea id="outputBox" placeholder="Generated text will appear here..."></textarea>
+    <button onclick="copyOutput()">Copy</button>
   </div>
 
-  <textarea id="outputBox" placeholder="Generated text will appear here..."></textarea>
-<div class="actions">
-   <button onclick="copyOutput()">Copy</button>
-</div>
+  <div class="card">
+    <h3>What You Get</h3>
+    <ul>
+      <li>Unlimited script ideas</li>
+      <li>Optimized viral hooks</li>
+      <li>Fast creator workflow</li>
+    </ul>
+  </div>
 
-</div>
-
-<div class="card">
-<h3>What You Get</h3>
-<ul>
-<li>Unlimited script ideas</li>
-<li>Optimized viral hooks</li>
-<li>Fast creator workflow</li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Why Creators Use Auto Shorts AI</h3>
-<ul>
-<li>High-retention AI-written scripts</li>
-<li>Instant hook + caption generation</li>
-<li>Built for viral short-form content</li>
-</ul>
-</div>
-
+  <div class="card">
+    <h3>Why Creators Use Auto Shorts AI</h3>
+    <ul>
+      <li>High-retention AI-written scripts</li>
+      <li>Instant hook + caption generation</li>
+      <li>Built for viral short-form content</li>
+    </ul>
+  </div>
 </section>
 
-<div class="footer">
-© Auto Shorts AI — Built for creators who want speed.
-</div>
-<script>
+<div class="footer">© Auto Shorts AI — Built for creators who want speed.</div>
 
+<script>
 let currentTab = "scripts";
 
 function setTab(tab){
-  // update current tab state
   currentTab = tab;
-
-  // remove active from all tab buttons
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.classList.remove('active');
+  document.querySelectorAll(".tab").forEach(btn=>{
+    btn.classList.remove("active");
   });
-
-  // add active to the matching button (works with onclick="setTab('scripts')")
-  // try selector with single-quote (common) first; fallback to unquoted match
-  let selector = `.tab[onclick*="'${tab}'"]`;
-  let btn = document.querySelector(selector) || document.querySelector(`.tab[onclick*="${tab}"]`);
-  if(btn) btn.classList.add('active');
+  event.target.classList.add("active");
 }
 
 async function generateAI(){
-const topic = document.querySelector('.input-row input').value;
+  const topic = document.querySelector('.input-row input').value;
   const box = document.getElementById("outputBox");
-  if(!box) return console.warn("outputBox not found");
 
   box.value = "Generating...";
 
   try{
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-body: JSON.stringify({ prompt: topic, type: currentTab })
-    });
+    const res = await fetch(
+      "https://auto-shorts-app-h3lw.onrender.com/api/generate",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: topic,
+          type: currentTab
+        })
+      }
+    );
 
     if(!res.ok){
       box.value = "AI error: " + res.status;
@@ -331,59 +224,7 @@ body: JSON.stringify({ prompt: topic, type: currentTab })
     const json = await res.json();
     box.value = json.text || "No response.";
   }catch(err){
-    console.error(err);
     box.value = "AI connection failed.";
-  }
-}
-
-function copyOutput(){
-  const box = document.getElementById("outputBox");
-  if(!box) return;
-  // modern clipboard if available
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(box.value).then(()=> {
-      /* optional: small UI feedback can go here */
-    }).catch(()=> {
-      // fallback
-      box.select();
-      document.execCommand('copy');
-    });
-  }else{
-    box.select();
-    document.execCommand('copy');
-  }
-}
-
-function setTab(tab){
-  currentTab = tab;
-
-  document.querySelectorAll(".tab").forEach(btn=>{
-    btn.classList.remove("active");
-  });
-
-  event.target.classList.add("active");
-}
-
-async function generateAI(){
-  const topic = document.querySelector('input').value;
-  const box = document.getElementById("outputBox");
-
-  box.value = "Generating...";
-
-  try{
-    const res = await fetch("/generate",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({
-        topic: topic,
-        type: currentTab
-      })
-    });
-
-    const data = await res.json();
-    box.value = data.result || "No response";
-  }catch(e){
-    box.value = "Error connecting to AI";
   }
 }
 
@@ -394,41 +235,5 @@ function copyOutput(){
 }
 </script>
 
-let currentTab = "scripts";
-
-function setTab(tab){
-    currentTab = tab;
-    document.querySelectorAll(".tab").forEach(btn=>{
-        btn.classList.remove("active");
-    });
-    event.target.classList.add("active");
-}
-
-async function generateAI(){
-    const topic = document.querySelector("input").value;
-    const output = document.getElementById("outputBox");
-
-    output.value = "Generating...";
-
-    const res = await fetch("/api/generate",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            topic:topic,
-            type:currentTab
-        })
-    });
-
-    const data = await res.json();
-    output.value = data.result;
-}
-
-function copyOutput(){
-    const box = document.getElementById("outputBox");
-    box.select();
-    document.execCommand("copy");
-}
-
-</script>
 </body>
 </html>
