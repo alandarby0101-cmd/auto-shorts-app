@@ -228,7 +228,7 @@ async function generateAI(){
     }
 
     const json = await res.json();
-    box.value = json.text || "No response.";
+  box.value = json.result || "No response.";
   }catch(err){
     box.value = "AI connection failed.";
   }
