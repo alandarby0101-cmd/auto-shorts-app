@@ -210,17 +210,17 @@ async function generateAI(){
   box.value = "Generating...";
 
   try{
-    const res = await fetch(
-      "https://auto-shorts-app-h3lw.onrender.com/api/generate",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: topic,
-          type: currentTab
-        })
-      }
-    );
+const res = await fetch(
+  "https://auto-shorts-app-h3lw.onrender.com/api/generate",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: topic,
+      type: currentTab
+    })
+  }
+);
 
     if(!res.ok){
       box.value = "AI error: " + res.status;
@@ -228,7 +228,7 @@ async function generateAI(){
     }
 
     const json = await res.json();
-  box.value = json.result || "No response.";
+box.value = json.text || "No response.";
   }catch(err){
     box.value = "AI connection failed.";
   }
