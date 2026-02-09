@@ -204,32 +204,37 @@ function setTab(tab){
 }
 
 async function generateAI(){
-  const topic = document.querySelector('.input-row input').value;
-  const box = document.getElementById("outputBox");
+  const topic = document.querySelector('.input-row input')?.value || '';
+  const box = document.getElementById('outputBox');
+  if(!box) return;
 
   box.value = "Generating...";
 
-  try{
-const res = await fetch(
-  "https://auto-shorts-app-h3lw.onrender.com/api/generate",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      prompt: topic,
-      type: currentTab
-    })
-  }
-);
+  try {
+    const res = await fetch("https://auto-shorts-app-h3lw.onrender.com/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: topic,
+        type: currentTab
+      })
+    });
+
+    const data = await res.json();
 
     if(!res.ok){
       box.value = "AI error: " + res.status;
       return;
     }
 
-    const json = await res.json();
-box.value = json.text || "No response.";
-  }catch(err){
+    box.value =
+      data.text ||
+      data.result ||
+      data.output ||
+      "No response.";
+
+  } catch (err){
+    console.error(err);
     box.value = "AI connection failed.";
   }
 }
