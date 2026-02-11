@@ -238,9 +238,10 @@ async function generateAI(){
       return;
     }
 
-if(currentTab === "scripts") box.value = data.script || "No script.";
-if(currentTab === "hooks") box.value = data.hook || "No hook.";
-if(currentTab === "captions") box.value = data.captions || "No captions.";
+lastAIResponse = data;   // store everything once
+
+// show whichever tab is currently selected
+setTab(currentTab);
 
   } catch (err){
     console.error(err);
