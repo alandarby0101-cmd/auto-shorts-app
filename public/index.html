@@ -196,14 +196,14 @@ border-radius:10px;
 let currentTab = "scripts";
 let lastAIResponse = null;
 
-function setTab(tab){
+function setTab(tab, evt) {
   currentTab = tab;
 
   document.querySelectorAll(".tab").forEach(btn=>{
     btn.classList.remove("active");
   });
 
-  event.target.classList.add("active");
+ if(evt) evt.target.classList.add("active");
 
   const box = document.getElementById("outputBox");
 
