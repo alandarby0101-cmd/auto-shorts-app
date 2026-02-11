@@ -194,13 +194,24 @@ border-radius:10px;
 
 <script>
 let currentTab = "scripts";
+let lastAIResponse = null;
 
 function setTab(tab){
   currentTab = tab;
+
   document.querySelectorAll(".tab").forEach(btn=>{
     btn.classList.remove("active");
   });
+
   event.target.classList.add("active");
+
+  const box = document.getElementById("outputBox");
+
+  if(!lastAIResponse) return;
+
+  if(tab === "scripts") box.value = lastAIResponse.script || "No script.";
+  if(tab === "hooks") box.value = lastAIResponse.hook || "No hook.";
+  if(tab === "captions") box.value = lastAIResponse.captions || "No captions.";
 }
 
 async function generateAI(){
