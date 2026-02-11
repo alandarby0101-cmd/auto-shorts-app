@@ -227,11 +227,9 @@ async function generateAI(){
       return;
     }
 
-    box.value =
-      data.text ||
-      data.result ||
-      data.output ||
-      "No response.";
+if(currentTab === "scripts") box.value = json.script || "No script.";
+if(currentTab === "hooks") box.value = json.hook || "No hook.";
+if(currentTab === "captions") box.value = json.captions || "No captions.";
 
   } catch (err){
     console.error(err);
