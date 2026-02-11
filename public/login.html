@@ -1,20 +1,114 @@
 <!DOCTYPE html>
-<html>
-<body style="background:#0b0f2a;color:white;font-family:system-ui;padding:40px">
-<h2>Login</h2>
-<input id="email" placeholder="email" />
-<button onclick="login()">Login</button>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login — Auto Shorts AI</title>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:
+    radial-gradient(circle at 30% 20%, #1b2b6f, #0b0f2a 60%);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+/* glass card like main UI */
+.card{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px);
+  border-radius:16px;
+  padding:40px;
+  width:320px;
+  box-shadow:0 0 40px rgba(0,0,0,0.4);
+  text-align:center;
+}
+
+h2{
+  margin-top:0;
+  font-weight:600;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  font-size:14px;
+}
+
+button{
+  margin-top:16px;
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,#6ae3ff,#8b9cff);
+  color:#001;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.error{
+  margin-top:10px;
+  font-size:13px;
+  color:#ff6b6b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Login</h2>
+
+  <input id="email" placeholder="Enter your email" />
+
+  <button onclick="login()">Login</button>
+
+  <div id="error" class="error"></div>
+</div>
 
 <script>
-async function login() {
+async function login(){
+
   const email = document.getElementById("email");
-  await fetch("/api/login",{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ email: email.value })
-  });
-  window.location = "/pro";
+  const errorBox = document.getElementById("error");
+
+  errorBox.textContent = "";
+
+  try{
+
+    const res = await fetch("/login",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ email: email.value })
+    });
+
+    if(res.ok){
+      // success → go to pro page
+      window.location="/pro";
+      return;
+    }
+
+    errorBox.textContent = "Login failed.";
+
+  }catch(err){
+    console.error(err);
+    errorBox.textContent = "Server error.";
+  }
 }
 </script>
+
 </body>
 </html>
