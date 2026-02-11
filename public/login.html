@@ -7,7 +7,8 @@
 
 <script>
 async function login() {
-  await fetch("/login", {
+  const email = document.getElementById("email");
+  await fetch("/api/login",{
     method:"POST",
     headers:{ "Content-Type":"application/json" },
     body: JSON.stringify({ email: email.value })
