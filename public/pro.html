@@ -22,7 +22,8 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  align-items: start;
+  grid-template-columns: 220px 1fr 300xp;
   gap: 24px;
   padding: 30px;
 }
@@ -107,6 +108,8 @@ textarea {
     border-radius: 20px;
     padding: 30px;
     width: 320px;
+    height: fit-content;
+align-self: start;
     backdrop-filter: blur(12px);
     box-shadow: 0 0 40px rgba(80, 140, 255, 0.25);
 }
@@ -117,7 +120,39 @@ textarea {
     gap: 12px;
     margin-bottom: 20px;
 }
+/* ===========================
+   EDIT PROFILE MODAL
+=========================== */
 
+#editModal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(5,10,25,0.8);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.modal-box{
+  background:rgba(20,30,60,0.95);
+  padding:25px;
+  border-radius:18px;
+  width:320px;
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(120,160,255,0.4);
+}
+
+.modal-box input{
+  width:100%;
+  margin:10px 0;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+}
 .pro-icon {
     font-size: 28px;
 }
@@ -180,13 +215,26 @@ textarea {
       <span class="stat-value" id="videoCount">0</span>
     </div>
   </div>
-
-  <button class="edit-profile-btn">
+<button class="edit-profile-btn" onclick="openEdit()"></button>
     Edit Profile
   </button>
 
 </div>
+<!-- EDIT PROFILE MODAL -->
+<div id="editProfileModal" class="edit-modal">
+  <div class="edit-card">
 
+    <h3>Edit Profile</h3>
+
+    <input id="nameInput" placeholder="Enter display name" />
+
+    <input type="file" id="imageInput" />
+
+    <button onclick="saveProfile()">Save</button>
+    <button onclick="closeEdit()">Cancel</button>
+
+  </div>
+</div>
   <!-- MAIN -->
   <div>
     <div class="section">
@@ -225,7 +273,53 @@ textarea {
   </div>
 
 </div>
+<!-- EDIT PROFILE MODAL -->
+<div id="profileModal" class="profile-modal" style="display:none;">
+  <div class="profile-modal-box">
+
+    <h3>Edit Profile</h3>
+
+    <input id="nameInput" placeholder="Enter profile name" />
+
+    <input type="file" id="imageInput" accept="image/*" />
+
+    <button id="saveProfileBtn">Save</button>
+    <button id="closeProfileBtn">Cancel</button>
+
+  </div>
+</div>
 
 <script src="./pro.js"></script>
+<script>
+function openEdit(){
+  document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEdit(){
+  document.getElementById("editModal").style.display = "none";
+}
+
+function saveProfile(){
+
+  const newName = document.getElementById("nameInput").value;
+  const fileInput = document.getElementById("imageInput");
+
+  // change username text
+  if(newName){
+    document.getElementById("username").textContent = newName;
+  }
+
+  // change profile image
+  if(fileInput.files && fileInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      document.getElementById("profileImg").src = e.target.result;
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+
+  closeEdit();
+}
+</script>
 </body>
 </html>
