@@ -14,6 +14,10 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  const savedName = localStorage.getItem("profileName");
+if(savedName){
+    document.getElementById("username").innerText = savedName;
+}
   /* =========================
      DOM ELEMENTS
   ========================= */
@@ -186,7 +190,10 @@ function saveProfile(){
     // SAVE NAME
     if(name){
         localStorage.setItem("profileName", name);
-        document.getElementById("username").innerText = name;
+        const userEl = document.getElementById("username");
+if(userEl){
+  userEl.innerText = name;
+}
     }
 
     // SAVE IMAGE
