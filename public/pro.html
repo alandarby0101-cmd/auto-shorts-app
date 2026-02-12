@@ -22,7 +22,7 @@ body {
 
 .container {
   display: grid;
-  grid-template-columns: 260px 1fr 360px;
+  grid-template-columns: 340px 1fr;
   gap: 24px;
   padding: 30px;
 }
@@ -96,6 +96,69 @@ textarea {
   text-align:center;
   margin-top:20px;
 }
+  
+/* ===========================
+   PRO USER CARD REDESIGN
+=========================== */
+
+.pro-user-card {
+    background: rgba(20, 30, 60, 0.85);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    border-radius: 20px;
+    padding: 30px;
+    width: 320px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 40px rgba(80, 140, 255, 0.25);
+}
+
+.pro-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.pro-icon {
+    font-size: 28px;
+}
+
+.pro-stats {
+    margin-bottom: 25px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.stat-label {
+    color: #9fb0ff;
+}
+
+.stat-value {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.edit-profile-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #4f8cff, #9f6bff);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(120, 160, 255, 0.6);
+}
+
 </style>
 </head>
 
@@ -104,11 +167,25 @@ textarea {
 <div class="container">
 
   <!-- PROFILE -->
-  <div class="profile">
-    <img src="/logo.png" width="72" />
+<div class="pro-user-card">
+
+  <div class="pro-header">
+    <span class="pro-icon">🚀</span>
     <h3 id="username">Pro User</h3>
-    <div>Videos: <span id="videoCount">0</span></div>
   </div>
+
+  <div class="pro-stats">
+    <div class="stat">
+      <span class="stat-label">Videos</span>
+      <span class="stat-value" id="videoCount">0</span>
+    </div>
+  </div>
+
+  <button class="edit-profile-btn">
+    Edit Profile
+  </button>
+
+</div>
 
   <!-- MAIN -->
   <div>
