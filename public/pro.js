@@ -166,3 +166,45 @@ document.addEventListener("DOMContentLoaded", () => {
     state.videoReady = true;
   });
   });
+  /* =========================
+   SAVE PROFILE (UI ONLY)
+========================= */
+
+function saveProfile() {
+
+  const nameInput = document.getElementById("nameInput");
+  const fileInput = document.getElementById("imageInput");
+
+  const name = nameInput ? nameInput.value.trim() : "";
+
+  // ✅ update username instantly
+  if (name) {
+    const username = document.getElementById("username");
+    if (username) {
+      username.textContent = name;
+    }
+  }
+
+  // ✅ preview uploaded image instantly
+  const file = fileInput && fileInput.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const icon = document.querySelector(".pro-icon");
+
+      if (icon) {
+        icon.innerHTML = `
+          <img src="${e.target.result}"
+               style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
+        `;
+      }
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  // close modal
+  closeEdit();
+}
