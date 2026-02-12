@@ -15,6 +15,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(session({
+  secret: "autoshorst_secret_key",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
 const PORT = process.env.PORT || 3000;
 
 /* =========================
@@ -53,6 +59,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/pro", (req, res) => {
+
+  // if NOT logged in → send to login
+  if (!req.session.user) {
+    return res.redirect("/login.html");
+  }
+
+  // if logged in → allow access
   res.sendFile(path.join(__dirname, "../public/pro.html"));
 });
 
@@ -171,6 +184,19 @@ app.post("/api/create-account", async (req, res) => {
     console.error("Create account error:", err);
     res.status(500).json({ error: "Server error" });
   }
+});
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  // TEMP simple login check (we will improve later)
+  if (!email || !password) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
+  // save user into session
+  req.session.user = { email };
+
+  res.json({ success: true });
 });
 /* =========================
    SERVER START

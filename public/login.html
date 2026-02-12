@@ -73,7 +73,7 @@ button:hover{
   <h2>Login</h2>
 
   <input id="email" placeholder="Enter your email" />
-
+<input id="password" type="password" placeholder="Enter your password">
   <button onclick="login()">Login</button>
 
   <div id="error" class="error"></div>
@@ -83,17 +83,21 @@ button:hover{
 async function login(){
 
   const email = document.getElementById("email");
+  const password = document.getElementById("password");
   const errorBox = document.getElementById("error");
 
   errorBox.textContent = "";
 
   try{
 
-    const res = await fetch("/login",{
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ email: email.value })
-    });
+const res = await fetch("/login", {
+  method:"POST",
+  headers:{ "Content-Type":"application/json" },
+  body: JSON.stringify({
+    email: email.value,
+    password: password.value
+  })
+});
 
     if(res.ok){
       // success → go to pro page
