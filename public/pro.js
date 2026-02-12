@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const savedName = localStorage.getItem("profileName");
 if(savedName){
-    document.getElementById("username").innerText = savedName;
+    const userEl = document.getElementById("username");
+if(userEl){
+userEl.innerText = savedName;
+}
 }
   /* =========================
      DOM ELEMENTS
