@@ -166,10 +166,70 @@ document.addEventListener("DOMContentLoaded", () => {
     state.videoReady = true;
   });
   });
+  /* ================================
+   EDIT PROFILE SAVE SYSTEM
+================================ */
+
+function openEdit(){
+    document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEdit(){
+    document.getElementById("editModal").style.display = "none";
+}
+
+function saveProfile(){
+
+    const name = document.getElementById("nameInput").value;
+    const fileInput = document.getElementById("imageInput");
+
+    // SAVE NAME
+    if(name){
+        localStorage.setItem("profileName", name);
+        document.getElementById("username").innerText = name;
+    }
+
+    // SAVE IMAGE
+    const file = fileInput.files[0];
+
+    if(file){
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+            localStorage.setItem("profileImage", e.target.result);
+
+            document.querySelector(".pro-icon").innerHTML =
+                `<img src="${e.target.result}" style="width:32px;height:32px;border-radius:50%">`;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    closeEdit();
+}
+
+
+/* ================================
+   LOAD SAVED PROFILE ON PAGE LOAD
+================================ */
+
+window.addEventListener("load", () => {
+
+    const savedName = localStorage.getItem("profileName");
+    const savedImage = localStorage.getItem("profileImage");
+
+    if(savedName){
+        document.getElementById("username").innerText = savedName;
+    }
+
+    if(savedImage){
+        document.querySelector(".pro-icon").innerHTML =
+            `<img src="${savedImage}" style="width:32px;height:32px;border-radius:50%">`;
+    }
+});
   /* =========================
    SAVE PROFILE (UI ONLY)
 ========================= */
-
 function saveProfile() {
 
   const nameInput = document.getElementById("nameInput");
@@ -177,34 +237,34 @@ function saveProfile() {
 
   const name = nameInput ? nameInput.value.trim() : "";
 
-  // ✅ update username instantly
   if (name) {
+    localStorage.setItem("profileName", name);
+
     const username = document.getElementById("username");
-    if (username) {
-      username.textContent = name;
-    }
+    if (username) username.textContent = name;
   }
 
-  // ✅ preview uploaded image instantly
   const file = fileInput && fileInput.files[0];
 
   if (file) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
+
+      const imageData = e.target.result;
+
+      localStorage.setItem("profileImage", imageData);
+
       const icon = document.querySelector(".pro-icon");
 
       if (icon) {
-        icon.innerHTML = `
-          <img src="${e.target.result}"
-               style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
-        `;
+        icon.innerHTML =
+          '<img src="' + imageData + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">';
       }
     };
 
     reader.readAsDataURL(file);
   }
 
-  // close modal
   closeEdit();
 }
