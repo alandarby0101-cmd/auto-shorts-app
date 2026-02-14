@@ -8,9 +8,7 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 20% 20%, #1c2f7a, #050b2c),
-    linear-gradient(120deg, #060d3a, #020620);
+  background: #060d3a;
   color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
