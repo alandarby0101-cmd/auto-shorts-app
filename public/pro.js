@@ -195,7 +195,7 @@ function saveProfile() {
     }
 
     // Save to browser storage
-    localStorage.setItem("proUsername", name);
+    localStorage.setItem("profileName", name);
 
     // Update display immediately
     document.getElementById("displayName").innerText = name;
