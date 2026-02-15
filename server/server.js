@@ -37,6 +37,7 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "../public")));
+app.use("/output", express.static("server/output"));
 
 /* =========================
    STRIPE SUCCESS LOGIN
@@ -176,7 +177,8 @@ app.post("/api/create-account", async (req, res) => {
     const { email, password } = req.body;
 
     console.log("Creating account for:", email);
-
+// log user in immediately after account creation
+req.session.user = { email };
     // temporary success response
     res.json({ success: true });
 
