@@ -361,26 +361,23 @@ function closeEdit(){
   document.getElementById("editModal").style.display = "none";
 }
 
+
 function saveProfile(){
 
-  const newName = document.getElementById("nameInput").value;
-  const fileInput = document.getElementById("imageInput");
+    const newName = document.getElementById("nameInput").value.trim();
 
-  // change username text
-  if(newName){
+    if(!newName){
+        alert("Please enter a name.");
+        return;
+    }
+
+    // SAVE to localStorage
+    localStorage.setItem("profileName", newName);
+
+    // Update UI immediately
     document.getElementById("username").textContent = newName;
-  }
 
-  // change profile image
-  if(fileInput.files && fileInput.files[0]){
-    const reader = new FileReader();
-    reader.onload = function(e){
-      document.getElementById("profileImg").src = e.target.result;
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-  }
-
-  closeEdit();
+    closeEdit();
 }
 </script>
 </body>
