@@ -166,7 +166,8 @@ userEl.innerText = savedName;
 
 videoPreview.innerHTML = `
   <video controls autoplay style="width:100%;border-radius:12px; max-height:500px; object-fit:contain;">
-    <source src="/output/final.mp4" type="video/mp4">
+   <source src="/output/final.mp4" type="video/mp4">
+
   </video>
 `;
 

@@ -1,6 +1,8 @@
 import express from "express";
 import OpenAI from "openai";
-
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 const router = express.Router();
 
 const client = new OpenAI({
@@ -54,6 +56,11 @@ Captions should be hashtags only.
     // Parse AI JSON safely
     const parsed = JSON.parse(raw);
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const outputPath = path.join(__dirname, "../output/script.txt");
     res.json(parsed);
 
   } catch (err) {
