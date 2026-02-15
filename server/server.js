@@ -139,9 +139,10 @@ app.post("/api/generate-video", async (req, res) => {
     // this is where Replicate will plug in later
     // for now it returns a real downloadable file path
 
-    const videoUrl = "/videos/sample.mp4";
+    const videoUrl = "/output/final.mp4";
 
-    res.json({ url: videoUrl });
+    res.json({ ok: true, videoUrl: videoUrl });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Video generation failed" });
