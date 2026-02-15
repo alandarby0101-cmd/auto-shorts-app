@@ -5,12 +5,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 const router = express.Router();
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 router.post("/generate", async (req, res) => {
   try {
+    const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
     const { prompt, type } = req.body;
 
     if (!prompt) {

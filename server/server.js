@@ -11,7 +11,7 @@ import Stripe from "stripe";
 import videoRoute from "./routes/video.js";
 
 console.log("OPENAI KEY LOADED:", !!process.env.OPENAI_API_KEY);
-
+console.log("ACTUAL OPENAI KEY VALUE:", process.env.OPENAI_API_KEY);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 

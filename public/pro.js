@@ -164,18 +164,28 @@ await fetch("/api/video", {
   /* =========================
      PREVIEW VIDEO BUTTON
   ========================= */
-  previewBtn.addEventListener("click", () => {
+previewBtn.addEventListener("click", async () => {
 
-videoPreview.innerHTML = `
-  <video controls autoplay style="width:100%;border-radius:12px; max-height:500px; object-fit:contain;">
-   <source src="/output/final.mp4" type="video/mp4">
+  videoPreview.innerHTML = "Generating AI video...";
 
-  </video>
-`;
-
-    state.videoReady = true;
+  const response = await fetch("/api/video", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      prompt: state.script   // send the generated script
+    })
   });
-  });
+
+  const data = await response.json();
+
+  videoPreview.innerHTML = `
+    <video controls autoplay style="width:100%;border-radius:12px;max-height:500px;">
+      <source src="${data.videoUrl}" type="video/mp4">
+    </video>
+  `;
+});
   /* ================================
    EDIT PROFILE SAVE SYSTEM
 ================================ */
@@ -221,4 +231,5 @@ window.addEventListener("load", () => {
     }
 
     
+});
 });

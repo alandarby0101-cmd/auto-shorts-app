@@ -14,17 +14,17 @@ const __dirname = path.dirname(__filename);
 
 router.post("/", async (req, res) => {
 // PROFIT PROTECTION
-const user = req.session.user;
+// const user = req.session.user;
 
-if (!user) {
-  return res.status(401).json({ error: "Not logged in" });
-}
+// if (!user) {
+//   return res.status(401).json({ error: "Not logged in" });
+// }
 
-if (user.usage >= user.limit) {
-  return res.status(403).json({
-    error: "Monthly video limit reached. Upgrade to continue."
-  });
-}
+// if (user.usage >= user.limit) {
+//   return res.status(403).json({
+//     error: "Monthly video limit reached. Upgrade to continue."
+//   });
+// }
 
   try {
     // 🔥 Generate cinematic video using Replicate
