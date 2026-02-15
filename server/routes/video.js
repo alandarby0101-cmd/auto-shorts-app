@@ -88,6 +88,8 @@ if (prediction.status === "succeeded") {
     const videoOnly = path.join(out, "video_only.mp4");
     const finalVideo = path.join(out, "final.mp4");
 
+    outputUrl = "/output/final.mp4";
+
     // frames → video
     execSync(
       `ffmpeg -y -f concat -safe 0 -i "${framesTxt}" -vsync vfr -pix_fmt yuv420p "${videoOnly}"`,

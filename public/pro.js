@@ -126,7 +126,9 @@ userEl.innerText = savedName;
       }
 
       const data = await res.json();
-
+await fetch("/api/video", {
+  method: "POST"
+});
       /* EXPECTED RESPONSE FORMAT FROM SERVER:
          {
            script: "...",
