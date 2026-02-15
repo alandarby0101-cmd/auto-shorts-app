@@ -8,6 +8,7 @@ import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import { fileURLToPath } from "url";
 import Stripe from "stripe";
+import videoRoute from "./routes/video.js";
 
 console.log("OPENAI KEY LOADED:", !!process.env.OPENAI_API_KEY);
 
@@ -36,7 +37,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use("/api/video", videoRoute);
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/output", express.static("server/output"));
 
