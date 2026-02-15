@@ -5,6 +5,7 @@
     "express-session": "^1.19.0",
     "node-fetch": "^3.3.2",
     "openai": "^6.16.0",
+    "replicate": "^1.4.0",
     "stripe": "^20.2.0"
   }
 }

@@ -28,11 +28,22 @@ router.post("/", async (req, res) => {
     let index = 1;
 
     for (const scene of scenes) {
-      const prompt = `
-Cinematic vertical video frame for TikTok.
-Mood: ${scene.emotion}
-Scene: ${scene.visual}
-Style: dramatic lighting, cinematic, ultra realistic, 4k, film still
+const prompt = `
+Vertical 9:16 cinematic film still for TikTok.
+
+Scene description:
+${scene.visual}
+
+Emotional tone:
+${scene.emotion}
+
+Ultra realistic, cinematic lighting, volumetric light beams,
+dramatic shadows, shallow depth of field,
+35mm film photography, anamorphic lens,
+subtle film grain, dynamic camera angle,
+moody color grading, high detail skin texture,
+professional movie still, sharp focus subject,
+background depth blur, high production value.
 `;
 
       const image = await openai.images.generate({

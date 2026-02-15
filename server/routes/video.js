@@ -3,7 +3,11 @@ import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
 import { fileURLToPath } from "url";
+import Replicate from "replicate";
 
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +27,29 @@ if (user.usage >= user.limit) {
 }
 
   try {
+    // 🔥 Generate cinematic video using Replicate
+const prediction = await replicate.predictions.create({
+    model: "lucataco/hotshot-xl",
+    input: {
+        prompt: "cinematic dramatic scene, ultra realistic, 4k",
+        num_frames: 24
+    }
+});
+
+let outputUrl;
+
+while (prediction.status !== "succeeded" && prediction.status !== "failed") {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const updated = await replicate.predictions.get(prediction.id);
+    prediction.status = updated.status;
+    prediction.output = updated.output;
+}
+
+if (prediction.status === "succeeded") {
+    outputUrl = prediction.output[0];
+} else {
+    throw new Error("Replicate video generation failed");
+}
     const out = path.join(__dirname, "../output");
     const framesDir = path.join(out, "frames");
     const voicePath = path.join(out, "voice.mp3");
@@ -73,13 +100,10 @@ if (user.usage >= user.limit) {
       { stdio: "inherit" }
     );
 
-    res.json({
-      ok: true,
-      frames: frames.length,
-      duration,
-      secondsPerFrame,
-      output: "final.mp4"
-    });
+  res.json({
+    ok: true,
+    videoUrl: outputUrl
+});
 
   } catch (e) {
     console.error(e);
