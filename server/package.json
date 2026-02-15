@@ -14,6 +14,7 @@
     "express": "^4.22.1",
     "express-session": "^1.19.0",
     "openai": "^4.104.0",
+    "replicate": "^1.4.0",
     "stripe": "^20.1.2"
   },
   "devDependencies": {
