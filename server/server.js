@@ -27,6 +27,7 @@ const PORT = process.env.PORT || 3000;
    MIDDLEWARE
 ========================= */
 app.use(bodyParser.json());
+app.use("/output", express.static(path.join(__dirname, "output")));
 app.use("/api", generateRoute);
 app.use(
   session({
