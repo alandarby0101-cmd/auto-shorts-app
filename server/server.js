@@ -9,6 +9,8 @@ import fetch from "node-fetch";
 import { fileURLToPath } from "url";
 import Stripe from "stripe";
 import videoRoute from "./routes/video.js";
+import Replicate from "replicate";
+const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 
 console.log("OPENAI KEY LOADED:", !!process.env.OPENAI_API_KEY);
 console.log("ACTUAL OPENAI KEY VALUE:", process.env.OPENAI_API_KEY);
@@ -139,9 +141,24 @@ app.post("/api/generate-video", async (req, res) => {
     // this is where Replicate will plug in later
     // for now it returns a real downloadable file path
 
-    const videoUrl = "/output/final.mp4";
+ 
 
-    res.json({ ok: true, videoUrl: videoUrl });
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
+
+const output = await replicate.run(
+  "lucataco/hotshot-xl:latest",
+  {
+    input: {
+      prompt: req.body.prompt,
+    },
+  }
+);
+
+const videoUrl = Array.isArray(output) ? output[0] : output;
+
+res.json({ ok: true, videoUrl });
 
   } catch (err) {
     console.error(err);
