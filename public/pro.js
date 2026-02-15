@@ -178,15 +178,15 @@ previewBtn.addEventListener("click", async () => {
 
   const data = await response.json();
 
-  if (data.videoUrl) {
-    videoPreview.innerHTML = `
-      <video controls autoplay style="width:100%;border-radius:12px; max-height:500px;">
-        <source src="${data.videoUrl}" type="video/mp4">
-      </video>
-    `;
-  } else {
-    videoPreview.innerHTML = "Video generation failed.";
-  }
+if (data.videoUrl) {
+  videoPreview.innerHTML = `
+    <video controls autoplay style="width:100%;border-radius:12px; max-height:500px;">
+      <source src="${data.videoUrl}" type="video/mp4">
+    </video>
+  `;
+} else {
+  videoPreview.innerHTML = "Video generation failed.";
+}
 
 });
   /* ================================
