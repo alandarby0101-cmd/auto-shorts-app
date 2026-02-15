@@ -164,11 +164,11 @@ userEl.innerText = savedName;
   ========================= */
   previewBtn.addEventListener("click", () => {
 
-    videoPreview.innerHTML = `
-      <video controls autoplay style="width:100%;border-radius:12px;">
-        <source src="/videos/sample.mp4" type="video/mp4">
-      </video>
-    `;
+videoPreview.innerHTML = `
+  <video controls autoplay style="width:100%;border-radius:12px; max-height:500px; object-fit:contain;">
+    <source src="/output/final.mp4" type="video/mp4">
+  </video>
+`;
 
     state.videoReady = true;
   });
