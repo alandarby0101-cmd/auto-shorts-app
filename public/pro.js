@@ -168,23 +168,26 @@ previewBtn.addEventListener("click", async () => {
 
   videoPreview.innerHTML = "Generating AI video...";
 
+  const scriptText = state.script;
+
   const response = await fetch("/api/video", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      prompt: state.script   // send the generated script
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: scriptText })
   });
 
   const data = await response.json();
 
-  videoPreview.innerHTML = `
-    <video controls autoplay style="width:100%;border-radius:12px;max-height:500px;">
-      <source src="${data.videoUrl}" type="video/mp4">
-    </video>
-  `;
+  if (data.videoUrl) {
+    videoPreview.innerHTML = `
+      <video controls autoplay style="width:100%;border-radius:12px; max-height:500px;">
+        <source src="${data.videoUrl}" type="video/mp4">
+      </video>
+    `;
+  } else {
+    videoPreview.innerHTML = "Video generation failed.";
+  }
+
 });
   /* ================================
    EDIT PROFILE SAVE SYSTEM
