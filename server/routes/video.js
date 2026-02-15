@@ -29,7 +29,7 @@ if (user.usage >= user.limit) {
   try {
     // 🔥 Generate cinematic video using Replicate
 const prediction = await replicate.predictions.create({
-  version: "7b3a625",
+  version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
   input: {
     prompt: "cinematic dramatic scene, ultra realistic, 4k",
     num_frames: 24
