@@ -53,18 +53,21 @@ router.post("/", async (req, res) => {
       fs.mkdirSync(framesDir, { recursive: true });
     }
 
-    if (!fs.existsSync(voicePath)) {
-      return res.status(400).json({ error: "voice.mp3 not found" });
-    }
+  // if (!fs.existsSync(voicePath)) {
+//   return res.status(400).json({ error: "voice.mp3 not found" });
+// }
+
 
     // 🔥 GET VOICE DURATION
-    const duration = parseFloat(
-      execSync(
-        `ffprobe -i "${voicePath}" -show_entries format=duration -v quiet -of csv="p=0"`
-      ).toString()
-    );
+// const duration = parseFloat(
+//   execSync(
+//     `ffprobe -i "${voicePath}" -show_entries format=duration -v quiet -of csv="p=0"`
+//   ).toString()
+// );
 
-    const secondsPerFrame = duration / frames.length;
+
+ const secondsPerFrame = 0.1;
+
 
     // 🔥 BUILD frames.txt from Replicate URLs
     let txt = "";
