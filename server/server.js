@@ -138,28 +138,26 @@ app.post("/api/generate", async (req, res) => {
 ========================= */
 app.post("/api/generate-video", async (req, res) => {
   try {
-    // this is where Replicate will plug in later
-    // for now it returns a real downloadable file path
+    const replicate = new Replicate({
+      auth: process.env.REPLICATE_API_TOKEN,
+    });
 
- 
+    const prediction = await replicate.predictions.create({
+      version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbf327a",
+      input: {
+        prompt: req.body.prompt,
+      },
+    });
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-});
+    const completed = await replicate.predictions.get(prediction.id);
 
-const output = await replicate.run(
-  "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbf3d27a",
-  {
-    input: {
-      prompt: req.body.prompt,
-    },
-  }
-);
+    if (completed.status !== "succeeded") {
+      return res.status(500).json({ error: "Video generation failed" });
+    }
 
-// 🔥 THIS is the correct extraction
-const videoUrl = output.url ? output.url() : output;
+    const videoUrl = completed.output[0];
 
-res.json({ ok: true, videoUrl });
+    res.json({ ok: true, videoUrl });
 
   } catch (err) {
     console.error(err);
