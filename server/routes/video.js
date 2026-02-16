@@ -13,8 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 router.post("/", async (req, res) => {
-  const replicateOutput = await replicate.run(
- "lucataco/hotshot-xl:7b8a3625d2b1f0e4f7b3e8f5c123456789abcdef123456789abcdef1234567",
+ const replicateOutput = await replicate.run(
+  "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
+
 
   {
     input: {
