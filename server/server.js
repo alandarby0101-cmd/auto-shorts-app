@@ -149,18 +149,14 @@ app.post("/api/generate-video", async (req, res) => {
       },
     });
 
-    const completed = await replicate.predictions.get(prediction.id);
-
-    if (completed.status !== "succeeded") {
-      return res.status(500).json({ error: "Video generation failed" });
-    }
+    // Wait until the prediction is complete
+    const completed = await replicate.wait(prediction);
 
     const videoUrl = completed.output[0];
 
     res.json({ ok: true, videoUrl });
-
   } catch (err) {
-    console.error(err);
+    console.error("VIDEO ERROR:", err);
     res.status(500).json({ error: "Video generation failed" });
   }
 });
