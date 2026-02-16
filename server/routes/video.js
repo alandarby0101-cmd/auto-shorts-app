@@ -13,6 +13,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 router.post("/", async (req, res) => {
+  const replicateOutput = await replicate.run(
+  "lucataco/hotshot-xl",
+  {
+    input: {
+      prompt: req.body.prompt,
+      width: 512,
+      height: 768
+    }
+  }
+);
+
+const frames = replicateOutput;
+
 // PROFIT PROTECTION
 // const user = req.session.user;
 
