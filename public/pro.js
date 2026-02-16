@@ -109,7 +109,7 @@ generateBtn.addEventListener("click", async () => {
   musicBox.innerText = "🎵 Selecting music...";
 
   try {
-    const res = await fetch("/api/generate", {
+    const res = await fetch("/api/generate-video", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -158,7 +158,7 @@ previewBtn.addEventListener("click", async () => {
 
   const scriptText = state.script;
 
-  const response = await fetch("/api/video", {
+  const response = await fetch("/api/generate-video", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: scriptText })
