@@ -165,7 +165,7 @@ if (result.status === "failed") {
   throw new Error("Replicate prediction failed");
 }
 
-const videoUrl = result.output[0];
+const videoUrl = result.output.url();
 
 
 res.json({ ok: true, videoUrl });
