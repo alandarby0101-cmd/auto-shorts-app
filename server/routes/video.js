@@ -14,7 +14,8 @@ const __dirname = path.dirname(__filename);
 
 router.post("/", async (req, res) => {
   const replicateOutput = await replicate.run(
-  "lucataco/hotshot-xl",
+ "lucataco/hotshot-xl:7b8a3625d2b1f0e4f7b3e8f5c123456789abcdef123456789abcdef1234567",
+
   {
     input: {
       prompt: req.body.prompt,
@@ -61,7 +62,7 @@ while (prediction.status !== "succeeded" && prediction.status !== "failed") {
 if (prediction.status === "succeeded") {
     outputUrl = prediction.output[0];
 } else {
-    throw new Error("Replicate video generation failed");
+
 }
     const out = path.join(__dirname, "../output");
     const framesDir = path.join(out, "frames");
@@ -72,10 +73,8 @@ if (prediction.status === "succeeded") {
       return res.status(400).json({ error: "voice.mp3 not found" });
     }
 
-    const frames = fs.readdirSync(framesDir).filter(f => f.endsWith(".png"));
-    if (frames.length === 0) {
-      return res.status(400).json({ error: "no frames found" });
-    }
+   const frames = replicateOutput;
+
 
     // 🔥 GET VOICE DURATION
     const duration = parseFloat(
@@ -86,12 +85,24 @@ if (prediction.status === "succeeded") {
 
     const secondsPerFrame = duration / frames.length;
 
-    // BUILD frames.txt
-    let txt = "";
-    frames.forEach(f => {
-      txt += `file '${path.join(framesDir, f).replace(/\\/g, "/")}'\n`;
-      txt += `duration ${secondsPerFrame}\n`;
-    });
+   // BUILD frames.txt from Replicate URLs
+let txt = "";
+
+for (let i = 0; i < frames.length; i++) {
+  const frameUrl = frames[i];
+  const framePath = path.join(framesDir, `frame_${i}.jpg`);
+
+  const response = await fetch(frameUrl);
+  const buffer = await response.arrayBuffer();
+  fs.writeFileSync(framePath, Buffer.from(buffer));
+
+  txt += `file '${framePath.replace(/\\/g, "/")}'\n`;
+  txt += `duration ${secondsPerFrame}\n`;
+}
+
+// repeat last frame (ffmpeg requirement)
+txt += `file '${path.join(framesDir, `frame_${frames.length - 1}.jpg`).replace(/\\/g, "/")}'\n`;
+
 
     // repeat last frame (ffmpeg requirement)
     txt += `file '${path.join(framesDir, frames[frames.length - 1]).replace(/\\/g, "/")}'\n`;
