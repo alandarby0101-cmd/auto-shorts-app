@@ -147,17 +147,26 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
-const output = await replicate.run(
-  "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
-  {
-    input: {
-      prompt: req.body.prompt,
-    },
-  }
-);
-console.log("REPLICATE OUTPUT:", output);
+const prediction = await replicate.predictions.create({
+  version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
+  input: {
+    prompt: req.body.prompt,
+  },
+});
 
-const videoUrl = Array.isArray(output) ? output[0] : output;
+let result = prediction;
+
+while (result.status !== "succeeded" && result.status !== "failed") {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  result = await replicate.predictions.get(prediction.id);
+}
+
+if (result.status === "failed") {
+  throw new Error("Replicate prediction failed");
+}
+
+const videoUrl = result.output[0];
+
 
 res.json({ ok: true, videoUrl });
 
