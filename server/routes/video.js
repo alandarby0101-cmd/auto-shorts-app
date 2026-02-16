@@ -46,12 +46,15 @@ const frames = replicateOutput;
 const prediction = await replicate.predictions.create({
   version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
   input: {
-    prompt: "cinematic dramatic scene, ultra realistic, 4k",
+    prompt: req.body.prompt,
     num_frames: 24
   }
 });
 
 let outputUrl;
+
+
+
 
 while (prediction.status !== "succeeded" && prediction.status !== "failed") {
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -61,18 +64,22 @@ while (prediction.status !== "succeeded" && prediction.status !== "failed") {
 }
 
 if (prediction.status === "succeeded") {
-    outputUrl = prediction.output[0];
-} else {
+   
+    if (!prediction.output || prediction.output.length === 0) {
+  return res.status(400).json({ error: "No frames returned from Replicate" });
+}
 
+ outputUrl = prediction.output[0];
 }
     const out = path.join(__dirname, "../output");
     const framesDir = path.join(out, "frames");
     const voicePath = path.join(out, "voice.mp3");
     const framesTxt = path.join(out, "frames.txt");
 
-    if (!fs.existsSync(voicePath)) {
-      return res.status(400).json({ error: "voice.mp3 not found" });
-    }
+   // if (!fs.existsSync(voicePath)) {
+ //   return res.status(400).json({ error: "voice.mp3 not found" });
+// }
+
 
    const frames = replicateOutput;
 
