@@ -148,7 +148,7 @@ const replicate = new Replicate({
 });
 
 const output = await replicate.run(
-  "lucataco/hotshot-xl:latest",
+  "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
   {
     input: {
       prompt: req.body.prompt,
