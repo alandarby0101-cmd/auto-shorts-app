@@ -155,6 +155,7 @@ const output = await replicate.run(
     },
   }
 );
+console.log("REPLICATE OUTPUT:", output);
 
 const videoUrl = Array.isArray(output) ? output[0] : output;
 
