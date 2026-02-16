@@ -4,6 +4,7 @@ import path from "path";
 import { execSync } from "child_process";
 import { fileURLToPath } from "url";
 import Replicate from "replicate";
+import fetch from "node-fetch";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -98,11 +99,9 @@ router.post("/", async (req, res) => {
       { stdio: "inherit" }
     );
 
-    // video + voice
-    execSync(
-      `ffmpeg -y -i "${videoOnly}" -i "${voicePath}" -map 0:v:0 -map 1:a:0 -c:v libx264 -c:a aac -shortest "${finalVideo}"`,
-      { stdio: "inherit" }
-    );
+  // 🔥 For now: export video without voice
+fs.copyFileSync(videoOnly, finalVideo);
+
 
     res.json({
       ok: true,
