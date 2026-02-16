@@ -97,59 +97,47 @@ userEl.innerText = savedName;
      Your backend MUST expose:
      POST /api/generate
   ========================= */
-  generateBtn.addEventListener("click", async () => {
+generateBtn.addEventListener("click", async () => {
+  const prompt = promptInput.value.trim();
 
-    const prompt = promptInput.value.trim();
+  if (!prompt) {
+    outputBox.innerText = "❌ Please enter a prompt.";
+    return;
+  }
 
-    if (!prompt) {
-      outputBox.innerText = "❌ Please enter a prompt.";
-      return;
+  outputBox.innerText = "⏳ Generating...";
+  musicBox.innerText = "🎵 Selecting music...";
+
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt: prompt,
+        type: state.activeTab
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error("AI request failed");
     }
 
-    outputBox.innerText = "⏳ Generating...";
-    musicBox.innerText = "🎵 Selecting music...";
+    const data = await res.json();
 
-    try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          type: state.activeTab
-        })
-      });
+    state.script = data.script || "";
+    state.hook = data.hook || "";
+    state.caption = data.captions || "";
 
-      if (!res.ok) {
-        throw new Error("AI request failed");
-      }
+    musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
 
-      const data = await res.json();
-await fetch("/api/video", {
-  method: "POST"
+    renderOutput();
+
+  } catch (err) {
+    console.error(err);
+    outputBox.innerText = "❌ Generation failed";
+  }
 });
-      /* EXPECTED RESPONSE FORMAT FROM SERVER:
-         {
-           script: "...",
-           hook: "...",
-           captions: "..."
-         }
-      */
 
-      state.script  = data.script || "";
-      state.hook    = data.hook || "";
-      state.caption = data.captions || "";
-
-      musicBox.innerText = `🎵 Auto-selected music for: ${prompt}`;
-
-      renderOutput();
-
-    } catch (err) {
-      console.error(err);
-      outputBox.innerText = "❌ Generation failed";
-    }
-  });
 
   /* =========================
      COPY BUTTON
