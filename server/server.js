@@ -1,4 +1,5 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ path: "./server/.env" });
 
 import generateRoute from "./routes/generate.js";
 import express from "express";
@@ -136,28 +137,34 @@ app.post("/api/generate", async (req, res) => {
 /* =========================
    VIDEO GENERATION
 ========================= */
+
 app.post("/api/generate-video", async (req, res) => {
   try {
-    const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN,
-    });
-
     const prediction = await replicate.predictions.create({
-      version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbf327a",
+      version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
       input: {
         prompt: req.body.prompt,
       },
     });
 
-    // Wait until the prediction is complete
-    const completed = await replicate.wait(prediction);
+    let result = prediction;
 
-    const videoUrl = completed.output[0];
+    while (result.status !== "succeeded" && result.status !== "failed") {
+      await new Promise((r) => setTimeout(r, 2000));
+      result = await replicate.predictions.get(prediction.id);
+    }
+
+    if (result.status === "failed") {
+      return res.status(500).json({ error: "Replicate failed" });
+    }
+
+    const videoUrl = result.output[0];
 
     res.json({ ok: true, videoUrl });
+
   } catch (err) {
-    console.error("VIDEO ERROR:", err);
-    res.status(500).json({ error: "Video generation failed" });
+    console.error("REAL ERROR:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
