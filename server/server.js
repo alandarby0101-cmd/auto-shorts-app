@@ -20,6 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(express.static(path.resolve("public")));
 app.use(session({
   secret: "autoshorst_secret_key",
   resave: false,
@@ -150,6 +151,9 @@ app.post("/api/generate-video", async (req, res) => {
     );
 
 console.log("RAW OUTPUT:", output);
+console.log("TYPE:", typeof output);
+console.log("HAS arrayBuffer:", typeof output?.arrayBuffer);
+console.log("HAS pipe:", typeof output?.pipe);
 
    const videoUrl = await saveBufferToPublic(output);
    
