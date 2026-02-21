@@ -164,7 +164,7 @@ while (true) {
 
 const buffer = Buffer.concat(chunks.map(chunk => Buffer.from(chunk)));
 
-const videoUrl = await saveBufferToPublic(buffer);
+const videoUrl = await saveBufferToPublic(output);
    
    return res.json({
      ok: true,
