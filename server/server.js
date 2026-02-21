@@ -155,7 +155,7 @@ console.log("TYPE:", typeof output);
 console.log("HAS arrayBuffer:", typeof output?.arrayBuffer);
 console.log("HAS pipe:", typeof output?.pipe);
 
-   const videoUrl = await saveBufferToPublic(output);
+   const videoUrl = output;
    
    return res.json({
      ok: true,
