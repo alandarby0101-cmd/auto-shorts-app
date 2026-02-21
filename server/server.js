@@ -151,11 +151,20 @@ app.post("/api/generate-video", async (req, res) => {
     );
 
 console.log("RAW OUTPUT:", output);
-console.log("TYPE:", typeof output);
-console.log("HAS arrayBuffer:", typeof output?.arrayBuffer);
-console.log("HAS pipe:", typeof output?.pipe);
 
-   const videoUrl = output;
+
+  const reader = output.getReader();
+const chunks = [];
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  chunks.push(value);
+}
+
+const buffer = Buffer.concat(chunks.map(chunk => Buffer.from(chunk)));
+
+const videoUrl = await saveBufferToPublic(buffer);
    
    return res.json({
      ok: true,
