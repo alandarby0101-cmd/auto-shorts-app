@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
     }
 
     // 🔥 Hotshot returns a VIDEO URL (not frames)
-    const videoUrl = prediction.output;
+    const videoUrl = prediction.output[0];
 
     const out = path.join(__dirname, "../output");
     if (!fs.existsSync(out)) {

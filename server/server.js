@@ -137,36 +137,77 @@ app.post("/api/generate", async (req, res) => {
 /* =========================
    VIDEO GENERATION
 ========================= */
-
 app.post("/api/generate-video", async (req, res) => {
   try {
-    const prediction = await replicate.predictions.create({
-      version: "78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
-      input: {
-        prompt: req.body.prompt,
-      },
-    });
+    const output = await replicate.run(
+      "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
+      {
+        input: {
+          prompt: req.body.prompt,
+        },
+      }
+    );
 
-    let result = prediction;
-
-    while (result.status !== "succeeded" && result.status !== "failed") {
-      await new Promise((r) => setTimeout(r, 2000));
-      result = await replicate.predictions.get(prediction.id);
-    }
-
-    if (result.status === "failed") {
-      return res.status(500).json({ error: "Replicate failed" });
-    }
-
-    const videoUrl = result.output[0];
-
-    res.json({ ok: true, videoUrl });
-
+    return res.json({ ok: true, videoUrl: output });
+    
   } catch (err) {
-    console.error("REAL ERROR:", err);
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    return res.status(500).json({ error: "Video generation failed" });
   }
 });
+
+
+// helper: save buffer/stream to disk and return web path
+async function saveBufferToPublic(bufferOrStream) {
+  const filename = `video-${Date.now()}.mp4`;
+  const publicDir = path.join(__dirname, "..", "public", "videos");
+  const outPath = path.join(publicDir, filename);
+  await fs.promises.mkdir(publicDir, { recursive: true });
+
+  // Node-style readable stream (output.pipe)
+  if (bufferOrStream && typeof bufferOrStream.pipe === "function") {
+    await new Promise((resolve, reject) => {
+      const ws = fs.createWriteStream(outPath);
+      bufferOrStream.pipe(ws);
+      ws.on("finish", resolve);
+      ws.on("error", reject);
+      bufferOrStream.on && bufferOrStream.on("error", reject);
+    });
+    return `/videos/${filename}`;
+  }
+
+  // If it has arrayBuffer() (Response-like / Web stream)
+  if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
+    const ab = await bufferOrStream.arrayBuffer();
+    await fs.promises.writeFile(outPath, Buffer.from(ab));
+    return `/videos/${filename}`;
+  }
+
+  // If it's an async iterable (for-await-of)
+  try {
+    const chunks = [];
+    for await (const chunk of bufferOrStream) {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
+    if (chunks.length) {
+      await fs.promises.writeFile(outPath, Buffer.concat(chunks));
+      return `/videos/${filename}`;
+    }
+  } catch (e) {
+    // fall through to fallback below
+  }
+
+  // If output already contains a URL
+  if (typeof bufferOrStream === "string") {
+    return bufferOrStream;
+  }
+  if (bufferOrStream && (bufferOrStream.url || bufferOrStream.url?.())) {
+    return bufferOrStream.url || (typeof bufferOrStream.url === "function" ? bufferOrStream.url() : bufferOrStream.url);
+  }
+
+  // fallback: try JSON -> string
+  return "";
+}
 
 /* =========================
    STRIPE CHECKOUT
