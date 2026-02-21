@@ -186,8 +186,8 @@ async function saveBufferToPublic(bufferOrStream) {
   await fs.promises.mkdir(publicDir, { recursive: true });
 
   // Node-style readable stream (output.pipe)
-if (bufferOrStream && bufferOrStream.getReader) {
-  const reader = bufferOrStream.getReader();
+async function saveBufferToPublic(stream) {
+  const reader = stream.getReader();
   const chunks = [];
 
   while (true) {
@@ -197,9 +197,13 @@ if (bufferOrStream && bufferOrStream.getReader) {
   }
 
   const buffer = Buffer.concat(chunks);
-  await fs.promises.writeFile(outPath, buffer);
 
-  return `/videos/${filename}`;
+  const fileName = `video-${Date.now()}.mp4`;
+  const filePath = path.join(__dirname, "..", "public", fileName);
+
+  await fs.promises.writeFile(filePath, buffer);
+
+  return `/` + fileName;
 }
 // Web ReadableStream (Replicate)
 if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
