@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: "./server/.env" });
 
+import * as fs from "fs";            
 import generateRoute from "./routes/generate.js";
 import express from "express";
 import session from "express-session";
