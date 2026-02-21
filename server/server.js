@@ -177,16 +177,21 @@ async function saveBufferToPublic(bufferOrStream) {
   await fs.promises.mkdir(publicDir, { recursive: true });
 
   // Node-style readable stream (output.pipe)
-  if (bufferOrStream && typeof bufferOrStream.pipe === "function") {
-    await new Promise((resolve, reject) => {
-      const ws = fs.createWriteStream(outPath);
-      bufferOrStream.pipe(ws);
-      ws.on("finish", resolve);
-      ws.on("error", reject);
-      bufferOrStream.on && bufferOrStream.on("error", reject);
-    });
-    return `/videos/${filename}`;
+if (bufferOrStream && bufferOrStream.getReader) {
+  const reader = bufferOrStream.getReader();
+  const chunks = [];
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
   }
+
+  const buffer = Buffer.concat(chunks);
+  await fs.promises.writeFile(outPath, buffer);
+
+  return `/videos/${filename}`;
+}
 // Web ReadableStream (Replicate)
 if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
   const reader = bufferOrStream.getReader();
