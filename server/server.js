@@ -183,7 +183,23 @@ async function saveBufferToPublic(bufferOrStream) {
     });
     return `/videos/${filename}`;
   }
+// Web ReadableStream (Replicate)
+if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
+  const reader = bufferOrStream.getReader();
+  const chunks = [];
+  let done = false;
 
+  while (!done) {
+    const result = await reader.read();
+    done = result.done;
+    if (result.value) chunks.push(result.value);
+  }
+
+  const buffer = Buffer.concat(chunks);
+  await fs.promises.writeFile(outPath, buffer);
+
+  return `/videos/${filename}`;
+}
   // If it has arrayBuffer() (Response-like / Web stream)
   if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
     const ab = await bufferOrStream.arrayBuffer();
