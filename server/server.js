@@ -150,7 +150,12 @@ app.post("/api/generate-video", async (req, res) => {
 
 console.log("RAW OUTPUT:", output);
 
-    return res.json({ ok: true, videoUrl: output });
+   const videoUrl = await saveBufferToPublic(output);
+   
+   return res.json({
+     ok: true,
+     videoUrl
+   });
     
   } catch (err) {
     console.error(err);
