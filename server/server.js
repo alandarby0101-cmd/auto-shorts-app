@@ -180,31 +180,34 @@ async function saveBufferToPublic(bufferOrStream) {
 
   let buffer;
 
-  // 1️⃣ If already a Buffer
+  // If already a Buffer
   if (Buffer.isBuffer(bufferOrStream)) {
     buffer = bufferOrStream;
   }
 
-  // 2️⃣ If Web ReadableStream (has getReader)
-  else if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
+  // If it's a Web Response-like object
+  else if (bufferOrStream?.arrayBuffer) {
+    const ab = await bufferOrStream.arrayBuffer();
+    buffer = Buffer.from(ab);
+  }
+
+  // If it's a ReadableStream
+  else if (bufferOrStream?.getReader) {
     const reader = bufferOrStream.getReader();
     const chunks = [];
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      if (value) chunks.push(Buffer.from(value));
+      chunks.push(Buffer.from(value));
     }
 
     buffer = Buffer.concat(chunks);
   }
 
-  // 3️⃣ If it has arrayBuffer()
-  else if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
-    const ab = await bufferOrStream.arrayBuffer();
-    buffer = Buffer.from(ab);
+  else {
+    throw new Error("Video data was not in a supported format.");
   }
-
 
   await fs.promises.writeFile(outPath, buffer);
 
