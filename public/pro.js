@@ -122,7 +122,7 @@ generateBtn.addEventListener("click", async () => {
       throw new Error("AI request failed");
     }
 
-   const data = await response.json();
+   const data = await res.json();
 
     state.script = data.script || "";
     state.hook = data.hook || "";
