@@ -136,7 +136,16 @@ app.post("/api/generate", async (req, res) => {
   }
 });
 
- 
+ async function saveBufferToPublic(buffer) {
+  const filename = `video-${Date.now()}.mp4`;
+  const publicDir = path.join(__dirname, "..", "public", "videos");
+  const outputPath = path.join(publicDir, filename);
+
+  await fs.promises.mkdir(publicDir, { recursive: true });
+  await fs.promises.writeFile(outputPath, buffer);
+
+  return `/videos/${filename}`;
+}
 /* =========================
    VIDEO GENERATION
 ========================= */
