@@ -161,25 +161,16 @@ app.post("/api/generate-video", async (req, res) => {
       }
     );
 
-    if (!output || typeof output.getReader !== "function") {
-      throw new Error("Expected ReadableStream from Replicate.");
-    }
+ // If Replicate returns a URL instead of stream
+if (typeof output === "string") {
+    return res.json({ videoUrl: output });
+}
 
-    res.setHeader("Content-Type", "video/mp4");
+if (Array.isArray(output) && typeof output[0] === "string") {
+    return res.json({ videoUrl: output[0] });
+}
 
-    const reader = output.getReader();
-
-    async function push() {
-      const { done, value } = await reader.read();
-      if (done) {
-        res.end();
-        return;
-      }
-      res.write(Buffer.from(value));
-      push();
-    }
-
-    push();
+throw new Error("Unexpected output format from Replicate.");
 
   } catch (err) {
     console.error("VIDEO GENERATION ERROR:", err);
