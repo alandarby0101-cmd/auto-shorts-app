@@ -150,6 +150,7 @@ app.post("/api/generate", async (req, res) => {
    VIDEO GENERATION
 ========================= */
 app.post("/api/generate-video", async (req, res) => {
+  console.log("BODY:", req.body);
   try {
     const output = await replicate.run(
       "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
