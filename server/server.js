@@ -205,9 +205,6 @@ async function saveBufferToPublic(bufferOrStream) {
     buffer = Buffer.from(ab);
   }
 
-  else {
-    throw new Error("Unsupported video output format");
-  }
 
   await fs.promises.writeFile(outPath, buffer);
 
