@@ -163,39 +163,30 @@ app.post("/api/generate-video", async (req, res) => {
     console.log("REPLICATE OUTPUT TYPE:", typeof output);
     console.log("REPLICATE OUTPUT:", output);
 
-    let buffer;
-
-    // Case 1: Web ReadableStream (what you're getting)
-    if (output && typeof output.getReader === "function") {
-      const reader = output.getReader();
-      const chunks = [];
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(Buffer.from(value));
-      }
-
-      buffer = Buffer.concat(chunks);
+    if (!output || typeof output.getReader !== "function") {
+      throw new Error("Expected ReadableStream from Replicate.");
     }
 
-    // Case 2: Already a Buffer
-    else if (Buffer.isBuffer(output)) {
-      buffer = output;
+    // 🔥 Convert Web ReadableStream → Buffer
+    const reader = output.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(Buffer.from(value));
     }
 
-    // Case 3: URL string (some models return this)
-    else if (typeof output === "string") {
-      const response = await fetch(output);
-      const arrayBuffer = await response.arrayBuffer();
-      buffer = Buffer.from(arrayBuffer);
-    }
+    const videoBuffer = Buffer.concat(chunks);
 
-    else {
-      throw new Error("Unsupported video output format");
-    }
+    const filename = `video-${Date.now()}.mp4`;
+    const publicDir = path.join(__dirname, "..", "public", "videos");
+    await fs.promises.mkdir(publicDir, { recursive: true });
 
-    const videoUrl = await saveBufferToPublic(buffer);
+    const filePath = path.join(publicDir, filename);
+    await fs.promises.writeFile(filePath, videoBuffer);
+
+    const videoUrl = `/videos/${filename}`;
 
     return res.json({
       ok: true,
