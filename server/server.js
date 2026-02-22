@@ -150,7 +150,7 @@ app.post("/api/generate-video", async (req, res) => {
         },
       }
     );
-
+console.log("REPLICATE OUTPUT:", output);
     // 🔥 IMPORTANT FIX
     // Replicate returns a URL string for this model
     if (!output || typeof output !== "string") {
