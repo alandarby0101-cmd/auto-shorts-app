@@ -137,7 +137,7 @@ app.post("/api/generate", async (req, res) => {
 });
 
  async function saveBufferToPublic(buffer) {
-  const filename = `video-${Date.now()}.gif`;
+  const filename = `video-${Date.now()}.mp4`;
   const publicDir = path.join(__dirname, "..", "public", "videos");
   const outputPath = path.join(publicDir, filename);
 

@@ -122,7 +122,7 @@ generateBtn.addEventListener("click", async () => {
       throw new Error("AI request failed");
     }
 
-    const data = await res.json();
+   const data = await response.json();
 
     state.script = data.script || "";
     state.hook = data.hook || "";
@@ -164,7 +164,14 @@ previewBtn.addEventListener("click", async () => {
     body: JSON.stringify({ prompt: scriptText })
   });
 
-  const data = await response.json();
+  const blob = await response.blob();
+const videoUrl = URL.createObjectURL(blob);
+
+videoPreview.innerHTML = `
+  <video controls autoplay style="width:100%;border-radius:12px;max-height:500px;">
+    <source src="${videoUrl}" type="video/mp4">
+  </video>
+`;
 
 if (data.videoUrl) {
   videoPreview.innerHTML = `
