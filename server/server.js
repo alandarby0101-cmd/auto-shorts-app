@@ -178,36 +178,42 @@ async function saveBufferToPublic(bufferOrStream) {
 
   await fs.promises.mkdir(publicDir, { recursive: true });
 
-  let buffer;
+let buffer;
 
-  // If already a Buffer
-  if (Buffer.isBuffer(bufferOrStream)) {
-    buffer = bufferOrStream;
-  }
+// 1️⃣ Already a Buffer
+if (Buffer.isBuffer(bufferOrStream)) {
+  buffer = bufferOrStream;
+}
 
-  // If it's a Web Response-like object
-  else if (bufferOrStream?.arrayBuffer) {
-    const ab = await bufferOrStream.arrayBuffer();
-    buffer = Buffer.from(ab);
-  }
+// 2️⃣ If it's a base64 string
+else if (typeof bufferOrStream === "string") {
+  buffer = Buffer.from(bufferOrStream, "base64");
+}
 
-  // If it's a ReadableStream
-  else if (bufferOrStream?.getReader) {
-    const reader = bufferOrStream.getReader();
-    const chunks = [];
+// 3️⃣ If it's OpenAI video response JSON
+else if (
+  bufferOrStream &&
+  bufferOrStream.output &&
+  bufferOrStream.output[0] &&
+  bufferOrStream.output[0].content &&
+  bufferOrStream.output[0].content[0] &&
+  bufferOrStream.output[0].content[0].data
+) {
+  const base64 = bufferOrStream.output[0].content[0].data;
+  buffer = Buffer.from(base64, "base64");
+}
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(Buffer.from(value));
-    }
+// 4️⃣ If it's a Response-like object (arrayBuffer)
+else if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
+  const ab = await bufferOrStream.arrayBuffer();
+  buffer = Buffer.from(ab);
+}
 
-    buffer = Buffer.concat(chunks);
-  }
-
-  else {
-    throw new Error("Video data was not in a supported format.");
-  }
+// ❌ If none of the above worked
+else {
+  console.error("Unsupported video format:", bufferOrStream);
+  throw new Error("Video data was not in a supported format.");
+}
 
   await fs.promises.writeFile(outPath, buffer);
 
