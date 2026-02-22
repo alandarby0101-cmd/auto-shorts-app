@@ -180,80 +180,39 @@ async function saveBufferToPublic(bufferOrStream) {
 
   let buffer;
 
-  // If it's already a Buffer
+  // 1️⃣ If already a Buffer
   if (Buffer.isBuffer(bufferOrStream)) {
     buffer = bufferOrStream;
-  } 
-  // If it's a ReadableStream (Replicate output)
-  else if (bufferOrStream?.getReader) {
+  }
+
+  // 2️⃣ If Web ReadableStream (has getReader)
+  else if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
     const reader = bufferOrStream.getReader();
     const chunks = [];
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      chunks.push(Buffer.from(value));
+      if (value) chunks.push(Buffer.from(value));
     }
 
     buffer = Buffer.concat(chunks);
-  } 
-  else {
-    throw new Error("Unsupported output type");
   }
 
-  await fs.promises.writeFile(outPath, buffer);
-
-  return `/videos/${filename}`;
-}
-// Web ReadableStream (Replicate)
-if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
-  const reader = bufferOrStream.getReader();
-  const chunks = [];
-  let done = false;
-
-  while (!done) {
-    const result = await reader.read();
-    done = result.done;
-    if (result.value) chunks.push(result.value);
-  }
-
-  const buffer = Buffer.concat(chunks);
-  await fs.promises.writeFile(outPath, buffer);
-
-  return `/videos/${filename}`;
-}
-  // If it has arrayBuffer() (Response-like / Web stream)
-  if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
+  // 3️⃣ If it has arrayBuffer()
+  else if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
     const ab = await bufferOrStream.arrayBuffer();
-    await fs.promises.writeFile(outPath, Buffer.from(ab));
-    return `/videos/${filename}`;
+    buffer = Buffer.from(ab);
   }
 
-  // If it's an async iterable (for-await-of)
-  try {
-    const chunks = [];
-    for await (const chunk of bufferOrStream) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    if (chunks.length) {
-      await fs.promises.writeFile(outPath, Buffer.concat(chunks));
-      return `/videos/${filename}`;
-    }
-  } catch (e) {
-    // fall through to fallback below
+  else {
+    throw new Error("Unsupported video output format");
   }
 
-  // If output already contains a URL
-  if (typeof bufferOrStream === "string") {
-    return bufferOrStream;
-  }
-  if (bufferOrStream && (bufferOrStream.url || bufferOrStream.url?.())) {
-    return bufferOrStream.url || (typeof bufferOrStream.url === "function" ? bufferOrStream.url() : bufferOrStream.url);
-  }
+  await fs.promises.writeFile(outPath, buffer);
 
-  // fallback: try JSON -> string
-  return "";
-
+  return `/videos/${filename}`;
+}
 
 /* =========================
    STRIPE CHECKOUT
