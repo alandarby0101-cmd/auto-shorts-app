@@ -175,27 +175,35 @@ async function saveBufferToPublic(bufferOrStream) {
   const filename = `video-${Date.now()}.mp4`;
   const publicDir = path.join(__dirname, "..", "public", "videos");
   const outPath = path.join(publicDir, filename);
+
   await fs.promises.mkdir(publicDir, { recursive: true });
 
-  // Node-style readable stream (output.pipe)
-async function saveBufferToPublic(stream) {
-  const reader = stream.getReader();
-  const chunks = [];
+  let buffer;
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    chunks.push(value);
+  // If it's already a Buffer
+  if (Buffer.isBuffer(bufferOrStream)) {
+    buffer = bufferOrStream;
+  } 
+  // If it's a ReadableStream (Replicate output)
+  else if (bufferOrStream?.getReader) {
+    const reader = bufferOrStream.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(Buffer.from(value));
+    }
+
+    buffer = Buffer.concat(chunks);
+  } 
+  else {
+    throw new Error("Unsupported output type");
   }
 
-  const buffer = Buffer.concat(chunks);
+  await fs.promises.writeFile(outPath, buffer);
 
-  const fileName = `video-${Date.now()}.mp4`;
-  const filePath = path.join(__dirname, "..", "public", fileName);
-
-  await fs.promises.writeFile(filePath, buffer);
-
-  return `/` + fileName;
+  return `/videos/${filename}`;
 }
 // Web ReadableStream (Replicate)
 if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
@@ -245,7 +253,7 @@ if (bufferOrStream && typeof bufferOrStream.getReader === "function") {
 
   // fallback: try JSON -> string
   return "";
-}
+
 
 /* =========================
    STRIPE CHECKOUT
