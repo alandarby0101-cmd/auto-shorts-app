@@ -150,10 +150,9 @@ app.post("/api/generate", async (req, res) => {
    VIDEO GENERATION
 ========================= */
 app.post("/api/generate-video", async (req, res) => {
-  console.log("BODY:", req.body);
   try {
     const output = await replicate.run(
-      "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbfd327a",
+      "lucataco/hotshot-xl:78b3a6257e16e4b241245d65c8b2b81ea2e1ff7ed4c55306b511509ddbf327a",
       {
         input: {
           prompt: req.body.prompt,
@@ -161,16 +160,9 @@ app.post("/api/generate-video", async (req, res) => {
       }
     );
 
- // If Replicate returns a URL instead of stream
-if (typeof output === "string") {
-    return res.json({ videoUrl: output });
-}
+    const videoUrl = Array.isArray(output) ? output[0] : output;
 
-if (Array.isArray(output) && typeof output[0] === "string") {
-    return res.json({ videoUrl: output[0] });
-}
-
-throw new Error("Unexpected output format from Replicate.");
+    res.json({ videoUrl });
 
   } catch (err) {
     console.error("VIDEO GENERATION ERROR:", err);
