@@ -150,7 +150,7 @@ app.post("/api/generate-video", async (req, res) => {
       }
     );
 
-console.log("RAW OUTPUT:", output);
+
 
 
   const reader = output.getReader();
