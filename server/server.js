@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(express.static(path.resolve("public")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(session({
   secret: "autoshorst_secret_key",
   resave: false,
