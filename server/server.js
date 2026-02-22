@@ -160,42 +160,29 @@ app.post("/api/generate-video", async (req, res) => {
       }
     );
 
-    console.log("REPLICATE OUTPUT TYPE:", typeof output);
-    console.log("REPLICATE OUTPUT:", output);
-
     if (!output || typeof output.getReader !== "function") {
       throw new Error("Expected ReadableStream from Replicate.");
     }
 
-    // 🔥 Convert Web ReadableStream → Buffer
-    const reader = output.getReader();
-    const chunks = [];
+    res.setHeader("Content-Type", "video/mp4");
 
-    while (true) {
+    const reader = output.getReader();
+
+    async function push() {
       const { done, value } = await reader.read();
-      if (done) break;
-      chunks.push(Buffer.from(value));
+      if (done) {
+        res.end();
+        return;
+      }
+      res.write(Buffer.from(value));
+      push();
     }
 
-    const videoBuffer = Buffer.concat(chunks);
-
-    const filename = `video-${Date.now()}.mp4`;
-    const publicDir = path.join(__dirname, "..", "public", "videos");
-    await fs.promises.mkdir(publicDir, { recursive: true });
-
-    const filePath = path.join(publicDir, filename);
-    await fs.promises.writeFile(filePath, videoBuffer);
-
-    const videoUrl = `/videos/${filename}`;
-
-    return res.json({
-      ok: true,
-      videoUrl,
-    });
+    push();
 
   } catch (err) {
     console.error("VIDEO GENERATION ERROR:", err);
-    return res.status(500).json({ error: "Video generation failed" });
+    res.status(500).json({ error: "Video generation failed" });
   }
 });
 
