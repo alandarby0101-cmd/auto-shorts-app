@@ -12,6 +12,7 @@ import { fileURLToPath } from "url";
 import Stripe from "stripe";
 import videoRoute from "./routes/video.js";
 import Replicate from "replicate";
+import { buffer } from "stream/consumers";
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 
 console.log("OPENAI KEY LOADED:", !!process.env.OPENAI_API_KEY);
@@ -153,18 +154,9 @@ app.post("/api/generate-video", async (req, res) => {
 
 
 
-  const reader = output.getReader();
-const chunks = [];
 
-while (true) {
-  const { done, value } = await reader.read();
-  if (done) break;
-  chunks.push(value);
-}
 
-const buffer = Buffer.concat(chunks.map(chunk => Buffer.from(chunk)));
-
-const videoUrl = await saveBufferToPublic(output);
+const videoUrl = await saveBufferToPublic(buffer);
    
    return res.json({
      ok: true,
