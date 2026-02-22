@@ -164,8 +164,8 @@ previewBtn.addEventListener("click", async () => {
     body: JSON.stringify({ prompt: scriptText })
   });
 
-  const blob = await response.blob();
-const videoUrl = URL.createObjectURL(blob);
+const data = await response.json();
+const videoUrl = data.videoUrl;
 
 videoPreview.innerHTML = `
   <video controls autoplay style="width:100%;border-radius:12px;max-height:500px;">
