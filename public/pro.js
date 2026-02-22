@@ -209,15 +209,6 @@ function saveProfile() {
    LOAD SAVED PROFILE ON PAGE LOAD
 ================================ */
 
-window.addEventListener("load", () => {
 
-    const savedName = localStorage.getItem("profileName");
-   
-
-    if(savedName){
-        document.getElementById("username").innerText = savedName;
-    }
-
-    
-});
+  }); 
 });
