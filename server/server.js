@@ -151,18 +151,19 @@ app.post("/api/generate-video", async (req, res) => {
       }
     );
 
+    // 🔥 IMPORTANT FIX
+    // Replicate returns a URL string for this model
+    if (!output || typeof output !== "string") {
+      throw new Error("Video data was not in a supported format.");
+    }
 
+    const videoUrl = await saveBufferToPublic(output);
 
+    return res.json({
+      ok: true,
+      videoUrl,
+    });
 
-
-
-const videoUrl = await saveBufferToPublic(buffer);
-   
-   return res.json({
-     ok: true,
-     videoUrl
-   });
-    
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Video generation failed" });
