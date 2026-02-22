@@ -150,14 +150,43 @@ app.post("/api/generate-video", async (req, res) => {
         },
       }
     );
-console.log("REPLICATE OUTPUT:", output);
-    // 🔥 IMPORTANT FIX
-    // Replicate returns a URL string for this model
-    if (!output || typeof output !== "string") {
-      throw new Error("Video data was not in a supported format.");
+
+    console.log("REPLICATE OUTPUT TYPE:", typeof output);
+    console.log("REPLICATE OUTPUT:", output);
+
+    let buffer;
+
+    // Case 1: Web ReadableStream (what you're getting)
+    if (output && typeof output.getReader === "function") {
+      const reader = output.getReader();
+      const chunks = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(Buffer.from(value));
+      }
+
+      buffer = Buffer.concat(chunks);
     }
 
-    const videoUrl = await saveBufferToPublic(output);
+    // Case 2: Already a Buffer
+    else if (Buffer.isBuffer(output)) {
+      buffer = output;
+    }
+
+    // Case 3: URL string (some models return this)
+    else if (typeof output === "string") {
+      const response = await fetch(output);
+      const arrayBuffer = await response.arrayBuffer();
+      buffer = Buffer.from(arrayBuffer);
+    }
+
+    else {
+      throw new Error("Unsupported video output format");
+    }
+
+    const videoUrl = await saveBufferToPublic(buffer);
 
     return res.json({
       ok: true,
@@ -165,61 +194,10 @@ console.log("REPLICATE OUTPUT:", output);
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("VIDEO GENERATION ERROR:", err);
     return res.status(500).json({ error: "Video generation failed" });
   }
 });
-
-
-// helper: save buffer/stream to disk and return web path
-async function saveBufferToPublic(bufferOrStream) {
-  const filename = `video-${Date.now()}.mp4`;
-  const publicDir = path.join(__dirname, "..", "public", "videos");
-  const outPath = path.join(publicDir, filename);
-
-  await fs.promises.mkdir(publicDir, { recursive: true });
-
-let buffer;
-
-// 1️⃣ Already a Buffer
-if (Buffer.isBuffer(bufferOrStream)) {
-  buffer = bufferOrStream;
-}
-
-// 2️⃣ If it's a base64 string
-else if (typeof bufferOrStream === "string") {
-  buffer = Buffer.from(bufferOrStream, "base64");
-}
-
-// 3️⃣ If it's OpenAI video response JSON
-else if (
-  bufferOrStream &&
-  bufferOrStream.output &&
-  bufferOrStream.output[0] &&
-  bufferOrStream.output[0].content &&
-  bufferOrStream.output[0].content[0] &&
-  bufferOrStream.output[0].content[0].data
-) {
-  const base64 = bufferOrStream.output[0].content[0].data;
-  buffer = Buffer.from(base64, "base64");
-}
-
-// 4️⃣ If it's a Response-like object (arrayBuffer)
-else if (bufferOrStream && typeof bufferOrStream.arrayBuffer === "function") {
-  const ab = await bufferOrStream.arrayBuffer();
-  buffer = Buffer.from(ab);
-}
-
-// ❌ If none of the above worked
-else {
-  console.error("Unsupported video format:", bufferOrStream);
-  throw new Error("Video data was not in a supported format.");
-}
-
-  await fs.promises.writeFile(outPath, buffer);
-
-  return `/videos/${filename}`;
-}
 
 /* =========================
    STRIPE CHECKOUT
